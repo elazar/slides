@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>Spies example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script src="../js/sinon.js"></script>
+<!-- Code under test-->
+<script>
+function Calculator() {}
+Calculator.prototype.sum = function(a, b, callback) {
+    var sum = a + b;
+    callback(sum);
+    return sum;
+};
+Calculator.prototype.total = function(numbers, callback) {
+    var total = 0;
+    for (n = 0; n < numbers.length; n++) {
+        total = this.sum(total, numbers[n], callback);
+    }
+    return total;
+};
+</script>
+<!-- Test code -->
+<script>
+test("Spy callback is invoked", function() {
+    var calc = new Calculator();
+    var callback = sinon.spy();
+    calc.sum(2, 3, callback);
+    ok(callback.calledOnce);
+    deepEqual(callback.args[0], [5]);
+});
+
+test("Spy object method is invoked", function() {
+    var calc = new Calculator();
+    var obj = { callback: function(sum) { console.log(sum); } };
+    var callback = sinon.spy(obj.callback);
+    calc.sum(2, 3, callback);
+    ok(callback.calledOnce);
+    deepEqual(callback.args[0], [5]);
+});
+
+test("Spy prototype method is invoked", function() {
+    var calc = new Calculator();
+    var callback = sinon.spy();
+    sinon.spy(calc, "sum");
+    calc.total([1, 2, 3], callback);
+    equal(calc.sum.callCount, 3);
+    deepEqual(calc.sum.args[0], [0, 1, callback]);
+    deepEqual(calc.sum.args[1], [1, 2, callback]);
+    deepEqual(calc.sum.args[2], [3, 3, callback]);
+    equal(callback.callCount, 3);
+    deepEqual(callback.args[0], [1]);
+    deepEqual(callback.args[1], [3]);
+    deepEqual(callback.args[2], [6]);
+});
+</script>
+</body>
+</html>
+

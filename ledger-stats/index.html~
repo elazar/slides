@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Hacking Your Finances for Fun and Profit</title>
+
+	<meta name="description" content="A brief presentation on ledger and ledger stats">
+	<meta name="author" content="Matthew Turland">
+	<meta name="contact" content="me@matthewturland.com">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+	
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.css">
+	<link rel="stylesheet" href="css/extensions/deck.hash.css">
+	
+	<!-- Theme CSS files -->
+	<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css">
+	<link rel="stylesheet" id="transition-theme-link" href="css/transition/horizontal-slide.css">
+
+	<!-- Custom CSS files -->
+	<link rel="stylesheet" href="css/deck.custom.css">
+
+	<!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<div class="slide" id="title-slide">
+<h1>Hacking Your Finances<br />for Fun and Profit</h1>
+<h2>Matthew Turland</h2>
+</div>
+
+<div class="slide" id="what-is-ledger">
+<h2>What is Ledger?</h2>
+<ul>
+    <li>Command-line double-entry accouting system written in C</li>
+    <li>Open source under the New BSD license</li>
+    <li>Works on several Linux flavors, Windows, and MacOS X</li>
+    <li>Hosted on <a href="https://github.com/jwiegley/ledger" title="jwiegley/ledger - GitHub">GitHub</a></li>
+    <li><a href="http://ledger-cli.org" title="ledger-cli.org">http://ledger-cli.org</a></li>
+</ul>
+</div>
+
+<div class="slide" id="why-ledger">
+<h2>Why Ledger?</h2>
+<ul>
+    <li>Read-only: reports on your data, never modifies it</li>
+    <li>Currency-agnostic: supports arbitrary currencies and currency conversions</li>
+    <li>International: UTF-8, US and European decimal formats, ISO dates</li>
+    <li>Supports budgeting, forecasting, capital gains tracking, and more</li>
+    <li><a href="https://github.com/jwiegley/ledger/tree/master/contrib/vim" title="contrib/vim at next from jwiegley/ledger - GitHub">Vim support</a>: filetype, syntax, and useful commands</li>
+</ul>
+</div>
+
+<div class="slide" id="terminology">
+<h2>Ledger Terminology</h2>
+<dl>
+    <dt>Journal</dt>
+    <dd>A file that contains Ledger data &mdash; mostly transactions, but also control directives, comments, and other stuff.</dd>
+
+    <dt>Account</dt>
+    <dd>A category, usually arranged within a hierarchy, that accumulates quantities. Common top-level categories include Equity, Assets, Liabilities, Expenses, and Income.</dd>
+
+    <dt>Posting</dt>
+    <dd>Accumulation of a quantity by a single account.</dd>
+
+    <dt>Transaction</dt>
+    <dd>A financial event entered into a journal, such as depositing a paycheck. Comprised of two or more postings that balance out to zero.</dd>
+</dl>
+</div>
+
+<div class="slide" id="data-format">
+<h2>The Ledger Format</h2>
+<pre>
+; Comment
+Date Description
+    Account1                   Amount1
+    Account2                   Amount2
+    AccountN
+</pre>
+</div>
+
+<div class="slide" id="transaction-examples">
+<h2>Transaction Examples</h2>
+<pre>
+2006/10/15 McDonald's
+    Expenses:Dining            $5.36
+    Assets:Checking
+
+2006/10/15 Exxon
+    Expenses:Auto:Gas         $15.00
+    Expenses:Cigarettes        $4.80
+    Liabilities:MasterCard
+
+; repeat ad nauseam
+</pre>
+</div>
+
+<div class="slide" id="register">
+<h2>The Register</h2>
+<pre style="font-size: 70%;">
+$ ledger reg checking -f stan.txt
+08-Jan-01 Opening Balances      Assets:Checking            $1550.00     $1550.00
+08-Jan-01 New Seasons           Assets:Checking             $-60.91     $1489.09
+08-Jan-01 Panda Express         Assets:Checking              $-7.24     $1481.85
+08-Jan-02 Sizzle Pie            Assets:Checking              $-7.38     $1474.47
+08-Jan-03 Kettleman Bagels      Assets:Checking              $-7.60     $1466.87
+08-Jan-03 Mio Sushi             Assets:Checking              $-5.76     $1461.11
+08-Jan-03 Eddie's Flat Iron P.. Assets:Checking             $-22.26     $1438.85
+08-Jan-04 Food Carts            Assets:Checking              $-7.24     $1431.61
+08-Jan-05 Burnside Brewery      Assets:Checking             $-11.76     $1419.85
+08-Jan-05 Tastebud              Assets:Checking             $-42.13     $1377.72
+08-Jan-07 Salary                Assets:Checking            $1084.00     $2461.72
+08-Jan-08 Safeway               Assets:Checking             $-64.76     $2396.96
+08-Jan-08 Netflix               Assets:Checking              $-9.99     $2386.97
+08-Jan-08 Car Payment           Assets:Checking            $-464.70     $1922.27
+08-Jan-08 Student Loan Payment  Assets:Checking            $-199.06     $1723.21
+08-Jan-09 Taco Del Mar          Assets:Checking             $-10.25     $1712.96
+08-Jan-09 Burnside Brewery      Assets:Checking              $-6.19     $1706.77
+08-Jan-10 Kettleman Bagels      Assets:Checking              $-7.67     $1699.10
+08-Jan-11 Panda Express         Assets:Checking              $-9.64     $1689.46
+08-Jan-11 Papa Hayden           Assets:Checking             $-21.39     $1668.07
+...
+</pre>
+</div>
+
+<div class="slide" id="balance">
+<h2>Balance</h2>
+<pre style="font-size: 80%;">
+$ ledger bal expenses -f stan.txt 
+          $157874.79  Expenses
+            $5212.85    Entertainment
+           $21526.95    Food
+            $1377.36      Breakfast
+            $3174.59      Dinner
+           $11171.71      Groceries
+            $5803.29      Lunch
+            $8568.00    Insurance
+            $3948.00      Car
+            $4620.00      Medical
+           $5136.40    Interest
+            $4618.79      Car
+             $517.61      Student
+           $33600.00    Rent
+...
+--------------------
+                   0
+</pre>
+</div>
+
+<div class="slide" id="xml">
+<h2>XML</h2>
+<pre style="font-size: 62%;">
+$ ledger xml -f stan.txt 
+...
+&lt;transaction state="cleared"&gt;
+  &lt;date&gt;2008/01/01&lt;/date&gt;
+  &lt;payee&gt;Opening Balances&lt;/payee&gt;
+  &lt;posting state="cleared"&gt;
+    &lt;account ref="0000000000f3d600"&gt;
+      &lt;name&gt;Liabilities:Loans:Student&lt;/name&gt;
+    &lt;/account&gt;
+    &lt;post-amount&gt;
+      &lt;amount&gt;
+        &lt;commodity flags="P"&gt;
+          &lt;symbol&gt;$&lt;/symbol&gt;
+        &lt;/commodity&gt;
+        &lt;quantity&gt;-25300&lt;/quantity&gt;
+      &lt;/amount&gt;
+    &lt;/post-amount&gt;
+    &lt;total&gt;
+      &lt;amount&gt;
+        &lt;commodity flags="P"&gt;
+          &lt;symbol&gt;$&lt;/symbol&gt;
+        &lt;/commodity&gt;
+        &lt;quantity&gt;-25300&lt;/quantity&gt;
+      &lt;/amount&gt;
+    &lt;/total&gt;
+  &lt;/posting&gt;
+  &lt;!-- ... --&gt;
+&lt;/transaction&gt;
+</pre>
+</div>
+
+<div class="slide" id="options">
+<h2>Useful Options</h2>
+<ul>
+    <li><code>--begin</code>, <code>--end</code>: limit date range</li>
+    <li><code>-w</code>: wide view, good for seeing long transaction descriptions and account names</li>
+    <li><code>-W</code>, <code>-M</code>: weekly and monthly summaries</li>
+    <li>This is just the tip of the iceberg; see <a href="http://ledger-cli.org/3.0/doc/ledger.html#Options" title="Ledger: Command-Line Accounting">the manual</a> for more</li>
+</ul>
+</div>
+
+<div class="slide" id="custom-reports">
+<h2>Custom Reports</h2>
+<ul>
+    <li>XML -&gt; PHP script -&gt; CSV file with monthly expenses to date by account</li>
+    <li>Useful, but not very visual</li>
+</ul>
+<pre style="font-size: 90%;">
+           January       ... December       Total
+Account1   JanuaryAmount ... DecemberAmount Account1Total
+...
+AccountN
+Total      JanuaryTotal  ... DecemberTotal  GrandTotal
+</div>
+
+<div class="slide" id="ledger-stats">
+<h2>Ledger Stats</h2>
+<ul>
+    <li>Requires PHP 5.3.0+ and ledger 3.0.0</li>
+    <li>Enables you to search transactions by account, date, and amount</li>
+    <li>Implements a plugin system to allow action to be taken on the results</li>
+    <li>Stock plugins display charts to visualize the results</li>
+    <li>Rough prototype, but fairly functional</li>
+    <li>Hosted on <a href="https://github.com/elazar/ledger-stats" title="elazar/ledger-stats - GitHub">GitHub</a></li>
+    <li><a href="http://matthewturland.com/ledger-stats/" title="ledger stats">Demo</a> time!</li>
+</ul>
+</div>
+
+<div class="slide" id="discussion">
+<h2>Discussion</h2>
+<ul>
+    <li>Questions?</li>
+    <li>Comments?</li>
+    <li>Concerns?</li>
+    <li>Thank you!</li>
+</ul>
+</div>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+
+</body>
+</html>

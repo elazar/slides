@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>QUnit organization example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script>
+function code_under_test(param1, param2, callback) {
+    if (param1 != 0 && param2 != 0) {
+        callback(param1 + param2);
+    }
+}
+
+
+module("first module", {
+    setup: function() {
+        console.log("setup for first module");
+    },
+    teardown: function() {
+        console.log("teardown for first module");
+    }
+});
+
+test("first test", 1, function() {
+    console.log("first test");
+    ok(true);
+});
+
+test("second test", 2, function() {
+    console.log("second test");
+    ok(true);
+});
+
+
+module("second module", {
+    setup: function() {
+        console.log("setup for second module");
+    },
+    teardown: function() {
+        console.log("teardown for second module");
+    }
+});
+
+test("third test", 1, function() {
+    console.log("third test");
+    var callback = function(value) {
+        equal(3, value, "actual and expected values are equal");
+    };
+    code_under_test(3, 0, callback);
+});
+
+test("fourth test", 1, function() {
+    console.log("fourth test");
+    var callback = function(value) {
+        equal(4, value, "actual and expected values are equal");
+    };
+    code_under_test(3, 1, callback);
+});
+</script>
+</body>
+</html>

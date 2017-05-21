@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>Ajax example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/qunit.js"></script>
+<script src="../js/sinon.js"></script>
+<!-- Code under test-->
+<script>
+function get_data(callback) {
+    $.ajax({
+        url: "foo.php",
+        type: "GET",
+        dataType: "json",
+        complete: callback
+    });
+}
+</script>
+<!-- Test code -->
+<script>
+var xhr, requests;
+
+module("Ajax", {
+    setup: function() {
+        requests = [];
+        xhr = sinon.useFakeXMLHttpRequest();
+        xhr.onCreate = function(xhr) {
+            requests.push(xhr);
+        };
+    },
+    teardown: function() {
+        xhr.restore();
+    },
+});
+
+test("Ajax callback is invoked", function() {
+    var spy = sinon.spy();
+    get_data(spy);
+    equal(1, requests.length);
+    requests[0].respond(
+        200,
+        { "Content-Type": "application/json" },
+        '{ "foo": "bar" }'
+    );
+    ok(spy.calledOnce);
+    equal(200, spy.args[0][0].status);
+    equal('{ "foo": "bar" }', spy.args[0][0].responseText);
+});
+</script>
+</body>
+</html>

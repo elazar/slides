@@ -1,0 +1,17 @@
+#title-slide h1 { top: 20%; font-size: 2.5em; margin-top: 20%; }
+#title-slide h2 { width: 100%; text-align: center; color: #aaaaaa; border: 0; margin-top: 50%; }
+.deck-container h2 { border-bottom: 0; font-size: 2em; }
+.deck-container img { display: inline; }
+.slide { font-size: 120% !important; }
+.slide h2 { width: 100%; text-align: center; }
+.center { text-align: center; }
+.left { float: left; }
+.deck-container .right { float: right; margin-left: 15px; }
+.deck-container ul.requests { list-style-type: none; padding-left: 0; margin-left: 0; }
+.deck-container ul.requests li { background-position: left top; background-repeat: no-repeat; padding: 0 0 20px 145px; margin: 20px 0; border-bottom: 2px solid #888; }
+.deck-container ul.requests li:last-child { border: 0; }
+.deck-container li.chrome { background-image: url(../img/chrome.jpg); min-height: 98px; }
+.deck-container li.apache { background-image: url(../img/apache.jpg); min-height: 42px; }
+.deck-container li code { white-space: pre-wrap; }
+.deck-container li code strong { color: #C00; }
+.deck-container ul { margin-top: 0.5em; }

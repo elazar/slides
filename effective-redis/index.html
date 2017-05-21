@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Effective Redis for PHP Developers</title>
+
+<meta name="description" content="A presentation on using data structure capabilities of Redis using the Predis library for examples.">
+<meta name="author" content="Matthew Turland <me@matthewturland.com>">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css" id="theme">
+<link rel="stylesheet" href="css/custom.css">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- Printing and PDF exports -->
+<script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section id="slide-title" data-state="title" data-background-color="#3e3957" data-background-size="2560px">
+            <img src="img/logo.png" alt="Lone Star PHP logo" />
+            <h1>Effective Redis<br />for PHP Developers</h1>
+            <p class="byline">Matthew Turland</p>
+        </section>
+
+        <section id="presumptions">
+            <h2>Presumptions</h2>
+            <ul>
+                <li>You know the basics of PHP including how to use its object model</li>
+                <li>You may have worked with PDO, SQL, relational databases, memcached, or Redis</li>
+                <li>You want to learn about caching, <a href="http://matthewturland.com/slides/datastructures">data structures</a>, key-value stores, or NoSQL databases</li>
+            </ul>
+        </section>
+
+        <section id="questions-or-feedback">
+            <h2>Questions or Feedback?</h2>
+            <ul>
+                <li>Ask questions during or after the session</li>
+                <li>Contact me: <a href="http://matthewturland.com/contact">matthewturland.com/contact</a></li>
+                <li>Leave feedback: <a href="https://joind.in">joind.in</a></li>
+            </ul>
+        </section>
+
+        <section id="slides">
+            <h2>Slides</h2>
+            <p>Linked from either of these:</p>
+            <p><a href="https://joind.in">joind.in</a></p>
+            <p><a href="http://matthewturland.com/publications">matthewturland.com/publications</a></p>
+        </section>
+
+        <section id="let-me-tell-you-a-story">
+            <h2>Let Me Tell You a Story</h2>
+            <p><img src="img/princessbride.jpg" /></p>
+        </section>
+
+        <section id="caching-books">
+            <h2>Caching Books</h2>
+            <img src="img/booksxyz.png" alt="booksxyz.com" />
+            <p>"Can you cache the books listed on the home page?</p>
+        </section>
+
+        <section id="redis">
+            <h2>Redis</h2>
+            <blockquote><strong>Redis is</strong> an open source (BSD licensed), in-memory data structure store, <strong>used as</strong> database, <strong>cache</strong> and message broker.</blockquote>
+            <cite><a href="http://redis.io">redis.io</a></cite>
+        </section>
+
+        <section id="installing-redis">
+            <h2>Installing Redis</h2>
+			<ul>
+                <li>Windows: check out the <a href="https://github.com/MSOpenTech/redis">Microsoft port</a></li>
+				<li>Linux: install <code>redis-server</code> package via apt et al.</li>
+				<li>OS X: install <code>redis</code> package via <a href="http://brew.sh">Homebrew</a></li>
+				<li><a href="http://redis.io/download#installation">Build it yourself</a>: requires <code>build-essential</code> apt package or the equivalent</li>
+                <li>More info on the <a href="http://redis.io/download">Redis download page</a></li>
+			</ul>
+        </section>
+
+        <section id="redis-documentation">
+            <h2>Redis Documentation</h2>
+            <p><a href="http://redis.io/documentation">Main documentation page</a></p>
+            <p><a href="http://redis.io/commands">Full list of commands</a></p>
+        </section>
+
+        <section id="redis-cli">
+            <h2>Connecting with CLI client</h2>
+            <pre><code>redis-cli</code></pre>
+            <pre><code>redis-cli -h 127.0.0.1 -p 6379</code></pre>
+            <p><a href="http://redis.io/topics/quickstart">Quick Start</a></p>
+        </section>
+
+        <section id="predis">
+            <h2>Predis</h2>
+            <blockquote><strong>Predis is</strong> a flexible and feature-complete <strong>Redis client library</strong> for PHP &gt;= 5.3.</blockquote>
+            <cite><a href="https://github.com/nrk/predis/">github.com/nrk/predis</a></cite>
+        </section>
+
+        <section id="installing-predis">
+            <h2>Installing Predis</h2>
+            <p>Just use <a href="http://getcomposer.org">Composer</a>.</p>
+            <pre><code>composer install predis/predis</code></pre>
+        </section>
+
+        <section id="predis-documentation">
+            <h2>Predis Documentation</h2>
+            <p>Could be better. <a href="https://github.com/nrk/predis/wiki/Quick-tour">Tour</a>, <a href="https://github.com/nrk/predis/tree/v1.0/examples">examples</a>, or <a href="https://github.com/nrk/predis/tree/v1.0/tests">tests</a>.</p>
+            <p><a href="https://xkcd.com/293/"><img src="img/rtfm.png" /></a></p>
+        </section>
+
+        <section id="connecting-with-predis">
+            <h2>Connecting with Predis</h2>
+            <p>Just instantiate the client.</p>
+            <pre><code class="php">
+$redis = new \Predis\Client;
+            </code></pre>
+            <p><a href="https://github.com/nrk/predis/wiki/Quick-tour#connection">Connecting to a server with Predis</a></p>
+            <p><a href="https://github.com/nrk/predis/wiki/Client-Options">Client options</a></p>
+            <p><a href="https://github.com/nrk/predis/wiki/Connection-Parameters">Connection parameters</a></p>
+        </section>
+
+        <section id="simple-caching-example">
+            <h2>Simple Caching Example</h2>
+            <pre><code class="php">
+$redis = new \Predis\Client;
+$cached_books = $redis->get('home_page_books');
+if (empty($cached_books)) {
+    $pdo = new \PDO('...');
+    $books = $pdo->query('...')->fetchAll();
+    $redis->set('home_page_books', serialize($books));
+} else {
+    $books = unserialize($cached_books);
+}
+            </code></pre>
+            <p><a href="http://redis.io/commands#string">Redis commands for strings</a></p>
+        </section>
+
+        <section id="notes-on-debugging">
+            <h2>Notes on Debugging</h2>
+            <pre><code>
+$ redis-cli
+127.0.0.1:6379> KEYS *
+1) "foo"
+[snip]
+
+127.0.0.1:6379> KEYS book_*
+1) "book_12345"
+[snip]
+
+127.0.0.1:6379> TYPE book_12345
+hash
+            </code></pre>
+            <p><a href="http://redis.io/commands#generic">Redis commands for keys</a></p>
+        </section>
+
+        <section id="problem-1">
+            <h2>Problem #1</h2>
+            <pre>
+            Boss:
+            What happens if we update data for any of these books?
+
+            You:
+            We'd be presenting stale cached data to the end user.
+
+            Boss:
+            <img src="img/unacceptable.jpg" />
+            </pre>
+        </section>
+
+        <section id="cache-books-individually">
+            <h2>Cache Books Individually</h2>
+            <pre><code class="php">
+$cached_book = $redis->get('book_12345');
+if (empty($cached_book)) {
+    $book = $pdo->query('...')->fetch(\PDO::FETCH_ASSOC);
+    $redis->set('book_12345', serialize($book));
+} else {
+    $book = unserialize($cached_book);
+}
+            </code></pre>
+        </section>
+
+        <section id="write-book-identifiers-to-a-list">
+            <h2>Write Book Identifiers to a List</h2>
+            <pre><code class="php">
+// Prepend the book to the list
+$redis->lpush('home_page_books', '12345');
+
+// Append the book to the list
+$redis->rpush('home_page_books', '12345');
+
+// Replace the first book in the list with this book
+$redis->lset('home_page_books', 0, '12345');
+
+// Add the book to the list before or after another book
+$redis->linsert('home_page_books', 'BEFORE', '67890', '12345');
+
+// Remove all instances of the book from the list
+$redis->lrem('home_page_books', 0, '12345');
+            </code></pre>
+            <p><a href="http://redis.io/commands#list">Redis commands for lists</a></p>
+        </section>
+
+        <section id="read-books-using-the-list">
+            <h2>Read Books Using the List</h2>
+            <pre><code class="php">
+$book_keys = array_map(
+    function ($id) { return 'book_' . $id; },
+    $redis->lrange('home_page_books', 0, -1)
+);
+$cached_books = $redis->mget($book_keys);
+$books = array_map('unserialize', $cached_books);
+            </code></pre>
+            <img src="img/multipass.png" alt="Multi Pass" />
+        </section>
+
+        <section id="notes-about-lists">
+            <h2>Notes about Lists</h2>
+            <ul>
+                <li>Elements are ordered / sorted</li>
+                <li>Allow duplicate elements</li>
+                <li>Similar to enumerated arrays</li>
+                <li>Useful for iteration and pagination</li>
+                <li>Can be used to implement job queues - check out <a href="https://legacy.joind.in/16899">Gary Hockin's talk</a></li>
+            </ul>
+        </section>
+
+        <section id="problem-2">
+            <h2>Problem #2</h2>
+            <pre>
+            Boss:
+            Our network seems really saturated with traffic.
+
+            You:
+            We're caching all available data per book
+            and retrieving it every time we need any of it.
+
+            Boss:
+            <img src="img/facepalm.jpg" />
+            </pre>
+        </section>
+
+        <section id="cache-books-in-hashes">
+            <h2>Cache Books in Hashes</h2>
+            <pre><code class="php">
+$book = $redis->hgetall('book_12345');
+// or
+$book = $redis->hmget('book_12345', ['title', 'author', 'price']);
+
+if (empty($book)) {
+    $book = $pdo->query('...')->fetch(\PDO::FETCH_ASSOC);
+    $redis->hmset('book_12345', $book);
+}
+            </code></pre>
+            <p><a href="http://redis.io/commands#hash">Redis commands for hashes</a></p>
+        </section>
+
+        <section id="notes-about-hashes">
+            <h2>Notes about Hashes</h2>
+            <ul>
+                <li>Elements are technically not ordered / sorted</li>
+                <li>Every element has a unique associated key</li>
+                <li>Similar to associative arrays</li>
+                <li>Useful for storing key-value pairs with a common association</li>
+            </ul>
+        </section>
+
+        <section id="problem-3">
+            <h2>Problem #3</h2>
+            <pre>
+            Boss:
+            We want the individual book page to show a section with other
+            books ordered by customers who ordered that book. Can we do that?
+            </pre>
+            <p><img src="img/finn.jpg" /></p>
+        </section>
+
+        <section id="store-ordered-books-to-sets">
+            <h2>Store Ordered Books in Sets</h2>
+            <pre><code class="php">
+// Someone who ordered book 12345 also ordered book 67890
+$redis->sadd('ordered_12345', '67890');
+
+// Get identifiers of all books ordered with book 12345
+$ordered_books = $redis->smembers('ordered_12345');
+
+// Get identifier for a random book ordered with book 12345
+$ordered_book = $redis->srandmember('ordered_12345');
+            </code></pre>
+            <p><a href="http://redis.io/commands#set">Redis commands for sets</a></p>
+        </section>
+
+        <section id="problem-4">
+            <h2>Problem #4</h2>
+            <pre>
+            Boss:
+            We want the shopping cart page to show a section with other books
+            ordered by customers who ordered all the books in the cart. Can
+            we do that?
+            </pre>
+            <p><img src="img/nickfury.png" /></p>
+        </section>
+
+        <section id="intersect-ordered-book-sets">
+            <h2>Intersect Ordered Book Sets</h2>
+            <pre><code class="php">
+// Assuming these values:
+$ordered_12345 = $redis->smembers('ordered_12345'); // ['23456', '34567']
+$ordered_67890 = $redis->smembers('ordered_67890'); // ['34567', '45678']
+
+// Get other books ordered with books 12345 and 67890
+$ordered_books = $redis->sinter('ordered_12345', 'ordered_67890');
+
+// $ordered_books is now assigned ['34567']
+            </code></pre>
+        </section>
+
+        <section id="other-set-operations">
+            <h2>Other Set Operations</h2>
+            <pre><code class="php">
+// Assuming these values:
+$ordered_12345 = $redis->smembers('ordered_12345'); // ['23456', '34567']
+$ordered_67890 = $redis->smembers('ordered_67890'); // ['34567', '45678']
+
+// Get books ordered with book 12345 but not with book 67890
+$ordered_12345 = $redis->sdiff('ordered_12345', 'ordered_67890');
+// ['23456']
+
+// Get books ordered with either of books 12345 and 67890
+$ordered_12345 = $redis->sunion('ordered_12345', 'ordered_67890');
+// ['23456', '34567', '45678']
+            </code></pre>
+        </section>
+
+        <section id="notes-about-sets">
+            <h2>Notes about Sets</h2>
+            <ul>
+                <li>Elements are not ordered / sorted</li>
+                <li>Not really designed for <a href="https://en.wikipedia.org/wiki/Random_access">direct access</a></li>
+                <li>Only contain unique elements, duplicates are ignored</li>
+                <li>Useful for operations related to membership within groups of elements</li>
+            </ul>
+        </section>
+
+        <section id="problem-5">
+            <h2>Problem #5</h2>
+            <pre>
+            Boss:
+            Oh, wait, I forgot, we also want the ordered books sorted by how
+            many times they've been ordered. Can we do that?
+            </pre>
+            <p><img src="img/river.jpg" /></p>
+        </section>
+
+        <section id="store-books-in-sorted-sets">
+            <h2>Store Books in Sorted Sets</h2>
+            <pre><code class="php">
+// Add a book ordered with book 12345 for the first time
+$rank = $redis->zscore('ordered_12345', '67890');
+if ($rank === null) {
+    $redis->zadd('ordered_12345', 1, '67890');
+} else {
+    $redis->zincrby('ordered_12345', 1, '67890');
+}
+
+// Or, with Redis >= 3
+$redis->zadd('ordered_12345', 'INCR', 1, '67890');
+            </code></pre>
+            <p><a href="http://redis.io/commands#sorted_set">Redis commands for sorted sets</a></p>
+        </section>
+
+        <section id="get-books-by-order-score">
+            <h2>Get Books by Order Score</h2>
+            <pre><code class="php">
+// Get books ordered with book 12345... 
+
+// ... sorted with MOST orders first
+$ordered_books = $redis->zrevrange('ordered_12345');
+
+// ... sorted with LEAST orders first
+$ordered_books = $redis->zrange('ordered_12345');
+
+// ... at least twice, sorted with MOST orders first
+$ordered_books = $redis->zrevrangebyscore('ordered_12345', 2, '+inf');
+
+// ... at least twice, sorted with LEAST orders first
+$ordered_books = $redis->zrangebyscore('ordered_12345', 2, '+inf');
+            </code></pre>
+        </section>
+
+        <section id="problem-6">
+            <h2>Problem #6</h2>
+            <pre>
+            Boss:
+            We're storing a lot of book data in Redis and running out of
+            memory.
+
+            You:
+            We're storing a lot of binary flags in the book hashes.
+            </pre>
+            <p><img src="img/topher.jpg" /></p>
+        </section>
+
+        <section id="bitmaps">
+            <h2>Storing User Flags using Bitmaps</h2>
+            <pre><code class="php">
+// Enable the 8th flag for book 12345
+$redis->setbit('book_12345_flags', 7, 1);
+
+// Disable the 4th flag for book 12345
+$redis->setbit('book_12345_flags', 3, 0);
+
+// Get the value of the 8th flag for book 12345
+$flag = $redis->getbit('book_12345_flags', 7);
+            </code></pre>
+            <p><code>BIT</code> commands in <a href="http://redis.io/commands#string">Redis commands for strings</a></p>
+            <p><a href="http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps/">Fast Easy Realtime Metrics using Redis Bitmaps</a></p>
+        </section>
+
+        <section id="problem-7">
+            <h2>Problem #7</h2>
+            <pre>
+            Boss:
+            Book database queries are spiking and ordered books are no longer
+            being updated in Redis.
+            
+            You:
+            FUUUUUUUU...
+            </pre>
+            <p><img src="img/fixit.jpg" /></p>
+        </section>
+
+        <section id="checking-memory-usage">
+            <h2>Checking Memory Usage</h2>
+            <pre><code>
+$ redis-cli
+127.0.0.1:6379> INFO
+...
+
+# Memory
+used_memory:104857600
+used_memory_human:100M
+...
+
+127.0.0.1:6379> CONFIG GET maxmemory
+100mb
+            </code></pre>
+            <p><a href="http://redis.io/topics/persistence">Redis Persistence</a></p>
+        </section>
+
+        <section id="expiring-data">
+            <h2>Expiring Data</h2>
+            <pre><code class="php">
+// Delete an element by key
+$redis->del('ordered_12345');
+
+// Expire an element one minute from now
+$redis->expire('ordered_12345', 60);
+
+// Same thing, but with a specific time
+$redis->expireat('ordered_12345', time() + 60);
+
+// Remove any set expiration time
+$redis->persist('ordered_12345');
+
+// Get remaining seconds before expiration
+$expires_in = $redis->ttl('ordered_12345');
+            </code></pre>
+            <p><a href="http://redis.io/commands#generic">Redis commands for keys</a></p>
+            <p><a href="http://redis.io/topics/lru-cache">Using Redis as an LRU cache</a></p>
+        </section>
+
+        <section id="problem-8">
+            <h2>Problem #8</h2>
+            <pre>
+            Boss:
+            When we use multiple Redis commands in one place, it seems to slow
+            our page load times.
+
+            You:
+            We're making network round trips for each command we send.
+            </pre>
+            <p><img src="img/doctorwho.png" /></p>
+        </section>
+
+        <section id="pipelining">
+            <h2>Pipelining</h2>
+            <pre><code class="php">
+$responses = $redis->pipeline(function ($pipe) {
+    $pipe->sadd('ordered_12345', '67890');
+    $pipe->smembers('ordered_12345');
+});
+
+// or
+
+$responses = $redis->pipeline()
+    ->sadd('ordered_12345', '67890')
+    ->smembers('ordered_12345')
+    ->execute();
+            </code></pre>
+            <p><a href="https://github.com/nrk/predis#command-pipelines">Command pipelines</a></p>
+        </section>
+
+        <section id="problem-9">
+            <h2>Problem #9</h2>
+            <pre>
+            Boss:
+            Redis went down last night. There are now instances where some keys
+            related to other keys are missing.
+
+            You:
+            We're not using transactions.
+            </pre>
+            <p><img src="img/terminator.jpg" /></p>
+        </section>
+
+        <section id="transactions">
+            <h2>Transactions</h2>
+            <pre><code class="php">
+$responses = $redis->transaction(function ($tx) {
+    $tx->del('ordered_12345');
+    $tx->sadd('ordered_12345', '67890');
+    // ...
+});
+
+// or
+
+$responses = $redis->transaction()
+    ->del('ordered_12345')
+    ->sadd('ordered_12345', '67890')
+    ->execute();
+            </code></pre>
+            <p><a href="https://github.com/nrk/predis#transactions">Transactions with Predis</a></p>
+            <p><a href="http://redis.io/commands#transactions">Redis commands for transactions</a></p>
+        </section>
+
+        <section id="problem-10">
+            <h2>Problem #10</h2>
+            <pre>
+            Boss:
+            We want to audit what we're storing in Redis. Create a report.
+            </pre>
+            <p><img src="img/galaxyquest.jpg" /></p>
+        </section>
+
+        <section id="keyspace-iterators">
+            <h2>Keyspace Iterators</h2>
+            <p>You <strong>can</strong> use <a href="http://redis.io/commands/scan"><code>SCAN</code></a> /
+            <a href="http://redis.io/commands/sscan"><code>SSCAN</code></a> /
+            <a href="http://redis.io/commands/hscan"><code>HSCAN</code></a> /
+            <a href="http://redis.io/commands/zscan"><code>ZSCAN</code></a>, <strong>or</strong>...</p>
+            <pre><code class="php">
+// Equivalent to using SCAN
+use Predis\Collection\Iterator\Keyspace;
+foreach (new Keyspace($redis, 'book_*') as $key) {
+    $book = $redis->hgetall($key);
+    // ...
+}
+            </code></pre>
+            <p><a href="https://github.com/nrk/predis/tree/v1.0/src/Collection/Iterator">Iterators in Predis</a></p>
+        </section>
+
+        <section id="other-cool-stuff">
+            <h2>Other Cool Stuff</h2>
+            <ul>
+                <li><a href="http://redis.io/topics/distlock">Distributed locks</a></li>
+                <li><a href="http://redis.io/commands#geo">Geohashes</a></li>
+                <li><a href="http://redis.io/commands#pubsub">Pub/sub</a></li>
+                <li><a href="http://redis.io/commands#scripting">Custom scripting</a></li>
+                <li>Lots more!</li>
+            </ul>
+        </section>
+
+        <section id="thats-all-folks">
+            <h2>That's All, Folks</h2>
+            <ul>
+                <li>Questions? Comments? Discussion?</li>
+                <li><a href="http://wheniwork.com">wheniwork.com</a></li>
+                <li><a href="http://matthewturland.com">matthewturland.com</a> for slides</li>
+                <li>E-mail: <a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+                <li>Twitter: <a href="http://twitter.com/elazar">@elazar</a></li>
+                <li>Github: <a href="http://github.com/elazar">elazar</a></li>
+                <li>Freenode: Elazar</li>
+            </ul>
+        </section>
+
+        <section id="feedback">
+            <h2>Feedback</h2>
+            <p>Please rate my talk!</p>
+            <p><a href="https://joind.in">joind.in</a></p>
+            <p>Also, check out the <a href="http://joind.in/help">joind.in mobile apps</a>!</p>
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true }
+        ]
+    });
+
+    // Make my laser pointer work with reveal.js
+    Reveal.configure({
+        keyboard: {
+            39: 'next'
+        }
+    });
+
+</script>
+
+</body>
+
+</html>

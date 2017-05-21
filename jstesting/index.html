@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<title>Unit Testing JavaScript with QUnit and Sinon</title>
+
+	<meta name="description" content="An introduction to unit testing JavaScript code using the QUnit framework and Sinon library."/>
+	<meta name="author" content="Matthew Turland"/>
+	<meta name="contact" content="me@matthewturland.com"/>
+	<meta name="viewport" content="width=1024, user-scalable=no"/>
+
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.menu.css"/>
+
+	<!-- Theme CSS files -->
+	<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+
+	<!-- Custom CSS files -->
+	<link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
+	<link rel="stylesheet" href="css/deck.custom.css"/>
+
+	<!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+	<script src="js/sh/shCore.js"></script>
+	<script src="js/sh/shBrushJScript.js"></script>
+	<script src="js/sh/shBrushXml.js"></script>
+</head>
+<body>
+
+<article class="deck-container">
+
+<section class="slide" id="title-slide">
+<h1>Unit Testing JavaScript<br />with QUnit and Sinon</h1>
+<img src="img/continue-testing.jpg" alt="A Portal-themed parody of a British WWII propaganda poster: 'Keep Calm and Continue Testing'" />
+<p class="center">Matthew Turland</p>
+<p class="center small">(Use arrows to navigate between slides.)</p>
+</section>
+
+<section class="slide" id="there-will-be-slides">
+<h2>There will be slides</h2>
+<img class="border" alt="Publications section of my web site at matthewturland.com" src="img/website.png">
+<p class="center">Publications section of <a title="My web site at matthewturland.com" href="http://matthewturland.com">http://matthewturland.com</a></p>
+</section>
+
+<section class="slide" id="books">
+<h2>I co/wrote these</h2>
+<div class="two-col-left center">
+    <div><img alt="php|architect's Guide to Web Scraping with PHP" src="img/web-scraping-with-php.png"></div>
+    <div><a title="php|architect's Guide to Web Scraping with PHP" href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/">http://phparch.com</a></div>
+</div>
+<div class="two-col-right center">
+    <div><img alt="PHP Master: Write Cutting-Edge Code" src="img/php-master.png"></div>
+    <div><a title="Home - PHP Master: Write Cutting-Edge Code" href="http://www.sitepoint.com/books/phppro1/">http://sitepoint.com</a></div>
+</div>
+<p class="center">&lt;/ShamelessPlug&gt;</p>
+</section>
+
+<section class="slide" id="got-tests">
+<h2>Got tests?</h2>
+<img alt="Darth Vader from Star Wars with the caption, 'I find your lack of tests disturbing.'" src="img/testing.jpg">
+</section>
+
+<section class="slide" id="unit-test-all-the-things">
+<h2>Enough said</h2>
+<img alt="Unit test ALL THE THINGS!" src="img/unit-test-all-the-things.jpg">
+</section>
+
+<section class="slide" id="what-do-unit-tests-do">
+<h2>What do unit tests do?</h2>
+<ul>
+<li>Execute a <strong>unit</strong> of code <strong>in isolation</strong> from other code</li>
+<li>Perform <strong>assertions</strong> against code behavior</li>
+<li>Describe intended <strong>use cases</strong> of code</li>
+</ul>
+<p class="center"><img src="img/star-trek-tng-pegasus.jpg" alt="Picard standing in front of the brig containing Riker in the ST:TNG episode 'The Pegasus'" /></p>
+</section>
+
+<section class="slide" id="what-can-unit-tests-verify">
+<h2>What can unit tests verify?</h2>
+<ul>
+<li>Behavior of new code is functionally correct</li>
+<li>Code refactoring does not affect code behavior</li>
+<li>Some environmental changes do not affect code behavior</li>
+</ul>
+<p class="center"><img src="img/firefly-serenity-miranda.jpg" alt="River Tam gazing up at a screen before whispering 'Miranda' in the film Serenity" /></p>
+</section>
+
+<section class="slide" id="what-is-not-a-unit-test">
+<h2>What is not a unit test?</h2>
+<p>Any test where the results can be impacted by...</p>
+<ul>
+<li>behavior of code other than the code under test</li>
+<li>changes to external dependencies such as a filesystem, database server, or caching server</li>
+</ul>
+<p class="center"><img src="img/doctor-who-tardis.jpg" alt="The Doctor in the TARDIS from Doctor Who" /></p>
+</section>
+
+<section class="slide" id="qunit-defined">
+<h2>QUnit defined</h2>
+<blockquote>QUnit is a powerful, easy-to-use JavaScript unit testing framework.
+It's used by the jQuery, jQuery UI and jQuery Mobile projects and is capable of
+testing any generic JavaScript code, including itself!</blockquote>
+<blockquote>QUnit was originally developed by John Resig as part of jQuery...
+At the time it still depended on jQuery. A rewrite in 2009 fixed that, and now
+QUnit runs completely standalone.</blockquote>
+~ <cite><a href="http://qunitjs.com" title="QUnit">http://qunitjs.com</a></cite>
+</section>
+
+<section class="slide" id="qunit-basic-demo">
+<h2>QUnit basic demo</h2>
+<p class="center"><a href="examples/qunit-basic.html" target="_blank">Demo</a> (lifted from <a href="http://qunitjs.com/cookbook/#automating-unit-testing">Cookbook</a>)</p>
+<ul>
+<li><strong>Hide passed tests</strong> - useful when a lot of tests pass and only a few fail; enable with <code>QUnit.config.hidepassed = true;</code></li>
+<li><strong>Check for Globals</strong> - fails any tests that add or change properties of the <code>window</code> object; enable with <code>noglobals=1</code> in query string</li>
+<li><strong>No try-catch</strong> - useful for debugging native exceptions by preventing them from being caught; enable with <code>notrycatch=1</code> in query string</li>
+</ul>
+</section>
+
+<section class="slide" id="test-organization">
+<h2>Test organization</h2>
+<p class="center"><a href="examples/qunit-organize.html" target="_blank">Demo</a> (see also: <a href="http://qunitjs.com/cookbook/#grouping-tests">Cookbook</a> and <a href="http://api.qunitjs.com/category/test/">API documentation</a>)</p>
+<ul>
+<li>Individual test cases
+    <ul>
+        <li><code>test(title[, expected], test)</code></li>
+    </ul>
+</li>
+<li>Grouping test cases
+    <ul>
+        <li><code>module(name[, lifecycle])</code></li>
+    </ul>
+</li>
+</ul>
+<p class="center"><img src="img/tetris.gif" alt="Black-and-white screenshot of the game Tetris" /></p>
+</section>
+
+<section class="slide" id="equality-assertions">
+<h2>Equality assertions</h2>
+<p class="center"><a href="examples/qunit-equality.html" target="_blank">Demo</a> (see also: <a href="http://qunitjs.com/intro/#the-qunit-javascript-test-suite">Intro to Unit Testing</a> and <a href="http://api.qunitjs.com/category/assert/">API documentation</a>)</p>
+<ul>
+<li>Non-strict scalar equality
+    <ul>
+        <li><code>equal(actual, expected, message)</code></li>
+        <li><code>notEqual(actual, expected, message)</code></li>
+    </ul>
+</li>
+<li>Type-strict scalar equality
+    <ul>
+        <li><code>strictEqual(actual, expected, message)</code></li>
+        <li><code>notStrictEqual(actual, expected, message)</code></li>
+    </ul>
+</li>
+<li>Type-strict composite equality
+    <ul>
+        <li><code>deepEqual(actual, expected, message)</code></li>
+        <li><code>notDeepEqual(actual, expected, message)</code></li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="misc-assertions">
+<h2>Miscellanous assertions</h2>
+<p class="center"><a href="examples/qunit-misc.html" target="_blank">Demo</a></p>
+<ul>
+<li>Comparison for truthiness
+    <ul>
+        <li><code>ok(state, message)</code></li>
+    </ul>
+</li>
+<li>Checking for a thrown exception
+    <ul>
+        <li><code>throws(block, expected, message)</code></li>
+    </ul>
+</li>
+</ul>
+<p class="center"><img src="img/labyrinth-puzzle.png" alt="xkcd: Labyrinth" /></p>
+</section>
+
+<section class="slide" id="real-world-example">
+<h2>Real world example</h2>
+<p class="center"><a href="examples/prettydate.html" target="_blank">Demo</a> (lifted from <a href="http://qunitjs.com/intro/#building-unit-tests" title="Introduction to Unit Testing - QUnit">Intro to Unit Testing</a>)</p>
+<div style="font-size: 73%;">
+<script type="syntaxhighlighter" class="brush: jscript">
+function prettyDate(time) {
+  var date = new Date(time || ""),
+    diff = ((new Date()).getTime() - date.getTime()) / 1000,
+    day_diff = Math.floor(diff / 86400);
+
+    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+      return;
+
+    return day_diff == 0 && (
+        diff < 60 && "just now" ||
+        diff < 120 && "1 minute ago" ||
+        diff < 3600 && Math.floor( diff / 60 ) +
+          " minutes ago" ||
+        diff < 7200 && "1 hour ago" ||
+        diff < 86400 && Math.floor( diff / 3600 ) +
+          " hours ago") ||
+      day_diff == 1 && "yesterday" ||
+      day_diff < 7 && day_diff + " days ago" ||
+      day_diff < 31 && Math.ceil( day_diff / 7 ) +
+        " weeks ago";
+}
+</script>
+</div>
+</section>
+
+<section class="slide" id="injection-for-time-based-tests">
+<h2>Injection for time-based tests</h2>
+<p class="center"><a href="examples/prettydate2.html" target="_blank">Demo</a></p>
+<div style="font-size: 73%;">
+<script type="syntaxhighlighter" class="brush: jscript; highlight: [1, 3]">
+function prettyDate(time, now) {
+  var date = new Date(time || ""),
+    diff = ((new Date(now || "")).getTime() - date.getTime()) / 1000,
+    day_diff = Math.floor(diff / 86400);
+
+    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+      return;
+
+    return day_diff == 0 && (
+        diff < 60 && "just now" ||
+        diff < 120 && "1 minute ago" ||
+        diff < 3600 && Math.floor( diff / 60 ) +
+          " minutes ago" ||
+        diff < 7200 && "1 hour ago" ||
+        diff < 86400 && Math.floor( diff / 3600 ) +
+          " hours ago") ||
+      day_diff == 1 && "yesterday" ||
+      day_diff < 7 && day_diff + " days ago" ||
+      day_diff < 31 && Math.ceil( day_diff / 7 ) +
+        " weeks ago";
+}
+</script>
+</div>
+</section>
+
+<section class="slide" id="injection-for-dom-based-tests">
+<h2>Injection for <acronym title="Document Object Model">DOM</acronym>-based tests</h2>
+<div style="font-size: 85%;">
+<script type="syntaxhighlighter" class="brush: jscript">
+// Code under test
+function Foo($wrapper) {
+    this.$wrapper = $wrapper || $(".foo-wrapper");
+}
+
+// Test
+test("Foo", function() {
+    var foo = new Foo($("#qunit-fixture"));
+    // ...
+});
+</script>
+</div>
+</section>
+
+<section class="slide" id="parameterize-plugin">
+<h2>Parameterize plugin</h2>
+<p class="center"><a href="examples/parameterize.html" target="_blank">Demo</a></p>
+<ul>
+<li><a href="https://github.com/AStepaniuk/qunit-parameterize" title="AStepaniuk/qunit-parameterize">GitHub repo</a></li>
+<li>Pros
+    <ul>
+        <li>Featureful, particularly for derivation of parameter sets</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Adds complexity and verbosity beyond a minimal use case</li>
+        <li>Common test name is used for all parameter sets</li>
+    </ul>
+</li>
+</ul>
+<p class="center"><img src="img/johnny-five.jpg" alt="Johnny Five from the film Short Circuit" /></p>
+</section>
+
+<section class="slide" id="data-provider-plugin">
+<h2>Data provider plugin</h2>
+<p class="center"><a href="examples/dataprovider.html" target="_blank">Demo</a></p>
+<ul>
+<li><a href="https://github.com/adamsea/qunit-data-providers" title="adamsea/qunit-data-providers">GitHub repo</a></li>
+<li>Pros
+    <ul>
+        <li>Concise, straightforward usage</li>
+        <li>Different test name per data set</li>
+        <li>Fairly analogous to PHPUnit data providers</li>
+        <li><a href="http://codemill.studio-connect.com/2013/06/qunit-data-providers/" title="Introducing QUnit Data Providers - From the Codemill">I helped to implement it</a> &lt;/ShamelessPlug&gt;</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Minimal feature set, no data set derivation support</li>
+        <li>Less explicit correlation between data set members and test callback parameters</li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="sinon">
+<h2>Sinon</h2>
+<blockquote>Standalone test spies, stubs and mocks for JavaScript.<br />
+No dependencies, works with any unit testing framework.</blockquote>
+~ <cite><a href="http://sinonjs.org" title="Sinon.JS - Versatile standalone test spies, stubs and mocks for JavaScript">http://sinonjs.org</a></cite>
+<p class="center"><img src="img/trojan-horse.jpg" alt="The Procession of the Trojan Horse in Troy by Giovanni Domenico Tiepolo" /></p>
+</section>
+
+<section class="slide" id="spies">
+<h2>Spies</h2>
+<p class="center"><a href="examples/sinon-spies.html" target="_blank">Demo</a></p>
+<blockquote>A test spy is a function that records arguments, return value, the
+value of this and exception thrown (if any) for all its calls... Test spies are
+useful to test both callbacks and how certain functions/methods are used
+throughout the system under test.</blockquote>
+~ <cite><a href="http://sinonjs.org/docs/#spies" title="Sinon.JS - Documentation">Sinon.JS - Documentation</a></cite>
+<p class="center"><img src="img/spy-vs-spy.jpg" alt="Spy Vs Spy" /></p>
+</section>
+
+<section class="slide" id="stubs">
+<h2>Stubs</h2>
+<p class="center"><a href="examples/sinon-stubs.html" target="_blank">Demo</a></p>
+<blockquote>Test stubs are functions (spies) with pre-programmed behavior. They
+support the full test spy API in addition to methods which can be used to alter
+the stub's behavior... When wrapping an existing function with a stub, the original
+function is not called.</blockquote>
+~ <cite><a href="http://sinonjs.org/docs/#stubs" title="Sinon.JS - Documentation">Sinon.JS - Documentation</a></cite>
+<p class="center"><img src="img/crash-dummies.png" alt="Crash Dummies figures" /></p>
+</section>
+
+<section class="slide" id="synchronous-callbacks">
+<h2>Testing Synchronous Callbacks</h2>
+<p class="center"><a href="examples/sinon-timers.html" target="_blank">Demo</a></p>
+<blockquote>Fake timers is a synchronous implementation of
+<code>setTimeout</code> and friends that ... can overwrite the global functions
+... to allow you to more easily test code using them. Fake timers provide a
+clock object to pass time, which can also be used to control Date objects
+...</blockquote>
+~ <cite><a href="http://sinonjs.org/docs/#clock" title="Sinon.JS - Documentation">Sinon.JS - Documentation</a></cite>
+<p class="center"><img src="img/tardis.jpg" alt="The TARDIS from Doctor Who" /></p>
+</section>
+
+<section class="slide" id="asynchronous-callbacks">
+<h2>Testing Asynchronous Callbacks</h2>
+<p class="center"><a href="examples/sinon-ajax.html" target="_blank">Demo</a></p>
+<blockquote>Provides a fake implementation of <code>XMLHttpRequest</code> and
+provides several interfaces for manipulating objects created by it. Helps with
+testing requests made with XHR.</blockquote>
+~ <cite><a href="http://sinonjs.org/docs/#server" title="Sinon.JS - Documentation">Sinon.JS - Documentation</a></cite>
+<p class="center"><img src="img/back-to-the-future.jpg" alt="Doc in the blackboard scene from Back to the Future" /></p>
+</section>
+
+<section class="slide" id="code-coverage">
+<h2>Code Coverage</h2>
+<ul>
+<li>Indicates what code is executed by tests</li>
+<li>Should only be used to determine what code is untested</li>
+<li>100% code coverage != no bugs</li>
+<li><a href="http://siliconforks.com/jscoverage/" title="JSCoverage - code coverage for JavaScript">jscoverage</a> is one tool for generating coverage reports
+    <ul>
+        <li>Pro-tip for OS X Mavericks users: Homebrew has <a href="https://github.com/mxcl/homebrew/issues/23403" title="These formulas won't build unless --use-gcc is passed - Issue #23403 - mxcl/homebrew">an installation issue</a> with a work-around</li>
+    </ul>
+</li>
+</ul>
+<p class="center"><img src="img/donkey.jpg" alt="Donkey from the Shrek cartoon film franchise" /></p>
+</section>
+
+<section class="slide" id="best-practices">
+<h2>Best Practices</h2>
+<ul>
+<li>Use prototypes and scope</li>
+<li>Use parameters and return values, minimize side effects</li>
+<li>Inject dependencies, callbacks, and DOM wrapper elements</li>
+<li>Test public behavior, not internals</li>
+<li>Keep functions / methods short and covered by tests</li>
+</ul>
+<p class="center"><img src="img/write-tests.jpg" alt="Grumpy Programmer Chris Hartjes declaring, 'WRITE TESTS OR I WILL CUT YOU'" /></p>
+</section>
+
+<section class="slide" id="feedback">
+<h2>Feedback</h2>
+<div class="two-col-left">
+<p>Please rate my talk!</p>
+<p><a href="http://joind.in/9996">http://joind.in/9996</a></p>
+<p>Check out joind.in mobile apps!</p>
+<p><a href="http://joind.in/help" title="Joind.in">http://joind.in/help</a></p>
+</div>
+<div class="two-col-right">
+<img src="img/qrcode.png" alt="QR code with a link to give feedback on joind.in" />
+</div>
+</section>
+
+<section class="slide" id="epilogue">
+<h2>That's All, Folks</h2>
+<ul>
+	<li>Questions? Comments? Discussion?</li>
+    <li><a href="http://www.blopboard.com" title="Blopboard, where I work">http://www.blopboard.com</a></li>
+	<li><a href="http://matthewturland.com" title="My web site">http://matthewturland.com</a> (slides will be posted here!)</li>
+	<li><a href="mailto:me@matthewturland.com" title="My e-mail address">me@matthewturland.com</a></li>
+	<li><a href="http://twitter.com/elazar" title="My Twitter page">@elazar</a> on Twitter</li>
+    <li>Elazar on <a href="http://freenode.net" title="The IRC network I frequent">Freenode</a></li>
+	<li>Go forth and test!</li>
+</ul>
+</section>
+
+</article>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+<script src="js/extensions/deck.menu.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+
+<!-- Activate deck.js and SyntaxHighlighter -->
+<script type="text/javascript">
+$(function() { $.deck('.slide'); });
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

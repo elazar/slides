@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>Parameterize plugin</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script src="../js/qunit-parameterize.js"></script>
+<!-- Code under test -->
+<script>
+function prettyDate(time, now) {
+  var date = new Date(time || ""),
+      diff = (((new Date(now || "")).getTime() - date.getTime()) / 1000),
+      day_diff = Math.floor(diff / 86400);
+ 
+    if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
+      return;
+ 
+    return day_diff == 0 && (
+        diff < 60 && "just now" ||
+        diff < 120 && "1 minute ago" ||
+        diff < 3600 && Math.floor( diff / 60 ) +
+          " minutes ago" ||
+        diff < 7200 && "1 hour ago" ||
+        diff < 86400 && Math.floor( diff / 3600 ) +
+          " hours ago") ||
+      day_diff == 1 && "yesterday" ||
+      day_diff < 7 && day_diff + " days ago" ||
+      day_diff < 31 && Math.ceil( day_diff / 7 ) +
+        " weeks ago";
+}
+</script>
+<script>
+<!-- Test code -->
+QUnit
+    .cases([
+        { time: "2013/10/22 22:24:30", expected: "just now" },
+        { time: "2013/10/22 22:23:30", expected: "1 minute ago" },
+        { time: "2013/10/22 22:22:30", expected: "2 minutes ago" },
+        { time: "2013/10/22 21:23:30", expected: "1 hour ago" },
+        { time: "2013/10/22 20:23:30", expected: "2 hours ago" },
+        { time: "2013/10/21 22:23:30", expected: "yesterday" },
+        { time: "2013/10/20 22:23:30", expected: "2 days ago" },
+        { time: "2013/10/08 22:23:30", expected: "2 weeks ago" }
+    ])
+    .test("prettyDate", function(params) {
+        var now = "2013/10/22 22:24:30";
+        equal(prettyDate(params.time, now), params.expected, params.expected);
+    });
+</script>
+</body>
+</html>

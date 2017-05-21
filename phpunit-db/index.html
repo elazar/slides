@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<title>Database Testing for Fun and Profit</title>
+
+	<meta name="description" content="A presentation on database testing with PHPUnit" />
+	<meta name="author" content="Matthew Turland" />
+	<meta name="contact" content="me@matthewturland.com" />
+	<meta name="viewport" content="width=1024, user-scalable=no" />
+
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.custom.css" />
+	<link rel="stylesheet" href="css/extensions/deck.hash.css" />
+	
+	<!-- Custom CSS files -->
+	<!--<link rel="stylesheet" href="js/sh/shCoreDefault.css">-->
+	<link rel="stylesheet" href="css/rainbow/themes/tricolore.css" />
+	<link rel="stylesheet" href="css/deck.custom.css" />
+
+    <!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+</head>
+<body>
+
+<article class="deck-container">
+
+<section class="slide" id="title-slide">
+<h1>Database Testing<br />for Fun and Profit</h1>
+<img src="img/continue-testing.jpg" alt="A Portal-themed parody of a British WWII propaganda poster: 'Keep Calm and Continue Testing'" />
+<p class="center">Matthew Turland</p>
+<p class="center small">(Use arrow keys to navigate between slides.)</p>
+</section>
+
+<section class="slide" id="welcome">
+<h2>Welcome!</h2>
+<img src="img/borat.jpg" alt="Borat" />
+<p class="center"><cite>&quot;Good way of ensure worst bug is escape in<br />production is have 100% test coverage.&quot;<br />
+<a href="https://twitter.com/DEVOPS_BORAT/status/235582974744211456" title="Twitter / DEVOPS_BORAT: Good way of ensure worst bug ...">@DEVOPS_BORAT</a></cite></p>
+</section>
+
+<section class="slide" id="slides">
+<h2>There (Will) Be Slides</h2>
+<img src="img/website.png" alt="Publications section of my web site at matthewturland.com" />
+<p class="center">Publications section of <a href="http://matthewturland.com" title="My web site at matthewturland.com">http://matthewturland.com</a></p>
+</section>
+
+<section class="slide" id="books">
+<h2>I Co/Wrote These</h2>
+<div class="two-col-left center">
+    <div><img src="img/web-scraping-with-php.png" alt="php|architect's Guide to Web Scraping with PHP"></div>
+    <div><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP">http://phparch.com</a></div>
+</div>
+<div class="two-col-right center">
+    <div><img src="img/php-master.png" alt="PHP Master: Write Cutting-Edge Code"></div>
+    <div><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">http://sitepoint.com</a></div>
+</div>
+</section>
+
+<section class="slide" id="projects">
+<h2>I've Contributed to These</h2>
+<div class="two-col-left center">
+<img src="img/php.jpg" alt="PHP logo" />
+<p><a href="http://php.net" title="PHP">http://php.net</a></p>
+<img src="img/phpunit.png" alt="PHPUnit logo" />
+<p><a href="http://phpunit.de" title="PHPUnit">http://phpunit.de</a></p>
+</div>
+<div class="two-col-right center">
+<img src="img/zend-framework.png" alt="Zend Framework logo" />
+<p><a href="http://framework.zend.com" title="Zend Framework">http://framework.zend.com</a></p>
+<img src="img/phing.gif" alt="Phing logo" />
+<p><a href="http://phing.info" title="Phing">http://phing.info</a></p>
+<img src="img/phergie.jpg" alt="Phergie logo" />
+<p><a href="http://phergie.org" title="PHPUnit">http://phergie.org</a></p>
+</div>
+</section>
+
+<section class="slide" id="who-i-work-for">
+<h2>I Work For This Company</h2>
+<ul>
+<li>Ask and answer questions</li>
+<li>See real-time visualizations of everyone's answers</li>
+<li>Still in private beta - launching soon</li>
+</ul>
+<div class="two-col-left">
+<a href="http://www.blopboard.com" title="Blopboard">http://www.blopboard.com</a>
+</div>
+<div class="two-col-right">
+<p class="right"><img src="img/logo.png" alt="Blopboard" class="right" /></p>
+</div>
+</section>
+
+<section class="slide" id="ask-questions">
+<h2>Ask ALL THE QUESTIONS!</h2>
+<img src="img/all-the-things.jpg" alt="ALL THE THINGS!" />
+</section>
+
+<section class="slide" id="unit-tests">
+<h2>Got Tests?</h2>
+<img src="img/testing.jpg" alt="Darth Vader from Star Wars with the caption, 'I find your lack of tests disturbing.'" />
+</section>
+
+<section class="slide" id="not-unit-tests">
+<h2>Database Tests != Unit Tests</h2>
+<ul>
+<li>Unit tests test code <strong>in isolation</strong></li>
+<li>Executing database queries <strong>is not isolated</strong></li>
+<li>Tests executing database queries <strong>aren't unit tests</strong></li>
+</ul>
+<img src="img/doing-it-wrong.jpg" alt="Computer scientist John McCarthy with the caption, 'Programming: You're Doing It Completely Wrong'" />
+</section>
+
+<section class="slide" id="the-right-way">
+<h2>The Right Way&trade;</h2>
+<ul>
+<li>Unit tests <strong>verify interactions</strong> between your code and database dependencies (e.g. <code>PDO</code>), <strong>not results</strong></li>
+<li>Database tests are a form of <strong>integration testing</strong>: they verify that queries run by your code do what you think they do</li>
+</ul>
+<img src="img/youre-doing-it-right.jpg" alt="A white mug inscribed with the words, 'You're doing it right.'" />
+</section>
+
+<section class="slide" id="sebastian">
+<h2>PHPUnit</h2>
+<p class="right"><img src="img/sebastian-bergmann.jpg" alt="Sebastian Bergmann, lead developer of PHPUnit" /></p>
+<ul>
+<li><em>De facto</em> standard framework for PHP unit tests</li>
+<li>Lead developer is <a href="http://sebastian-bergmann.de/" title="Sebastian Bergmann">Sebastian Bergmann</a></li>
+<li>Hopefully you caught <a href="http://sunshinephp.com/schedule/talks/#phpunit-best-practices" title="Talks | SunshinePHP Conference">his talk on PHPUnit Best Practices</a></li>
+</ul>
+</section>
+
+<section class="slide" id="mike">
+<h2>Database Extension</h2>
+<p class="right"><img src="img/mike-lively.jpg" alt="Mike Lively, author of PHPUnit's Database extension" /></p>
+<ul>
+<li>Port of JUnit's DbUnit extension for PHPUnit</li>
+<li>Created by <a href="http://digitalsandwich.com/" title="Digital Sandwich | Forever Proving I am a Geek">Mike Lively</a></li>
+<li>Has its own <a href="http://www.phpunit.de/manual/current/en/database.html" title="Chapter 8. Database Testing">PHPUnit manual section</a></li>
+</ul>
+</section>
+
+<section class="slide" id="servers">
+<h2>Supported Servers</h2>
+<ul>
+    <li>MySQL</li>
+    <li>PostgreSQL</li>
+    <li>Oracle</li>
+    <li>SQLite</li>
+    <li>IBM DB2<sup>*</sup></li>
+    <li>Microsoft SQL Server<sup>*</sup></li>
+</ul>
+<p><sup>*</sup> Requires Zend Framework or Doctrine 2</p>
+</section>
+
+<section class="slide" id="requirements">
+<h2>Requirements</h2>
+<ul>
+<li>Testing environment must have the PDO extension installed
+    <ul>
+        <li>Your code being tested <strong>does not</strong> need to use PDO</li>
+    </ul>
+</li>
+<li>Database schema and privileges <a href="http://www.phpunit.de/manual/current/en/database.html#what-about-the-database-schema-ddl" title="Chapter 8. Database Testing">must already exist</a>
+    <ul>
+        <li>Database extension tests data changes, not schema changes</li>
+    </ul>
+</li>
+</ul>
+<a href="http://en.wikipedia.org/wiki/Portal_%28video_game%29" title="Portal (video game) - Wikipedia, the free encyclopedia"><img class="vertical" src="img/portal-sign.jpg" alt="Illustrations from various signs shown at the start of levels in the Portal game series" /></a>
+</section>
+
+<section class="slide" id="installing-the-database-extension">
+<h2>Installing the Database Extension</h2>
+<div class="two-col-left">
+<p>Easy as <a href="http://pear.phpunit.de/" title="PHPUnit PEAR Channel">PEAR</a>:</p>
+<pre><code data-language="shell">pear channel-discover pear.phpunit.de
+pear install phpunit/DbUnit
+</code></pre>
+<p>Or <a href="http://getcomposer.org/" title="Composer">Composer</a> with <a href="https://packagist.org/packages/phpunit/dbunit" title="phpunit/dbunit - Packagist">Packagist</a>:</p>
+<pre><code data-language="javascript">{
+  "require": {
+    "phpunit/dbunit": "1.3.*"
+  }
+}
+</code></pre>
+</div>
+<div class="two-col-right">
+<a href="http://xkcd.com/806/" title="XKCD illustration: 'Tech Support'"><img src="img/shibboleet.png" alt="XKCD illustration: 'Tech Support'" /></a>
+</div>
+</section>
+
+<section class="slide" id="how-tests-work">
+<h2>How Database Tests Work</h2>
+<ol>
+<li>Put the database into a known state</li>
+<li>Run code that performs database operations</li>
+<li>Verify that actual and expected states are the same</li>
+</ol>
+<a href="http://shop.xkcd.com/products/try-science" title="Try Science | the xkcd store"><img class="vertical" src="img/stand-back-science.png" alt="XKCD illustration: 'Stand back, I'm going to try science.'" /></a>
+</section>
+
+<section class="slide" id="an-example">
+<h2>An Example</h2>
+<ol>
+<li>Make a table empty</li>
+<li>Run code to insert a record into that table</li>
+<li>Verify that the table now contains only that record</li>
+</ol>
+<a href="http://xkcd.com/327/" title="XKCD illustration: 'Exploits of a Mom'"><img class="vertical" src="img/bobby-tables.png" alt="XKCD illustration: 'Exploits of a Mom'" /></a>
+</section>
+
+<section class="slide" id="starting-from-a-known-state">
+<h2>Starting from a Known State</h2>
+<ol>
+<li>Connect to the database</li>
+<li>Truncate one or more tables</li>
+<li>Populate those tables with a given data set</li>
+</ol>
+<img class="vertical" src="img/known-state.jpg" alt="Fry from Futurama with his 'I see what you did there' expression superimposed over a map of the state of Florida" />
+</section>
+
+<section class="slide" id="database-test-case">
+<h2>Database Test Case</h2>
+<ul>
+<li>The <a href="http://www.phpunit.de/manual/current/en/database.html#configuration-of-a-phpunit-database-testcase" title="Chapter 8. Database Testing"><code>PHPUnit_Extension_Database_TestCase</code></a> class handles doing some of this for you</li>
+<li>All you have to do is...
+    <ul>
+        <li>Extend it</li>
+        <li>Implement a <a href="http://www.phpunit.de/manual/current/en/database.html#implementing-getconnection" title="Chapter 8. Database Testing"><code>getConnection()</code></a> method that returns a database connection object</li>
+        <li>Implement a <a href="http://www.phpunit.de/manual/current/en/database.html#implementing-getdataset" title="Chapter 8. Database Testing"><code>getDataSet()</code></a> method that returns a data set object used to seed the database before each test</li>
+    </ul>
+</ul>
+<img src="img/falling-off-a-log.jpg" alt="Two guys falling off a log in a river in the forest" />
+</section>
+
+<section class="slide" id="call-me">
+<h2>Call Me <span class="strike">Maybe</span></h2>
+<ul>
+<li><code>PHPUnit_Extension_Database_TestCase</code> uses <code>setUp()</code> and <code>tearDown()</code> to seed the database and do cleanup operations</li>
+<li>If you extend it and implement your own <code>setUp()</code> and <code>tearDown()</code> methods, <strong>be sure to call the parent implementations</strong> or You're Gonna Have a Bad Time&trade;</li>
+</ul>
+<img class="vertical" src="img/call-me-maybe.jpg" alt="Batman slap meme referencing the single 'Call Me Maybe'" />
+</section>
+
+<section class="slide" id="getting-a-connection">
+<h2>Getting a Connection</h2>
+<ul>
+<li><code>getConnection()</code> must return an object that implements the <code>PHPUnit_Extensions_Database_DB_IDatabaseConnection</code> interface</li>
+<li>The <code>createDefaultDBConnection()</code> method of the <code>PHPUnit_Extensions_Database_TestCase</code> class accepts a <code>PDO</code> instance and wraps it in an instance of <code>PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection</code>, which implements this interface</li>
+</ul>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_Database_TestCase {
+  protected function getConnection() {
+    return $this-&gt;createDefaultDBConnection(new PDO('...'));
+  }
+}
+</code></pre>
+</section>
+
+<section class="slide" id="why-connections-work-like-this">
+<h2>Why Connections Work Like This</h2>
+<ul>
+<li>The Database extension implements connections using an approach called <a href="http://en.wikipedia.org/wiki/Design_by_contract" title="Design by contract - Wikipedia, the free encyclopedia">design by contract</a>
+<li>This allows third-party connection implementations to be interoperable with the Database extension so long as they implement the same interface</li>
+</ul>
+<img class="vertical" src="img/jackie-chan.jpg" alt="Illustration of the Jackie Chan meme" />
+</section>
+
+<section class="slide" id="connection-tips">
+<h2>Connection Tips</h2>
+<ul>
+<li>To have tests not use PDO, implement the <a href="https://github.com/sebastianbergmann/dbunit/blob/master/PHPUnit/Extensions/Database/DB/IDatabaseConnection.php" title="dbunit/PHPUnit/Extensions/Database/DB/IDatabaseConnection.php at master - sebastianbergmann/dbunit"><code>PHPUnit_Extensions_Database_DB_IDatabaseConnection</code></a> interface in a class and have <code>getConnection()</code> return an instance of that class instead</li>
+<li>Put your <code>getConnection()</code> implementation <a href="http://phpunit.de/manual/current/en/database.html#database.tip-use-your-own-abstract-database-testcase" title="Chapter 8. Database Testing">in a subclass</a> of <code>PHPUnit_Extensions_Database_TestCase</code> and make your test cases extend that subclass to stay <a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself" title="Don't repeat yourself - Wikipedia, the free encyclopedia">DRY</a></li>
+<li>To limit database connections to one per test case class, store it in a static variable</li>
+</ul>
+<a href="http://store.hbo.com/game-of-thrones-needle-sword-t-shirt/detail.php?p=299705&amp;v=hbo_shows_game-of-thrones_apparel&amp;pagemax=all" title="Game of Thrones Needle Sword T-Shirt | Shows | Game of Thrones | T-Shirts &amp; Hoodies | HBO Shop - View All"><img class="vertical" src="img/pointy-end-shirt.jpg" alt="'Stick 'em with the pointy end' Game of Thrones t-shirt" /></a>
+</section>
+
+<section class="slide" id="reusing-connection">
+<h2>Reusing Connections</h2>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_Database_TestCase {
+  protected $connection;
+  protected static $pdo;
+  protected function getConnection() {
+    if (!$this-&gt;connection) {
+      if (!self::$pdo) {
+        self::$pdo = new PDO('...');
+      }
+      $this-&gt;connection = $this-&gt;createDefaultDBConnection(self::$pdo);
+    }
+    return $this-&gt;connection;
+  }
+}
+</code></pre>
+</section>
+
+<section class="slide" id="data-sets">
+<h2>Data Sets</h2>
+<ul>
+<li>A <a href="http://www.phpunit.de/manual/current/en/database.html#understanding-datasets-and-datatables" title="Chapter 8. Database Testing">data set</a> is an object representation of a subset of data from a database</li>
+<li>There are three types of data sets:
+    <ul>
+        <li>File-based</li>
+        <li>Query-based</li>
+        <li>Derived</li>
+    </ul>
+</li>
+</ul>
+<img src="img/pacman-venn-diagram.jpg" alt="Venn diagram comprised of Mr. and Mrs. Pacman" />
+</section>
+
+<section class="slide" id="file-based-data-sets">
+<h2>File-Based Data Sets</h2>
+<p class="center">These are used to represent expected results in assertions.</p>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Pros</th>
+        <th>Cons</th>
+    </tr>
+    <tr>
+        <td class="nowrap">Flat XML</td>
+        <td>simple/concise</td>
+        <td>has <a href="http://www.phpunit.de/manual/current/en/database.html#flat-xml-dataset" title="Chapter 8. Database Testing">issues with NULL</a></td>
+    </tr>
+    <tr>
+        <td class="nowrap">XML</td>
+        <td>avoids issues with NULL</td>
+        <td>more complex/verbose</td>
+    </tr>
+    <tr>
+        <td class="nowrap">MySQL XML</td>
+        <td>used by <code>mysqldump --xml</code></td>
+        <td>MySQL-specific</td>
+    </tr>
+    <tr>
+        <td class="nowrap">YAML</td>
+        <td>good if you like YAML</td>
+        <td>requires Symfony YAML dependency</td>
+    </tr>
+    <tr>
+        <td class="nowrap">CSV</td>
+        <td>supported by most database clients</td>
+        <td>limited to one table per file, doesn't support NULL</td>
+    </tr>
+    <tr>
+        <td class="nowrap">PHP Array</td>
+        <td>universal support, easy to understand</td>
+        <td>non-core, <a href="http://www.phpunit.de/manual/current/en/database.html#array-dataset" title="Chapter 8. Database Testing">working manual example</a></td>
+    </tr>
+</table>
+</section>
+
+<section class="slide" id="query-based-data-sets">
+<h2>Query-Based Data Sets</h2>
+<p class="center">These are typically used to represent actual results in assertions.</p>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Pros</th>
+        <th>Cons</th>
+    </tr>
+    <tr>
+        <td>Query</td>
+        <td>Good if you want a subset of the database</td>
+        <td>Tedious if you want the whole database</td>
+    </tr>
+    <tr>
+        <td>Database</td>
+        <td>Good if you want the whole database</td>
+        <td>Insufficient if you want a subset of the database</td>
+    </tr>
+</table>
+<img class="vertical" src="img/picard-meme.jpg" alt="Captain Jean-Luc Picard meme" />
+</section>
+
+<section class="slide" id="derived-data-sets">
+<h2>Derived Data Sets</h2>
+<p class="center">These are transformations involving data sets of other types.</p>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Purpose</th>
+    </tr>
+    <tr>
+        <td>Composite</td>
+        <td>Aggregates other data sets</td>
+    </tr>
+    <tr>
+        <td>Filter</td>
+        <td>White/blacklist tables and columns</td>
+    </tr>
+    <tr>
+        <td>Replacement</td>
+        <td>Replace one column value with another</td>
+    </tr>
+</table>
+<a href="http://xkcd.com/55/" title="xkcd: Useless"><img class="vertical" src="img/useless.jpg" alt="XKCD strip entitled 'Useless'"/></a>
+</section>
+
+<section class="slide" id="getting-datasets">
+<h2>Getting Data Sets</h2>
+<p>Entire database:</p>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_Database_TestCase {
+  protected function getDataSet() {
+    return $this-&gt;createMySQLXMLDataSet('/path/to/mysql.xml');
+  }
+}
+</code></pre>
+<p>Multiple individual tables as a composite:</p>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_Database_TestCase {
+  protected function getDataSet() {
+    $dataset = new PHPUnit_Extensions_Database_DataSet_CompositeDataSet();
+    $dataset-&gt;addDataSet($this-&gt;createMySQLXMLDataSet('/path/to/table1.xml'));
+    $dataset-&gt;addDataSet($this-&gt;createMySQLXMLDataSet('/path/to/table2.xml'));
+    return $dataset;
+  }
+}
+</code></pre>
+</section>
+
+<section class="slide" id="assertions">
+<h2>Assertions</h2>
+<p>The Database extension provides <a href="http://www.phpunit.de/manual/current/en/database.html#database-assertions-api" title="Chapter 8. Database Testing">database-specific assertions</a> and methods to get data usable for assertions</p>
+<table>
+    <tr>
+        <th>Description</th>
+        <th>Code</th>
+    </tr>
+    <tr>
+        <td>Row count of a table</td>
+        <td><code>$this-&gt;getConnection()-&gt;getRowCount('table_name')</code></td>
+    </tr>
+    <tr>
+        <td>Data for one table from a query</td>
+        <td><code>$this-&gt;getConnection()-&gt;createQueryTable('table_name', 'SELECT query');</code></td>
+    </tr>
+    <tr>
+        <td>Data for one table from a dataset</td>
+        <td><code>$this-&gt;create*DataSet('...')-&gt;getTable('table_name'));</code></td>
+    </tr>
+    <tr>
+        <td>Data for multiple tables from a database</td>
+        <td><code>$this-&gt;getConnection()-&gt;createDataSet(array('table1', 'tableN'));
+    </tr>
+    <tr>
+        <td>Single table equivalence</td>
+        <td><code>$this-&gt;assertTablesEqual($expected, $actual)</code></td>
+    </tr>
+    <tr>
+         <td>Multiple table equivalence</td>
+         <td><code>$this-&gt;assertDataSetsEqual($expected, $actual)</code></td>
+    </tr>
+</table>
+</section>
+
+<section class="slide" id="putting-it-all-together">
+<h2>Putting It All Together</h2>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_Database_TestCase {
+  protected function setUp() {
+    parent::setUp(); // &lt;-- Call me. No, seriously, CALL ME.
+    // ... Initialize self::$pdo with PDO instance if needed ...
+    $this-&gt;foo = new Foo(self::$pdo);
+  }
+  public function testInsertWithValidRecord() {
+    $this-&gt;foo-&gt;insert(array('bar' =&gt; 'foobar', 'baz' =&gt; 'foobaz'));
+    $actual = $this-&gt;getConnection()-&gt;createQueryTable('foo',
+      'SELECT * FROM `foo`');
+    $expected = $this-&gt;getDataSetFromFile('expected')-&gt;getTable('foo');
+    $this-&gt;assertTablesEqual($actual, $expected);
+  }
+}
+</code></pre>
+</section>
+
+<section class="slide" id="seeding-the-database-in-other-tests">
+<h2>Seeding the Database in Other Tests</h2>
+<ul>
+<li>Need to seed your database before running Selenium tests?</li>
+<li><code>PHPUnit_Extensions_Database_DefaultTester</code> encapsulates the logic executed in <code>setUp()</code> and <code>tearDown()</code></li>
+<li><code>PHPUnit_Extensions_Database_TestCase</code> is just a convenient test case wrapper around this code</li>
+</ul>
+<pre><code data-language="php">
+class FooTest extends \PHPUnit_Extensions_SeleniumTestCase {
+  protected function setUp() {
+    // ... Initialize self::$pdo with PDO instance if needed ...
+    $this-&gt;tester =
+      new \PHPUnit_Extensions_Database_DefaultTester(self::$pdo);
+    $this-&gt;tester-&gt;onSetUp();
+  }
+  protected function tearDown() {
+    $this-&gt;tester-&gt;onTearDown();
+  }
+}
+</code></pre>
+</section>
+
+<section class="slide" id="upcoming-developments">
+<h2>Upcoming Development</h2>
+<ul>
+<li>Merging pull requests - response time is generally a few days</li>
+<li>Resolving issues - mostly on hold until 2014</li>
+<li>Changes to <code>dbunit.php</code> CLI tool
+    <ul>
+        <li>Fixing <code>export-dataset</code> command</li>
+        <li>Adding new features like integration with <a href="https://github.com/fzaninotto/Faker" title="fzaninotto/Faker">Faker</a> for data set generation</li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="feedback">
+<h2>Feedback</h2>
+<p class="right"><img src="img/qrcode.png" alt="QR code with a link to give feedback on joind.in" /></p>
+<p>Please rate my talk!</p>
+<p><a href="http://joind.in/9955">http://joind.in/9955</a></p>
+<p>And check out the joind.in mobile apps!</p>
+<p><a href="http://joind.in/help" title="Joind.in">http://joind.in/help</a></p>
+</section>
+
+<section class="slide" id="epilogue">
+<h2>That's All, Folks</h2>
+<ul>
+	<li>Questions? Comments? Discussion?</li>
+    <li><a href="http://www.blopboard.com" title="Blopboard, where I work">http://www.blopboard.com</a></li>
+	<li><a href="http://matthewturland.com" title="My web site">http://matthewturland.com</a> (slides will be posted here!)</li>
+	<li><a href="mailto:me@matthewturland.com" title="My e-mail address">me@matthewturland.com</a></li>
+	<li><a href="http://twitter.com/elazar" title="My Twitter page">@elazar</a> on Twitter</li>
+    <li>Elazar on <a href="http://freenode.net" title="The IRC network I frequent">Freenode</a></li>
+	<li>Go forth and test!</li>
+</ul>
+</section>
+
+</article>
+
+<!-- Core and extension deck.js files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+
+<!-- Rainbow files -->
+<script src="js/rainbow/rainbow.min.js"></script>
+<script src="js/rainbow/language/generic.js"></script>
+<script src="js/rainbow/language/php.js"></script>
+
+<!-- Custom JS files -->
+<!--
+<script src="js/sh/shCore.js"></script>
+<script src="js/sh/shBrushPhp.js"></script>
+-->
+<script src="js/deck.custom.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<title>New OOP Features in PHP 5.5</title>
+
+	<meta name="description" content="An in-depth review of new object-oriented programming features in PHP 5.5"/>
+	<meta name="author" content="Matthew Turland"/>
+	<meta name="contact" content="me@matthewturland.com"/>
+	<meta name="viewport" content="width=1024, user-scalable=no"/>
+	
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.menu.css"/>
+	
+	<!-- Theme CSS files -->
+	<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+
+	<!-- Custom CSS files -->
+	<link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
+	<link rel="stylesheet" href="css/deck.custom.css"/>
+
+	<!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+	<script src="js/sh/shCore.js"></script>
+	<script src="js/sh/shBrushPhp.js"></script>
+</head>
+<body class="deck-container">
+
+<section class="slide" id="title-slide">
+<h1>New OOP Features<br />in PHP 5.5</h1>
+<h2>Matthew Turland</h2>
+</section>
+
+<section class="slide" id="there-will-be-slides">
+<h2>There Will Be Slides</h2>
+<img src="img/website.png" alt="Publications section of my web site at matthewturland.com" class="border" />
+<p class="center">Publications section of <a href="http://matthewturland.com" title="My web site at matthewturland.com">http://matthewturland.com</a></p>
+</section>
+
+<section class="slide" id="books">
+<h2>I Co/Wrote These</h2>
+<div class="two-col-left">
+    <div><img src="img/web-scraping-with-php.png" alt="php|architect's Guide to Web Scraping with PHP"></div>
+    <div><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP">http://phparch.com</a></div>
+</div>
+<div class="two-col-right">
+    <div><img src="img/php-master.png" alt="PHP Master: Write Cutting-Edge Code"></div>
+    <div><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">http://sitepoint.com</a></div>
+</div>
+<p class="center">&lt;/ShamelessPlug&gt;</p>
+</section>
+
+<section class="slide" id="features-of-focus">
+<h2>Features of Focus</h2>
+<ul>
+<li>Generators</li>
+<li><code>finally</code></li>
+<li><code>::class</code></li>
+<li>Non-scalar keys in <code>foreach</code></li>
+</ul>
+<p class="center"><a href="http://www.php.net/ChangeLog-5.php#5.5.0" title="PHP: PHP 5 ChangeLog">Full list of 5.5.0 changes</a></p>
+<p class="center"><img src="img/magnifying-glass.jpg" alt="Rick Moranis with a magnifying glass near the end of 'Honey I Shrunk the Kids'" /></p>
+</section>
+
+<section class="slide" id="generators-defined">
+<h2>Generators Defined</h2>
+<blockquote><a href="http://en.wikipedia.org/wiki/Generator_%28computer_programming%29" title="Generators (computer programming) - Wikipedia, the free encyclopedia"><strong>Generators</strong></a> provide an easy way to implement simple iterators without the overhead or complexity of implementing a class that implements the Iterator interface.</blockquote> ~ <cite><a href="http://php.net/manual/en/language.generators.overview.php" title="PHP: Generators overview - Manual">http://php.net/manual/en/language.generators.overview.php</a></cite>
+<p class="center"><a href="http://www.slideshare.net/auroraeosrose/spl-to-the-rescue-tek-09/21" title="SPL to the Rescue - Tek 09 - The iterator drinking game!"><img src="img/shot.jpg" alt="A filled shot glass" /></a></p>
+</section>
+
+<section class="slide" id="advantages-of-generators">
+<h2>Advantages of Generators</h2>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Lazy_evaluation" title="Lazy evaluation - Wikipedia, the free encyclopedia">Generate values as they're needed</a></li>
+<li>Use less memory because all values aren't stored in memory &mdash;<br />think <code>PDOStatement::fetch()</code> versus <code>PDOStatement::fetchAll()</code></li>
+<li>Use less CPU to generate values if not all values are needed</li>
+<li>Require less code than a full custom iterator implementation</li>
+</ul>
+<p class="center"><img src="img/neil-degrasse-tyson-badass.jpg" alt="Neil Degrasse Tyson badass meme" /></p>
+</section>
+
+<section class="slide" id="disadvantages-versus-iterators">
+<h2>Disadvantages vs Iterators</h2>
+<ul>
+<li>Are unidirectional and can't be rewound</li>
+<li>Can lead to spaghetti code; use iterators where they're more appropriate</li>
+</ul>
+<p class="center"><img src="img/spaghetti-code.png" alt="Spaghetti Code" /></p>
+</section>
+
+<section class="slide" id="how-generators-work">
+<h2>How Generators Work</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function gen() {
+    echo 'start';
+    yield 'middle';
+    echo 'end';
+}
+ 
+// Initial call does not output anything, returns an instance of the 
+// Generator class
+$gen = gen();
+ 
+// Call to current() resumes the generator, thus "start" is echo'd.
+// Then the yield expression is hit and the string "middle" is returned
+// as the result of current() and then echo'd.
+echo $gen->current();
+ 
+// Execution of the generator is resumed again, thus echoing "end"
+$gen->next();
+]]></script>
+<p class="center">Example lifted from the <a href="https://wiki.php.net/rfc/generators#basic_behavior" title="PHP: rfc:generators [PHP Wiki]">Generators RFC</a></p>
+<p class="center"><a href="http://php.net/generator" title="PHP: Generator - Manual">Generator class in the PHP manual</a></p>
+</section>
+
+<section class="slide" id="how-generators-terminate">
+<h2>How Generators Terminate</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function gen() {
+    // Generator terminates
+    return;
+
+    // Returning values from generators is invalid,
+    // results in a parse error
+    return $value;
+
+    // Generator terminates
+    throw new Exception("foo");
+
+    // Generator does not terminate
+    // if the exception is caught
+    try {
+        // ...
+        throw new Exception("foo");
+    } catch (Exception $e) {
+        // 
+    }
+
+    // Generator terminates on the next iteration if 
+    // there are no further yield statements to execute
+    yield $value;
+}
+]]></script>
+</section>
+
+<section class="slide" id="improved-file">
+<h2>An Improved <code>file()</code></h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function ifile($filename) {
+    if (!$fh = fopen($filename, 'r')) {
+        return;
+    }
+    while (($line = fgets($fh)) !== false) {
+        yield $line;
+    }
+    fclose($fh);
+}
+// $lines is an instance of the Generator class
+$lines = ifile('/path/to/file');
+foreach ($lines as $line) {
+    // do something with $line
+}
+]]></script>
+<p class="center">Example also lifted from the <a href="https://wiki.php.net/rfc/generators" title="PHP: rfc:generators [PHP Wiki]">Generators RFC</a></p>
+<p class="center">(Hint: You should probably read this thing.)</p>
+</section>
+
+<section class="slide" id="password-example">
+<h2>Iterators vs Generators: Example</h2>
+<script src="https://gist.github.com/elazar/6563802.js"></script>
+</section>
+
+<section class="slide" id="password-comparison">
+<h2>Iterators vs Generators: Comparison</h2>
+<ul>
+    <li>Less than half the lines of code</li>
+    <li>No support for value keys</li>
+    <li>No rewind support</li>
+</ul>
+</section>
+
+<section class="slide" id="coroutines">
+<h2>Coroutines</h2>
+<p><a href="http://en.wikipedia.org/wiki/Coroutine" title="Coroutine - Wikipedia, the free encyclopedia"><strong>Coroutines</strong></a> are like generators in reverse: they consume data.</p>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function logger($filename) {
+    $fh = fopen($filename, 'w');
+    while (true) {
+        $line = yield;
+        fwrite($fh, $line . PHP_EOL);
+    }
+}
+$log = logger('/path/to/log');
+$log->send('Hello world!');
+]]></script>
+</section>
+
+<section class="slide" id="coroutines-and-exceptions">
+<h2>Coroutines and Exceptions</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function gen() {
+    while (true) {
+        try {
+            $value = yield;
+            echo $value, PHP_EOL;
+        } catch (Exception $e) {
+            echo $e->getMessage(), PHP_EOL;
+            return;
+        }
+    }
+}
+$gen = gen();
+$gen->send('foo'); // outputs foo
+$gen->throw(new Exception('bar')); // outputs bar
+]]></script>
+</section>
+
+<section class="slide" id="generators-plus-coroutines">
+<h2>Generators + Coroutines</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function grep($pattern) {
+    while (true) {
+        $line = yield;
+        if (preg_match($pattern, $line)) {
+            yield $line;
+        }
+    }
+}
+$ifile = ifile('/path/to/src');
+$grep = grep('/ba/');
+foreach ($ifile as $line) {
+    if ($grep->send($line)) {
+        echo $line, PHP_EOL;
+        // Needed for grep() to move to the
+        // next yield so the next ->send()
+        // call works 
+        $grep->next();
+    }
+}
+]]></script>
+</section>
+
+<section class="slide" id="putting-it-all-together">
+<h2>Putting It All Together</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+function pipe() {
+    $args = func_get_args();
+    while ($args[0]->valid()) {
+        for ($i = 1; $i < count($args); $i++) {
+            $src = $args[$i - 1];
+            $dst = $args[$i];
+            if ($current = $src->current()) {
+                $dst->send($current);
+                $src->next();
+            }
+        }
+    }
+}
+// Equivalent to
+// cat /path/to/src | grep ba > /path/to/dst
+pipe(
+    ifile('/path/to/src'),
+    grep('/ba/'),
+    logger('/path/to/dst')
+);
+]]></script>
+</section>
+
+<section class="slide" id="analog-to-streams">
+<h2>Analog to Streams</h2>
+<ul>
+<li>streams : strings :: generators/coroutines : PHP type</li>
+<li>stream filters : functions that are both generators and coroutines</li>
+</ul>
+<p class="center"><img src="img/streams.jpg" alt="Don't cross the streams: Good advice is timeless" /></p>
+</section>
+
+<section class="slide" id="generators-in-a-nutshell">
+<h2>In a Nutshell</h2>
+<ul>
+<li>Use generators when you:
+    <ul>
+        <li>need to iterate once over a sequence of values</li>
+        <li>don't want to generate all values at once</li>
+        <li>don't want to store all values in memory at once</li>
+        <li>don't want to implement an iterator class</li>
+    </ul>
+</li>
+<li>Use coroutines to supplement generators for filtering, transformation, and other manipulation of generated values</li>
+<li>For the love of all that is sacred, Don't Be Evil&trade;</li>
+</ul>
+<p class="center"><img src="img/dr-evil.jpg" alt="Dr. Evil from the Austin Powers movie series" /></p>
+</section>
+
+<section class="slide" id="finally">
+<h2>Finally! <code>finally</code>!</h2>
+<ul>
+<li>Simplifies execution of cleanup logic in code with <a href="http://php.net/exceptions" title="PHP: Exceptions - Manual">exception handling</a></li>
+<li>Used in <a href="http://en.wikipedia.org/wiki/Exception_handling_syntax" title="Exception handling syntax - Wikipedia, the free encyclopedia">other languages</a> like Java, JavaScript, Python, and Ruby</li>
+<li><code>finally</code> blocks are executed whenever execution of <code>try</code> or <code>catch</code> blocks terminates</li>
+</ul>
+<p class="center"><img src="img/escape-he-finally-did-it.jpg" href="Esc key walking away from a keyboard" /></p>
+</section>
+
+<section class="slide" id="practical-example-of-finally">
+<h2>Practical Example of <code>finally</code></h2>
+<script type="syntaxhighlighter" class="brush: php; highlight: [6, 9, 16]"><![CDATA[
+// Instead of this...
+$db = mysqli_connect();
+try {
+    call_some_function($db);
+} catch (Exception $e) {
+    mysqli_close($db);
+    throw $e;
+}
+mysqli_close($db);
+
+// We can now do this...
+$db = mysqli_connect();
+try {
+    call_some_function($db);
+} finally {
+    mysqli_close($db);
+}
+]]></script>
+<p class="center">Example lifted from the <a href="https://wiki.php.net/rfc/finally" title="PHP: rfc:finally [PHP Wiki]">finally RFC</a></p>
+</section>
+
+<section class="slide" id="how-finally-works-with-exceptions">
+<h2>How <code>finally</code> Works<br />With Exceptions</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+try {
+    // If this throws an exception:
+    call_some_function($db);
+} catch (Exception $e) {
+    // Code here is executed
+} finally {
+    // Then code here is executed
+}
+// But code here is not executed
+]]></script>
+</section>
+
+<section class="slide" id="how-finally-works-without-exceptions">
+<h2>How <code>finally</code> Works<br />Without Exceptions</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+try {
+    // If this does not throw an exception:
+    call_some_function($db);
+} catch (Exception $e) {
+    // Code here is not executed
+} finally {
+    // Code here is executed
+}
+// Code here is executed
+]]></script>
+</section>
+
+<section class="slide" id="how-finally-works-with-returns">
+<h2>How <code>finally</code> Works<br />With Returns</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+try {
+    // If this does not throw an exception:
+    return call_some_function($db);
+} catch (Exception $e) {
+    // Code here is not executed
+} finally {
+    // Code here is executed
+}
+// Code here is not executed
+]]></script>
+</section>
+
+<section class="slide" id="finally-in-a-nutshell">
+<h2><code>finally</code> in a nutshell</h2>
+<ul>
+<li>Use when cleanup logic must run regardless of whether exceptions occur:
+    <ul>
+        <li>Closing a database connection</li>
+        <li>Closing a stream, e.g. for an open file</li>
+        <li>Deleting a temporary file</li>
+    </ul>
+</li>
+<li>&quot;For when it absolutely, positively <strong>must</strong> be executed&quot;</li>
+</ul>
+<p class="center"><img src="img/tardis-express.png" alt="Tardis Express: When it absolutely, positively has to be there before you sent it" /></p>
+</section>
+
+<section class="slide" id="class">
+<h2><code>::class</code></h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+namespace NS {
+    class ClassName {
+    }
+
+    // Outputs NS\ClassName
+    echo ClassName::class;
+}
+]]></script>
+<p class="center">Example lifted from <a href="http://php.net/oop5.basic#language.oop5.basic.class.class">PHP Manual OOP Basics</a></p>
+<p class="center">Compare with <a href="http://en.wikipedia.org/wiki/Namespace_%28programming%29#Use_in_common_languages" title="Namespace - Wikipedia, the free encyclopedia">namespaces in other languages</a></p>
+</section>
+
+<section class="slide" id="using-class-with-phpunit">
+<h2>Using <code>::class</code> with PHPUnit</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+use A\Namespaced\ClassName;
+ 
+// this will try to create a mock of the global class ClassName, not
+// of the aliased class A\Namespaced\ClassName
+$mock = $this->getMock('ClassName');
+
+// ClassName::class resolves to 'A\Namespaced\ClassName'
+$mock = $this->getMock(ClassName::class);
+]]></script>
+
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+use MyVendor\SomeComponent\TargetSubNs;
+ 
+// inside a test case
+$this->getMock(TargetSubNs\Foo::class);
+
+// as opposed to
+$this->getMock('MyVendor\\SomeComponent\\TargetSubNs\\Foo');
+]]></script>
+<p class="center">Examples lifted from <a href="https://wiki.php.net/rfc/class_name_scalars" title="PHP: rfc:class_name_scalars">Class Name Scalars RFC</a></p>
+</section>
+
+<section class="slide" id="using-class-with-doctrine">
+<h2>Using <code>::class</code> with Doctrine</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+use MyVendor\SomeComponent\TargetEntityNs as Entity;
+ 
+// inside a test case
+$entityManager->find(Entity\User::class, 5);
+
+// as opposed to
+$entityManager->find('MyVendor\\SomeComponent\\TargetEntityNs\\User', 5);
+]]></script>
+</section>
+
+<section class="slide" id="using-class-with-pimple">
+<h2>Using <code>::class</code> with Pimple</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+use MyVendor\SomeComponent\TargetSubNs;
+$container = new Pimple;
+$container['cookie_name'] = 'SESSION_ID';
+
+// This
+$container['session_storage_class'] = SessionStorage::class;
+
+// as opposed to this
+$container['session_storage_class'] =
+	'MyVendor\\SomeComponent\\TargetSubNs\\SessionStorage';
+
+$container['session_storage'] = function ($c) {
+    return new $c['session_storage_class']($c['cookie_name']);
+};
+$container['session'] = function ($c) {
+    return new Session($c['session_storage']);
+};
+]]></script>
+</section>
+
+<section class="slide" id="using-class-with-general-php">
+<h2>Using <code>::class</code> with general PHP</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+use MyVendor\SomeComponent\TargetNs as T;
+ 
+// reflection
+$r = new ReflectionClass(T\Foo::class);
+
+// instead of
+$r = new ReflectionClass('MyVendor\\SomeComponent\\TargetNs\\Foo');
+ 
+// class_exists, also applies to any function that takes a class name
+// (is_subclass_of, get_class_methods, etc)
+if (class_exists(T\Foo::class, true)) {}
+
+// instead of
+if (class_exists('MyVendor\\SomeComponent\\TargetNs\\Foo')) {}
+]]></script>
+</section>
+
+<section class="slide" id="special-class-resolutions">
+<h2>Special <code>::class</code> Resolutions</h2>
+<ul>
+<li><code>self::class</code> resolves the same as <code><a href="http://php.net/manual/en/language.constants.predefined.php" title"PHP: Magic Constants - Manual">__CLASS__</a></code> would</li>
+<li><code>static::class</code> resolves the same as <code><a href="http://php.net/get_called_class" title="PHP: get_called_class - Manual">get_called_class()</a></code> would</li>
+<li><code>parent::class</code> resolves the same as <code><a href="http://php.net/get_parent_class" title="PHP: get_parent_class - Manual">get_parent_class()</a></code> would; returns <code>false</code> if not inherited</li>
+<li><code>static::class</code> and <code>parent::class</code> will cause an exception when used in compile-time only places like method signatures</li>
+</ul>
+</section>
+
+<section class="slide" id="class-in-a-nutshell">
+<h2><code>::class</code> in a Nutshell</h2>
+<p>Use in dynamic instantiation of classes</p>
+<ul>
+<li>Mocking in unit tests</li>
+<li>Reflection</li>
+<li>Dependency injection</li>
+<li>Adapters</li>
+<li>Factories</li>
+</ul>
+</section>
+
+<section class="slide" id="foreach-non-scalar-keys">
+<h2>Non-Scalar Keys in <code>foreach</code></h2>
+<ul>
+<li><code>Iterator::key()</code> was able to return any data type, but <code>foreach</code> didn't handle non-scalar values correctly prior to 5.5</li>
+<li>This made some use cases for classes that support non-scalar keys, like <code>SplObjectStorage</code>, unnecessarily complicated</li>
+<li>The fix is limited to iterators; it does not affect arrays</li>
+</ul>
+</section>
+
+<section class="slide" id="use-cases-for-non-scalar-keys">
+<h2>Use Cases for Non-Scalar Keys</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+$it = new MultipleIterator;
+$it->attachIterator($it1);
+$it->attachIterator($it2);
+
+// This
+foreach ($it as $keys => $values) { }
+
+// As opposed to this
+foreach ($it as $values) {
+    $keys = $it->keys();
+    // ...
+}
+]]></script>
+
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+$objectStore = new SplObjectStorage;
+// ...
+
+// This
+foreach ($objectStore as $key => $value) { }
+
+// As opposed to this
+foreach ($objectStore as $key) {
+    $value = $objectStore[$key];
+    // ...
+}
+]]></script>
+
+<p class="center">Examples lifted from the <a href="https://wiki.php.net/rfc/foreach-non-scalar-keys" title="PHP: rfc:foreach-non-scalar-keys [PHP Wiki]">Non-Scalar Keys RFC</a></p>
+</section>
+
+<section class="slide" id="why-use-non-scalar-keys">
+<h2>Why Use Non-Scalar Keys?</h2>
+<ul>
+<li>Storing related data external to immutable objects (e.g. mapping connection objects to associated stream resources or vice versa)</li>
+<li>Less memory usage versus duplicating or generating object identifiers as array keys (e.g. <code><a href="http://php.net/spl_object_hash" title="PHP: spl_object_hash - Manual">spl_object_hash()</a></code>) and fewer values to keep track of</li>
+</ul>
+</section>
+
+<section class="slide" id="where-to-find-me">
+<h2>Where to Find Me</h2>
+<ul>
+<li><a href="http://matthewturland.com" title="Matthew Turland">matthewturland.com</a></li>
+<li><a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a> on Twitter</li>
+<li><a href="http://github.com/elazar" title="elazar (Matthew Turland) - GitHub">elazar</a> on GitHub</li>
+<li>Elazar on Freenode</li>
+</ul>
+<p class="center"><img src="img/me.png" alt="Me at SunshinePHP 2013"></p>
+</section>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+<script src="js/extensions/deck.menu.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+
+<!-- Activate deck.js and SyntaxHighlighter -->
+<script type="text/javascript">
+$(function() { $.deck('.slide'); });
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

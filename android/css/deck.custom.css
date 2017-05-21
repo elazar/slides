@@ -1,0 +1,12 @@
+#title-slide { background-image: url('../img/teenage_mutant_ninja_androids.jpg'); background-repeat: no-repeat; background-position: left 80%; }
+#title-slide h1 { top: 20%; font-size: 2.5em; margin-top: 10%; padding-right: 0; text-align: right; }
+#title-slide h2 { text-align: right; color: #aaaaaa; border: 0; margin-top: 40%; }
+.deck-container h2 { border-bottom: 0; font-size: 2em; }
+.deck-container img { display: inline; margin-top: 0.5em; margin-bottom: 0.5em; }
+.slide { font-size: 140% !important; padding: 0 !important; text-align: center; }
+.slide ul { text-align: left; margin-bottom: 0; }
+.slide > ul > li > ul > li { padding-bottom: 0; }
+.slide h2 { width: 100%; text-align: center; }
+.deck-container .slide p { margin-bottom: 0.5em; }
+a { font-weight: bold; }
+.slide .top { margin-top: 1em; }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>QUnit equality assertions example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script>
+test("Non-strict scalar assertions pass", function() {
+    equal(1, true, "Equality passes");
+    notEqual(1, false, "Inequality passes");
+});
+
+test("Non-strict scalar assertions fail", function() {
+    equal(1, 0, "Equality fails");
+    notEqual(1, 1, "Inequality fails");
+});
+
+test("Strict scalar assertions pass", function() {
+    strictEqual(1, 1, "Equality");
+    notStrictEqual(1, 0, "Inequality");
+});
+
+test("Strict scalar assertions fail", function() {
+    strictEqual(1, true, "Equality");
+    notStrictEqual(false, false, "Inequality");
+});
+
+test("Composite assertions pass", function() {
+    deepEqual({"foo": 1}, {"foo": 1}, "Equality");
+    notDeepEqual({"foo": true}, {"foo": 0}, "Inequality");
+});
+
+test("Composite assertions fail", function() {
+    deepEqual({"foo": 1}, {"foo": 0}, "Equality");
+    notDeepEqual({"foo": true}, {"foo": true}, "Inequality");
+});
+</script>
+</body>
+</html>

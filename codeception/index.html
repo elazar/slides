@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+<title>Testing APIs with Codeception</title>
+
+<meta name="description" content="A presentation on testing REST APIs with the Codeception testing framework."/>
+<meta name="author" content="Matthew Turland"/>
+<meta name="contact" content="me@matthewturland.com"/>
+<meta name="viewport" content="width=1024, user-scalable=no"/>
+
+<!-- Core and extension CSS files -->
+<link rel="stylesheet" href="css/deck.core.css"/>
+<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
+<link rel="stylesheet" href="css/extensions/deck.menu.css"/>
+
+<!-- Theme CSS files -->
+<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+
+<!-- Custom CSS files -->
+<link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
+<link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/deck.custom.css"/>
+<link rel="stylesheet" href="css/prism.css"/>
+
+<!-- JS files that must be included in the document head -->
+<script src="js/modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<section class="slide" id="title-slide">
+<h1>Testing APIs with Codeception</h1>
+<h2>Matthew Turland</h2>
+</section>
+
+<section class="slide" id="questions-or-feedback">
+<h2>Questions or Feedback?</h2>
+<ul>
+<li>Ask questions during or after the session</li>
+<li>Contact me: <a href="http://matthewturland.com/contact">http://matthewturland.com/contact</a></li>
+<li>Leave feedback: <a href="https://joind.in/15533" title="Talk: Data Structures in PHP - Joind.in">https://joind.in/15533</a></li>
+</ul>
+</section>
+
+<section class="slide" id="slides">
+<h2>Slides</h2>
+<div class="center">
+<p>Linked from either of these:</p>
+<p><a href="https://joind.in/15533">https://joind.in/15533</a></p>
+<p><a href="http://matthewturland.com/publications">http://matthewturland.com/publications</a></p>
+</div>
+</section>
+
+<section class="slide" id="who-i-work-for">
+<h2>I Work Here</h2>
+<p class="center"><a href="http://careers.wheniwork.com"><img src="img/wheniwork-hiring.png" alt="When I Work" /></a></p>
+</section>
+
+<section class="slide" id="books">
+<h2>I Co/Wrote These</h2>
+<div class="two-col-left">
+<div><img src="img/web-scraping-with-php.png" alt="php|architect's Guide to Web Scraping with PHP"></div>
+<div><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP">http://phparch.com</a></div>
+</div>
+<div class="two-col-right">
+<div><img src="img/php-master.png" alt="PHP Master: Write Cutting-Edge Code"></div>
+<div><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">http://sitepoint.com</a></div>
+</div>
+</section>
+
+<section class="slide" id="goals">
+<h2>Goals</h2>
+<ul>
+<li>Learn about the <strong>types of tests</strong> supported by Codeception, how they differ, and when it's best to use them</li>
+<li>Review how to <strong>install and configure</strong> Codeception to create and <strong>run a test suite</strong> for a REST API</li>
+<li>Discuss how to use <strong>core and custom modules</strong> to minimize development time and maximize readability and maintainability of your test suite</li>
+</ul>
+</section>
+
+<section class="slide" id="types-of-tests">
+<h2>Types of Tests</h2>
+<p class="center">How many can you name?</p>
+<ul>
+<li class="strike">Unit tests</li>
+<li>?</li>
+<li>...</li>
+</ul>
+</section>
+
+<section class="slide" id="unit-tests">
+<h2>Unit Tests</h2>
+<ul>
+<li>Execute a <strong>unit</strong> of code <strong>in isolation</strong> from other code</li>
+<li>Perform assertions against <strong>code behavior</strong></li>
+<li>Describe intended <strong>use cases</strong> of code</li>
+<li>Not always the ideal type of test to use</li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/05-UnitTests">Unit Tests</a></p>
+</section>
+
+<section class="slide" id="functional-tests">
+<h2>Functional Tests</h2>
+<ul>
+<li>Execute <strong>application requests</strong> inside the test suite PHP process</li>
+<li>Perform assertions against <strong>application responses</strong></li>
+<li>Describe intended <strong>application behavior</strong> with respect to specific requests</li>
+<li>Framework-specific</li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/04-FunctionalTests">Functional Tests</a></p>
+</section>
+
+<section class="slide" id="supported-frameworks">
+<h2>Supported Frameworks</h2>
+<ul>
+<li><a href="http://codeception.com/docs/modules/Laravel4" title="Laravel4 - Codeception - Documentation">Laravel 4</a></li>
+<li><a href="http://codeception.com/docs/modules/Laravel5" title="Laravel5 - Codeception - Documentation">Laravel 5</a></li>
+<li><a href="http://codeception.com/docs/modules/Lumen" title="Lumen - Codeception - Documentation">Lumen</a></li>
+<li><a href="http://codeception.com/docs/modules/Phalcon1" title="Phalcon1 - Codeception - Documentation">Phalcon 1</a></li>
+<li><a href="http://codeception.com/docs/modules/Phalcon2" title="Phalcon2 - Codeception - Documentation">Phalcon 2</a></li>
+<li><a href="http://codeception.com/docs/modules/Symfony2" title="Symfony2 - Codeception - Documentation">Symfony 2</a></li>
+<li><a href="http://codeception.com/docs/modules/Silex" title="Silex - Codeception - Documentation">Silex</a></li>
+<li><a href="http://codeception.com/docs/modules/Yii1" title="Yii1 - Codeception - Documentation">Yii 1</a></li>
+<li><a href="http://codeception.com/docs/modules/Yii2" title="Yii2 - Codeception - Documentation">Yii 2</a></li>
+<li><a href="http://codeception.com/docs/modules/ZF1" title="ZF1 - Codeception - Documentation">Zend Framework 1</a></li>
+<li><a href="http://codeception.com/docs/modules/ZF2" title="ZF2 - Codeception - Documentation">Zend Framework 2</a></li>
+<li>Possibly yours, through custom modules called <a href="http://codeception.com/docs/06-ReusingTestCode#Helpers" title="06-ReusingTestCode - Codeception - Documentation">helpers</a></li>
+</ul>
+</section>
+
+<section class="slide" id="web-service-tests">
+<h2>Web Service Tests</h2>
+<ul>
+<li>A form of <a href="https://en.wikipedia.org/wiki/System_testing" title="System testing - Wikipedia, the free encyclopedia">system testing</a></li>
+<li>Execute <strong>API requests</strong> against endpoints using an HTTP client</li>
+<li>Perform assertions against <strong>API responses</strong></li>
+<li>Describe intended <strong>API behavior</strong> with respect to specific requests</li>
+<li>Framework-agnostic</li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/10-WebServices">Web Services</a></p>
+</section>
+
+<section class="slide" id="no-silver-bullet">
+<h2>No Silver Bullet</h2>
+<blockquote>&quot;There are no solutions, only trade-offs.&quot; ~ <cite>Paul M. Jones</cite></blockquote>
+<p class="center"><a href="https://leanpub.com/mlaphp" title="Modernizing Legacy Applications in PHP by Paul M. Jones [PDF/iPad/Kindle]">Modernizing Legacy Applications in PHP</a></p>
+<p class="center"><a href="https://leanpub.com/mlaphp" title="Modernizing Legacy Applications in PHP by Paul M. Jones [PDF/iPad/Kindle]"><img src="img/mlaphp.png" alt="Modernizing Legacy Applications in PHP by Paul M. Jones [PDF/iPad/Kindle]"></a></p>
+</section>
+
+<section class="slide" id="installing-codeception">
+<h2>Installing Codeception</h2>
+<ul>
+<li>Requirements:
+    <ul>
+        <li>PHP 5.4+ (<a href="http://php.net/eol.php" title="PHP: Unsupported branches"><abbr title="End of Life">EOL</abbr></a> - upgrade!)</li>
+        <li>json extension</li>
+        <li>mbstring extension</li>
+    </ul>
+</li>
+<li><a href="http://getcomposer.org" title="Composer">Composer</a>
+    <ul>
+        <li><code class="language-bash">composer require --dev "codeception/codeception:^2"</code></li>
+        <li><code class="language-bash">./vendor/bin/codecept</code></li>
+    </ul>
+</li>
+<li><a href="http://php.net/manual/en/book.phar.php" title="PHP: Phar - Manual">PHAR</a>
+    <ul>
+        <li><code class="language-bash">wget http://codeception.com/codecept.phar</code></li>
+        <li><code class="language-bash">curl http://codeception.com/codecept.phar -o codecept.phar</code></li>
+        <li><code class="language-bash">alias codecept="php /path/to/codecept.phar"</code></li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="getting-help">
+<h2>Getting Help</h2>
+<ul>
+<li><code class="language-bash">codecept help</code> - general help</li>
+<li><code class="language-bash">codecept list</code> - list commands</li>
+<li><code class="language-bash">codecept help [command]</code> - help for a specific command, e.g. <code>list</code></li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/reference/Commands">Commands</a></p>
+</section>
+
+<section class="slide" id="bootstrap-command">
+<h2>Bootstrap Command</h2>
+<ul>
+<li><code class="language-bash">codecept bootstrap -e</code></li>
+<li><code>-e</code>, <code>--empty</code> - don't create standard suites</li>
+<li>Output
+    <ul>
+        <li><code>codeception.yml</code> - global settings for paths, runners, modules, etc.</li>
+        <li><code>tests/</code>
+            <ul>
+                <li><code>_bootstrap.php</code> - bootstraps test suite, e.g. autoloading</li>
+                <li><code>_data/dump.sql</code> - SQL dump loaded between tests</li>
+                <li><code>_envs/</code> - global <a href="http://codeception.com/docs/07-AdvancedUsage#Environments" title="07-AdvancedUsage - Codeception - Documentation">environment</a>-specific settings</li>
+                <li><code>_output/</code> - test suite output, e.g. log files, coverage reports</li>
+                <li><code>_support/</code> - test suite-specific <a href="http://codeception.com/docs/06-ReusingTestCode#Helpers" title="06-ReusingTestCode - Codeception - Documentation">helper</a> class files</li>
+            </ul>
+        </li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="composer-autoloader">
+<h2>Composer Autoloader</h2>
+<pre class="line-numbers">
+<code class="language-javascript">
+{
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Subnamespace\\": "src/"
+        }
+    }
+    "autoload-dev": {
+        "psr-4": {
+            "Vendor\\Tests\\Subnamespace\\": "tests/"
+        }
+    }
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="bootstrap-file">
+<h2>Bootstrap File</h2>
+<pre class="line-numbers">
+<code class="language-php">// tests/_bootstrap.php
+
+// Add the line below this one
+require __DIR__ . '/../vendor/autoload.php';</code>
+</pre>
+</section>
+
+<section class="slide" id="supported-test-formats">
+<h2>Supported Test Formats</h2>
+<ul>
+<li><a href="http://codeception.com/docs/02-GettingStarted#Writing-a-Sample-Scenario" title="02-GettingStarted">Cept</a> - one stand-alone test per file</li>
+<li><a href="http://codeception.com/docs/07-AdvancedUsage#Cest-Classes" title="07-AdvancedUsage">Cest</a> - one class per file, multiple tests per class</li>
+<li>PHPUnit - limited to <a href="http://codeception.com/docs/05-UnitTests" title="05-UnitTests">unit tests</a></li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/02-GettingStarted#Cept-Cest-and-Test-Formats" title="02-GettingStarted">Cept, Cest, and Test Formats</a></p>
+</section>
+
+<section class="slide" id="cept-example">
+<h2>Cept Example</h2>
+<pre class="line-numbers">
+<code class="language-php">
+$I = new ApiTester($scenario);
+$I->wantTo('retrieve a single question');
+$I->amAuthenticated();
+$I->sendGET('2/questions/2');
+$I->seeResponseCodeIs(200);
+$I->seeResponseIsJson();
+$I->seeResponseContainsJson([
+    'id' => 2,
+    'text'=>'Are you feeling well?'
+]);</code>
+</pre>
+</section>
+
+<section class="slide" id="cest-example">
+<h2>Cest Example</h2>
+<pre class="line-numbers">
+<code class="language-php">
+class QuestionCest {
+    public function _before(ApiTester $I) {
+        // ...
+    }
+    public function _after(ApiTester $I) {
+        // ...
+    }
+    public function getSingleQuestion(ApiTester $I) {
+        // Cept contents without $I assignment go here
+    }
+    // More test methods go here
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="creating-test-suite">
+<h2>Creating a Test Suite</h2>
+<ul>
+<li><code class="language-bash">codecept generate:suite api</code></li>
+<li>Output
+    <ul>
+        <li><code>tests/api.suite.yml</code></li>
+        <li><code>tests/api/_bootstrap.php</code></li>
+        <li><code>tests/_support/Helper/Api.php</code></li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="test-suite-configuration">
+<h2>Test Suite Configuration</h2>
+<pre class="line-numbers">
+<code class="language-yaml">
+# tests/api.suite.yml
+class_name: ApiTester
+modules:
+  enabled:
+    - \Helper\Api
+    # Add the lines below
+    - REST:
+        # Your base API URL
+        url: http://host/api/
+        # Can also be a framework module name
+        depends: PhpBrowser
+        # Limits PhpBrowser to JSON or XML
+        part: Json</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/modules/REST" title="REST - Codeception - Documentation">REST module</a></p>
+</section>
+
+<section class="slide" id="test-suite-bootstrap">
+<h2>Test Suite Bootstrap</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/_bootstrap.php
+// Here you can initialize variables that will be
+// available to your tests</code>
+</pre>
+</section>
+
+<section class="slide" id="helper-class">
+<h2>Helper Class</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/_support/Helper/Api.php
+namespace Helper;
+// here you can define custom actions
+// all public methods declared in helper class will be
+// available in $I
+
+class Api extends \Codeception\Module
+{
+
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="adding-helper-methods">
+<h2>Adding Helper Methods</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/_support/Helper/Api.php
+namespace Helper;
+class Api extends \Codeception\Module {
+    public function amAuthenticated(
+        $username = 'default_user'
+    ) {
+        // $token = ...
+        $this
+            ->getModule('REST')
+            ->amBearerAuthenticated($token);
+    }
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="building-tester-files">
+<h2>Building Tester Files</h2>
+<ul>
+<li><code class="language-bash">codecept build</code></li>
+<li>Output
+    <ul>
+        <li><code>tests/_support/ApiTester.php</code></li>
+        <li><code>tests/_support/_generated/ApiTesterActions.php</code></li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section class="slide" id="creating-a-cest-class">
+<h2>Creating a Cest Class</h2>
+<code class="language-bash">codecept generate:cest api Thing</code>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+use ApiTester;
+class ThingCest {
+    public function _before(ApiTester $I) {
+    }
+    public function _after(ApiTester $I) {
+    }
+    // tests
+    public function tryToTest(ApiTester $I) {
+    }
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="using-tester-methods">
+<h2>Using Tester Methods</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+use ApiTester;
+class ThingCest {
+    public function createThing(ApiTester $I) {
+        $I->amAuthenticated('johndoe');
+        // ...
+    }
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="rest-module-requests-1">
+<h2>REST Module: Requests</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// Authentication
+$I->amHttpAuthenticated('username', 'password');
+$I->amDigestAuthenticated('username', 'password');
+$I->amBearerAuthenticated('token');
+
+// Headers
+$I->haveHttpHeader('name', 'value');</code>
+</pre>
+</section>
+
+<section class="slide" id="rest-module-requests-2">
+<h2>REST Module: Requests</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// Method / Parameters
+$I->sendGET('path/relative/to/url' /* , array $params */);
+$I->sendHEAD(...);
+$I->sendOPTIONS(...);
+$I->sendPOST(
+    'url' /* ,
+    array|JsonSerializable|string $params,
+    array $files
+*/);
+$I->sendPUT(...);
+$I->sendPATCH(...);
+$I->sendDELETE(...);
+$I->sendLINK(
+    'url',
+    [ 'linkEntry1', 'linkEntry2', /* ... */ ]
+);
+$I->sendUNLINK(...);</code>
+</pre>
+</section>
+
+<section class="slide" id="rest-module-responses">
+<h2>REST Module: Responses</h2>
+<pre class="line-numbers">
+<code class="language-php">
+$I->dontSeeResponseCodeIs(200);
+$I->seeResponseCodeIs(200);
+
+$I->dontSeeHttpHeader('name'/* , 'value' */);
+$I->seeHttpHeader('name'/* , 'value' */);
+$I->seeHttpHeaderOnce('name');
+$value = $I->grabHttpHeader('name', true);
+$values = $I->grabHttpHeader('name');
+
+$I->seeResponseEquals('text');
+$I->dontSeeResponseContains('text');
+$I->seeResponseContains('text');
+$response = $I->grabResponse();</code>
+</pre>
+</section>
+
+<section class="slide" id="rest-module-json">
+<h2>REST Module: JSON</h2>
+<pre class="line-numbers">
+<code class="language-php">
+$I->seeResponseIsJson();
+
+$I->seeResponseJsonMatchesXpath('//property');
+
+$I->dontSeeResponseContainsJson(['property' => 'value']);
+$I->seeResponseContainsJson(['property' => 'value']);
+
+$I->dontSeeResponseJsonMatchesJsonPath('$.property'); // [1]
+$I->seeResponseJsonMatchesJsonPath('$.property');
+$data = $I->grabDataFromResponseByJsonPath('$.property');
+
+$I->dontSeeResponseMatchesJsonType(['property' => 'type']); // [2]
+$I->seeResponseMatchesJsonType(['property' => 'type']);</code>
+</pre>
+<p class="center">
+[1] Needs <a href="https://github.com/FlowCommunications/JSONPath"><code>flow/jsonpath</code></a> in <code>composer.json</code><br />
+[2] See <a href="http://codeception.com/docs/modules/REST#seeResponseMatchesJsonType">this manual page</a> for type notation
+</p>
+</section>
+
+<section class="slide" id="rest-module-xml">
+<h2>REST Module: XML</h2>
+<pre class="line-numbers">
+<code class="language-php">
+$->seeResponseIsXml();
+
+$I->dontSeeXmlResponseEquals('xml string');
+$I->seeXmlResponseEquals('xml string');
+
+$I->dontSeeXmlResponseIncludes('xml substring');
+$I->seeXmlResponseIncludes('xml substring');
+
+$I->dontSeeXmlResponseMatchesXpath('//element');
+$I->seeXmlResponseMatchesXpath('//element');
+
+$attribute = $I->grabAttributeFrom('//element', 'attribute');
+$value = $I->grabTextContentFromXmlElement('//element');</code>
+</pre>
+</section>
+
+<section class="slide" id="asserts-module">
+<h2>Asserts Module</h2>
+<ul>
+<li>Adds a lot of <code>assert*()</code> methods from PHPUnit to <code>$I</code></li>
+<li>Useful in conjunction with <code>grab*()</code> methods</li>
+<li>Don't forget to run <code class="language-bash">codecept build</code>!</li>
+</ul>
+<pre class="line-numbers">
+<code class="language-yaml">
+# tests/api.suite.yml
+class_name: ApiTester
+modules:
+  enabled:
+    # ...
+    - Asserts</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+$response = $I->grabResponse();
+$I->assertRegExp('/^foo/', $response);</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/modules/Asserts" title="Asserts - Codeception - Documentation">Asserts module</a></p>
+</section>
+
+<section class="slide" id="putting-it-all-together">
+<h2>Putting It All Together</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+use ApiTester;
+class ThingCest {
+    public function createThing(ApiTester $I) {
+        $I->wantTo('retrieve a single thing');
+        $I->amAuthenticated();
+        $I->haveHttpHeader('Content-Type', 'application/json');
+        $I->sendPOST('thing', ['name' => 'Foo']);
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson([
+            'id' => 1,
+            'name' => 'Foo'
+        ]);
+    }
+}</code>
+</pre>
+</section>
+
+<section class="slide" id="data-integration">
+<h2>Data Integration</h2>
+<ul>
+<li><a href="http://codeception.com/docs/modules/AMQP" title="AMPQ - Codeception - Documentation">AMPQ</a> - uses <a href="https://github.com/videlalvaro/php-amqplib" title="videlalvaro/php-amqplib">videlalvaro/php-amqplib</a> <sup>1</sup></li>
+<li><a href="http://codeception.com/docs/modules/Db" title="Db - Codeception - Documentation">Db</a> - uses <a href="http://php.net/manual/en/book.pdo.php" title="PHP: PDO - Manual">PDO</a> <sup>2</sup></li>
+<li><a href="http://codeception.com/docs/modules/Doctrine2" title="Doctrine2 - Codeception - Documentation">Doctrine2</a> - uses <a href="http://www.doctrine-project.org/" title="Home - Doctrine Project">Doctrine</a> <sup>1</sup> and <a href="http://php.net/manual/en/book.pdo.php" title="PHP: PDO - Manual">PDO</a> <sup>2</sup></li>
+<li><a href="http://codeception.com/docs/modules/Memcache" title="Memcache - Codeception - Documentation">Memcache</a> - uses <a href="https://pecl.php.net/package/memcache" title="PECL :: Package :: memcache">memcache</a> <sup>3</sup> or <a href="https://pecl.php.net/package/memcached" title="PECL :: Package :: memcached">memcached</a> <sup>3</sup></li>
+<li><a href="http://codeception.com/docs/modules/MongoDb" title="MongoDb - Codeception - Documentation">MongoDb</a> - uses <a href="http://pecl.php.net/package/mongodb" title="PECL :: Package :: mongodb">mongodb</a> <sup>3</sup></li>
+<li><a href="http://codeception.com/docs/modules/Queue" title="Queue - Codeception - Documentation">Queue</a>
+    <ul>
+        <li>Iron.io - uses <a href="https://github.com/iron-io/iron_mq_php" title="iron-io/iron_mq_php">iron-io/iron_mq</a> <sup>1</sup></li>
+        <li>Beanstalkd - uses <a href="https://github.com/pda/pheanstalk" title="pda/pheanstalk">pda/pheanstalk</a> <sup>1</sup></li>
+        <li>Amazon SQS - uses <a href="https://github.com/aws/aws-sdk-php" title="aws/aws-sdk-php">aws/aws-sdk-php</a> <sup>1</sup> and <a href="http://php.net/manual/en/book.curl.php" title="PHP: cURL - Manual">cURL</a> <sup>2</sup></li>
+    </ul>
+</li>
+<li><a href="http://codeception.com/docs/modules/Redis" title="Redis - Codeception - Documentation">Redis</a> <sup>1</sup></li>
+</ul>
+<p><sup>1</sup> Userland library<br />
+<sup>2</sup> Core extension<br />
+<sup>3</sup> PECL extension</p>
+</section>
+
+<section class="slide" id="db-module">
+<h2>Db Module</h2>
+<ul>
+<li>Executes <code>_data/dump.sql</code> before each test</li>
+<li>Drops all database tables after each test</li>
+<li>Supports a single database connection and dump file per test suite</li>
+<li>Suboptimal for migrations, e.g. <a href="http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/toc.html" title="Welcome to Doctrine 2 Migrations documentation! &mdash; Doctrine 2 Migrations 2.2 documentation">Doctrine</a>, <a href="https://phinx.org" title="Phinx">Phinx</a>, <a href="http://www.liquibase.org" title="Liquibase | Database Refactoring | Liquibase">Liquibase</a>, etc.</li>
+</ul>
+<pre class="line-numbers">
+<code class="language-yaml">
+# codeception.yml
+# ...
+modules:
+  config:
+    Db:
+      dsn: ''
+      user: ''
+      password: ''
+      dump: tests/_data/dump.sql</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/modules/Db" title="Db - Codeception - Documentation">Db</a></p>
+</section>
+
+<section class="slide" id="creating-helper">
+<h2>Creating a Helper</h2>
+<code class="language-bash">codecept generate:helper Db</code>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/_support/Helper/Db.php
+namespace Helper;
+// here you can define custom actions
+// all public methods declared in helper class will be
+// available in $I
+
+class Db extends \Codeception\Module
+{
+
+}</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/06-ReusingTestCode#Helpers" title="06-ReusingTestCode - Codeception - Documentation">Helpers</a></p>
+</section>
+
+<section class="slide" id="custom-db-helper">
+<h2>Custom Db Helper</h2>
+<pre class="line-numbers">
+<code class="language-php">
+class Db extends \Codeception\Module\Db {
+    protected function cleanup() {
+        // ...
+        $dbh->exec('SET FOREIGN_KEY_CHECKS=0');
+        $res = $dbh->query(
+            "SHOW FULL TABLES WHERE TABLE_TYPE LIKE '%TABLE'"
+        );
+        foreach ($res->fetchAll() as $row) {
+            $dbh->exec('TRUNCATE TABLE `' . $row[0] . '`');
+        }
+        $dbh->exec('SET FOREIGN_KEY_CHECKS=1;');
+        // ...
+    }
+}</code>
+</pre>
+<p class="center">See also: <a href="http://matthewturland.com/2014/05/09/customizing-codeception-database-cleanup/" title="Matthew Turland &raquo; Blog Archive &raquo; Customizing Codeception Database Cleanup">Customizing Codeception Database Cleanup</a></p>
+</section>
+
+<section class="slide" id="custom-helper-configuration">
+<h2>Custom Helper Configuration</h2>
+<pre class="line-numbers">
+<code class="language-yaml">
+# tests/api.suite.yml
+class_name: ApiTester
+modules:
+  enabled:
+    - \Helper\Db
+    # ...</code>
+</pre>
+<code class="language-bash">codecept build</code>
+</section>
+
+<section class="slide" id="database-seeding-strategies">
+<h2>Database Seeding Strategies</h2>
+<ul>
+<li>Automatic seeding with Db module or custom subclass</li>
+<li>Manual seeding with Db module <a href="http://codeception.com/docs/modules/Db#haveInDatabase"><code>haveInDatabase()</code></a> method</li>
+<li>API interactions</li>
+<li>Libraries like <a href="http://factory-muffin.thephpleague.com/" title="Factory Muffin - Enables The Rapid Creation Of Objects For Testing">Factory Muffin</a> and <a href="https://github.com/fzaninotto/Faker" title="fzaninotto/Faker">Faker</a></li>
+</ul>
+<pre class="line-numbers">
+<code class="language-php">
+use League\FactoryMuffin\Facade as FactoryMuffin;
+$faker = Faker\Factory::create();
+FactoryMuffin::define('Model_Login', [
+    'first_name' => $faker->firstName,
+    'last_name'  => $faker->lastName,
+    'email'      => 'unique:safeEmail',
+    'password'   => function() {
+        return Model_Login::hash_password('password');
+    },
+]);</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/09-Data" title="09-Data - Codeception - Documentation">Data</a></p>
+</section>
+
+<section class="slide" id="php-web-server">
+<h2>PHP Web Server</h2>
+<code class="language-bash">composer require --dev "codeception/phpbuiltinserver:^1"</code>
+<pre class="line-numbers">
+<code class="language-yaml">
+# codeception.yml
+extensions:
+  enabled:
+    - Codeception\Extension\PhpBuiltinServer
+  config:
+    Codeception\Extension\PhpBuiltinServer:
+      # Required
+      hostname: localhost
+      port: 8000
+      documentRoot: ../web
+      # Optional
+      router: ../web/app.php
+      directoryIndex: app.php
+      startDelay: 1
+      phpIni: /path/to/php.ini</code>
+</pre>
+<p class="center">See also: <a href="https://github.com/tiger-seo/PhpBuiltinServer" title="tiger-seo/PhpBuiltinServer">tiger-seo/PhpBuiltinServer</a></p>
+</section>
+
+<section class="slide" id="running-tests">
+<h2>Running Tests</h2>
+<pre class="line-numbers">
+<code class="language-bash">
+# All suites
+codecept run
+
+# Only the api suite
+codecept run api
+codecept run tests/api/
+
+# Only the ThingCest class in the api suite
+codecept run api ThingTest.php
+codecept run tests/api/ThingCest.php
+
+# Only the createThing test in the ThingCest class
+# in the api suite
+codecept run tests/api/ThingCest.php:createThing</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/02-GettingStarted#Running-Tests">Running Tests</a></p>
+</section>
+
+<section class="slide" id="environments">
+<h2>Environments</h2>
+<pre class="line-numbers">
+<code class="language-bash">
+codecept generate:env travis</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-yaml">
+# tests/_envs/travis.yml
+# Overrides for settings in codeception.yml go here</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-bash">
+codecept run --env travis
+
+# Merge environments
+codecept run --env db,travis</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/07-AdvancedUsage#Environments">Environments</a></p>
+</section>
+
+<section class="slide" id="debugging">
+<h2>Debugging</h2>
+<ul>
+<li>Normal methods of output are suppressed by the test runner</li>
+<li>Pass any variable or message to the <code>codecept_debug()</code> function</li>
+<li>Produces console output similar to <code>var_export()</code></li>
+<li>Specify the <code>--debug</code> flag when invoking the test runner</li>
+</ul>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+codecept_debug('foo');
+codecept_debug(['foo' => 'bar']);
+$object = new \stdClass;
+$object->foo = 'bar';
+codecept_debug($object);</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-bash">
+codecept run --debug api ThingCest.php</code>
+</pre>
+</section>
+
+<section class="slide" id="code-coverage">
+<h2>Code Coverage</h2>
+<ul>
+<li>Requires <a href="http://xdebug.org" title="Xdebug - Debugger and Profiler Tool for PHP">Xdebug</a> and <a href="https://github.com/Codeception/c3" title="Codeception/c3">c3</a></li>
+<li>Supports both local and remote coverage reporting</li>
+<li>Supports whitelisting and blacklisting specific files from reports</li>
+</ul>
+<p class="center"><img src="img/coverage.png" alt="Example HTML coverage report" /></p>
+<p class="center">See also: <a href="http://codeception.com/docs/11-Codecoverage" title="11-Codecoverage - Codeception - Documentation">Code Coverage</a></p>
+</section>
+
+<section class="slide" id="code-coverage-integration">
+<h2>Code Coverage Integration</h2>
+<pre class="line-numbers">
+<code class="language-javascript">
+{
+    "require-dev": {
+        "codeception/c3": "^2"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Codeception\\c3\\Installer::copyC3ToRoot"
+        ],
+        "post-update-cmd": [
+            "Codeception\\c3\\Installer::copyC3ToRoot"
+        ]
+    }
+}</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-php">
+// web/index.php
+include __DIR__ . '/../c3.php';
+// ...</code>
+</pre>
+</section>
+
+<section class="slide" id="code-coverage-configuration">
+<h2>Code Coverage Configuration</h2>
+<pre class="line-numbers">
+<code class="language-yaml">
+# codeception.xml
+coverage:
+  enabled: true
+  c3_url: 'http://host/index.php/'
+  # Optional
+  whitelist:
+    include:
+      - app/*
+    exclude:
+      - app/cache/*
+  blacklist:
+    include:
+      - app/controllers/*
+    exclude:
+      - app/cache/CacheProvider.php</code>
+</pre>
+<ul>
+<li><code>whitelist</code> - list of files to include even if they are not run</li>
+<li><code>blacklist</code> - list of files to exclude even if they are run</li>
+</ul>
+</section>
+
+<section class="slide" id="code-coverage-invocation">
+<h2>Code Coverage Invocation</h2>
+<pre class="line-numbers">
+<code class="language-bash">
+# HTML reports for humans
+codecept run --coverage --coverage-html
+
+# XML (Clover) reports for IDEs (e.g. PHPStorm)
+# and CI servers (e.g. Jenkins)
+codecept run --coverage --coverage-xml</code>
+</pre>
+<ul>
+<li>Reports are written to <code>tests/_output/coverage</code></li>
+<li>Raw data is written to <code>tests/_output/c3tmp</code></li>
+</ul>
+</section>
+
+<section class="slide" id="remote-code-coverage-configuration">
+<h2>Remote Code Coverage Configuration</h2>
+<p class="center">Requires <a href="http://xdebug.org/docs/all_settings#remote_enable" title="Xdebug: Documentation"><code>xdebug.remote_enable</code></a> to be set to <code>true</code></p>
+<pre class="line-numbers">
+<code class="language-yaml">
+# codeception.yml
+coverage:
+  # If API is hosted on different machine than tests
+  remote: true
+  # Optional
+  remote_context_options:
+    http:
+      timeout: 60
+    ssl:
+      verify_peer: false</code>
+</pre>
+</section>
+
+<section class="slide" id="groups">
+<h2>Groups</h2>
+<pre class="line-numbers">
+<code class="language-php">
+// tests/api/ThingCest.php
+class ThingCest {
+    /**
+     * @group thing
+     */
+    public function createThing() {
+        // ...
+    }
+    // ...
+}
+</code>
+</pre>
+<pre class="line-numbers">
+<code class="language-bash">
+codecept run -g thing</code>
+</pre>
+<p class="center">See also: <a href="http://codeception.com/docs/07-AdvancedUsage#Groups" title="07-AdvancedUsage - Codeception - Documentation">Groups</a></p>
+</section>
+
+<section class="slide" id="parallel-execution">
+<h2>Parallel Execution</h2>
+<ul>
+<li>Useful for executing <a href="http://codeception.com/docs/07-AdvancedUsage#Groups" title="07-AdvancedUsage - Codeception - Documentation">groups</a> of tests in parallel across multiple potential environments</li>
+<li>Recommended to be implemented in conjunction with containers like <a href="http://docker.com" title="Docker">Docker</a></li>
+<li>Check out <a href="https://speakerdeck.com/jimbojsb/building-development-environments-with-docker-zendcon-2015" title="Building Development Environments with Docker (Zendcon 2015) // Speaker Deck">Building Development Environments with Docker</a> by Josh Butts</li>
+</ul>
+<p class="center">See also: <a href="http://codeception.com/docs/12-ParallelExecution" title="12-ParallelExecution">Parallel Execution</a></p>
+</section>
+
+<section class="slide" id="resources">
+<h2>Resources</h2>
+<ul>
+<li><a href="http://codeception.com" title="Codeception - BDD-style PHP testing.">codeception.com</a></li>
+<li><a href="https://github.com/codeception/" title="Codeception PHP Testing Framework">github.com/codeception</a></li>
+<li><a href="http://phptest.club/category/codeception" title="Latest Codeception Topics - PHP Test Club">phptest.club/category/codeception</a></li>
+<li><a href="irc://irc.freenode.net/#codeception">#codeception on Freenode</a></li>
+<li><a href="http://twitter.com/codeception">@codeception on Twitter</a></li>
+<li><a href="http://twitter.com/davert">@davert on Twitter</a></li>
+<li><a href="http://www.slideshare.net/svpernova09/acceptance-functional-testing-with-codeception-devspace-2015" title="Acceptance & Functional Testing with Codeception - Devspace 2015">Acceptance & Functional Testing with Codeception</a> by <a href="https://twitter.com/joepferguson" title="Joe P Ferguson (@JoePFerguson) | Twitter">Joe Ferguson</a></li>
+<li>&quot;Codeception: Testing for Human Beings&quot; by Michael &quot;Davert&quot; Bodnarchuk in <a href="https://www.phparch.com/magazine/2015-2/may/" title="php[architect] — May 2015 &laquo; php[architect] &#8211; Magazine, Training, Books, Conferences">php[architect] May 2015 issue</a></li>
+</ul>
+</section>
+
+<section class="slide" id="where-to-find-me">
+<h2>Where to Find Me</h2>
+<ul>
+<li><a href="mailto:me@matthewturland.com" title="Matthew Turland">me@matthewturland.com</a></li>
+<li><a href="http://wheniwork.com" title="When I Work">wheniwork.com</a></li>
+<li><a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a> on Twitter</li>
+<li><a href="http://github.com/elazar" title="elazar (Matthew Turland) - GitHub">elazar</a> on GitHub</li>
+<li><a href="irc://irc.freenode.net/Elazar" title="Elazar on Freenode">Elazar</a> on Freenode</li>
+</ul>
+<p class="center"><img src="img/me.jpg" alt="Me with my cat Igor" /></p>
+</section>
+
+<section class="slide" id="feedback">
+<h2>Feedback</h2>
+<p class="center">Please rate my talk!</p>
+<p class="center"><a href="https://joind.in/15533" title="Talk: The OOP in PHP - Joind.in">https://joind.in/15533</a></p>
+<p class="center">Also, check out the <a href="http://joind.in/help" title="Joind.in">joind.in mobile apps</a>!</p>
+</section>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+<script src="js/extensions/deck.menu.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+<script src="js/prism.js"></script>
+
+<!-- Activate deck.js and SyntaxHighlighter -->
+<script type="text/javascript">
+$(function() { $.deck('.slide'); });
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

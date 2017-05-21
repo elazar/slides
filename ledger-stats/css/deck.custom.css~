@@ -1,0 +1,6 @@
+.deck-container code { font-weight: bold; }
+#title-slide h1 { top: 40%; font-size: 3.75em; }
+#title-slide h2 { color: #aaaaaa; border: 0; position: absolute; top: 70%; text-align: center; }
+.slide { font-size: 120% !important; }
+.slide dt { font-weight: bold; margin-top: 1em; }
+.slide dd { margin-left: 2em; }

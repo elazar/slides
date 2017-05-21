@@ -1,0 +1,1555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Building RESTful Web Services with Jersey</title>
+<!-- metadata -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="20110309" />
+<meta name="author" content="Matthew Turland" />
+<meta name="company" content="Synacor, Inc." />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/synacor/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/synacor/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/synacor/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/synacor/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- S5 JS -->
+<script src="ui/synacor/slides.js" type="text/javascript"></script>
+<!-- Other JS -->
+<link rel="stylesheet" href="js/sh/shCoreDefault.css" type="text/css" media="screen" />
+<script src="js/sh/shCore.js" type="text/javascript"></script>
+<script src="js/sh/shBrushJava.js" type="text/javascript"></script>
+<script src="js/sh/shBrushJScript.js" type="text/javascript"></script>
+<script src="js/sh/shBrushBash.js" type="text/javascript"></script>
+<script src="js/sh/shBrushXml.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>Confoo - 03/09/2011</h1>
+<h2>Building RESTful Web Services with Jersey</h2>
+</div>
+
+</div>
+
+<div class="presentation">
+
+<div class="slide">
+<h1>Building RESTful Web Services with Jersey</h1>
+<h3>Matthew Turland</h3>
+<h4>Senior Engineer - Synacor, Inc.</h4>
+</div>
+
+<div class="slide">
+<h1>Who I Am</h1>
+<ul>
+<li>Native of Louisiana</li>
+<li>Author of <a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP « php|architect – The site for PHP professionals">php|architect's Guide to Web Scraping with PHP</a></li>
+<li>Past contributor to the <a href="http://framework.zend.com/" title="Zend Framework">Zend Framework</a> project</li>
+<li>Developer of the <a href="market://search?q=pname:us.la.lft.traffic" title="Lafayette Traffic">Lafayette Traffic</a> Android app</li>
+<li>Feel free to sit with me at lunch to learn more</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Who I Work For</h1>
+<p><img src="images/syn_logo.gif" alt="Synacor Logo" /></p>
+<p><img src="images/synacor.jpg" alt="Synacor Headquarters - Buffalo, NY" class="right" /></p>
+<ul>
+<li>Internet solutions for ISPs, media companies, and advertisers</li>
+<li>Offices in Buffalo and New York City</li>
+<li>Clientele includes most of the top 20 USA cable providers</li>
+<li>Great company to work for - <a href="http://www.synacor.com/jobs/" title="Synacor - Careers">join us</a>!</li>
+</ul>
+<p><a href="http://www.synacor.com" title="Synacor">http://www.synacor.com</a></p>
+</div>
+
+<div class="slide">
+<h1>The Topic of the Hour</h1>
+<p><strong>Jersey!</strong></p>
+<p><img src="images/jersey.jpg" alt="Jersey" /></p>
+<p>(Yes, the project's logo could use some work.)</p>
+<p><a href="http://java.jersey.net" title="Glassfish - Jersey">http://jersey.java.net</a></p>
+<p>Jersey is a reference implementation of JAX-RS<br />(<a href="http://jcp.org/en/jsr/detail?id=311" title="The Java Community Process(SM) Program - JSRs: Java Specification Requests - detail JSR# 311">JSR311</a>, Java API for RESTful Web Services)</p>
+</div>
+
+<div class="slide">
+<h1>What We'll Cover</h1>
+<ul>
+<li>Setting up a new Jersey project with Maven</li>
+<li>Basics of building a REST service on the Jersey framework</li>
+<li>Testing the REST service using the JUnit and Jersey testing frameworks</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Maven in a Nutshell</h1>
+<p><img src="images/maven.gif" alt="Apache Maven" /></p>
+<ul>
+<li>Command line tool</li>
+<li>Manages dependencies like a package management system</li>
+<li>Performs builds, either stand-alone or via <a href="http://ant.apache.org/" title="Apache Ant - Welcome">Ant</a> integration</li>
+<li>Runs <a href="http://junit.org/" title="Welcome to JUnit.org! | JUnit.org">JUnit</a> or <a href="http://seleniumhq.org/" title="Selenium web application testing system">Selenium</a> tests and generates reports</li>
+<li>Integrates with continuous integration systems like <a href="http://java.net/projects/hudson/" title="Hudson CI — Project Kenai">Hudson</a></li>
+</ul>
+<p><a href="http://maven.apache.org" title="Maven - Welcome to Apache Maven">http://maven.apache.org</a></p>
+</div>
+
+<div class="slide">
+<h1>A Note About Versions</h1>
+<ul>
+<li>Current version: 3.0.2</li>
+<li>Old stable version: 2.2.1 (what I'm using for this presentation)</li>
+<li>Most Linux package repositories contain one or both</li>
+<li>Common package names: <code>maven</code>, <code>maven2</code></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Generating a Starting Project</h1>
+<p>From a terminal, issue this command:</p>
+<script type="syntaxhighlighter" class="brush: bash; highlight: [2,3]"><![CDATA[
+mvn archetype:generate \
+    -DgroupId=com.mycompany.app \
+    -DartifactId=my-app \
+    -DarchetypeArtifactId=maven-archetype-quickstart \
+    -DinteractiveMode=false
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>What's Happening</h1>
+<ul>
+<li>Base packages are downloaded and installed to <code>~/.m2/repository</code> (~1m15s @ 10Mbps)</li>
+<li>Base project directory structure and files are created</li>
+</ul>
+<p><img src="images/coffee.jpg" alt="Good time to grab a cup of coffee" /></p>
+</div>
+
+<div class="slide">
+<h1>Base Project Structure</h1>
+<ul>
+<li><code>my-app</code> - project directory, name comes from <code>artifactId</code>
+    <ul>
+        <li><code>pom.xml</code> - Maven project configuration file or <acronym title="Project Object Model">POM</acronym> file</li>
+        <li><code>src</code> - <code>com/mycompany/app</code> subdirectories come from <code>groupId</code>
+            <ul>
+                <li><code>main/java/com/mycompany/app/App.java</code></li>
+                <li><code>test/java/com/mycompany/app/AppTest.java</code></li>
+            </ul>
+        </li>
+    </ul>
+</li>
+<li>Add, rename, and delete directories and files as you see fit</li>
+<li>Tip: Under the <code>com/mycompany/app</code> directory, create a <code>resources</code> subdirectory</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Entering the POM</h1>
+<div style="font-size: 0.58em;">
+<script type="syntaxhighlighter" class="brush: xml; highlight: [7,8,11]"><![CDATA[
+<!-- my-app/pom.xml -->
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLScheme-instance"
+    xmi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.mycompany.app</groupId>
+    <artifactId>my-app</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>my-app</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Adding Jersey</h1>
+<div style="font-size: 0.55em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!-- my-app/pom.xml -->
+<project>
+    <!-- ... -->
+    <dependencies>
+        <!-- ... -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-server</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.grizzly</groupId>
+            <artifactId>grizzly-servlet-webserver</artifactId>
+            <version>1.9.18-m</version>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+    </repositories>
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Changing Target Java Version</h1>
+<ul>
+<li>By default, Maven attempts to build for compatibility with JDK 1.3</li>
+<li>Using Jersey requires annotations, which aren't supported until JDK 1.5</li>
+<li>Maven must be instructed to target a different JDK version via the POM file</li>
+</ul>
+<div style="font-size: 0.55em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!-- my-app/pom.xml -->
+<project>
+    <!-- ... -->
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Setting Main Class</h1>
+<div style="font-size: 0.45em;">
+<script type="syntaxhighlighter" class="brush: xml; highlight: [5,13,23]"><![CDATA[
+<!-- my-app/pom.xml -->
+<project>
+    <!-- ... -->
+    <properties>
+        <project.mainClass>com.mycompany.app.Main</project.mainClass>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>${project.mainClass}</mainClass>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>${project.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Main Class</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app;
+import com.sun.grizzly.http.SelectorThread;
+import com.sun.jersey.api.container.grizzly.GrizzlyWebContainerFactory;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // Port can be pulled from an environmental variable
+        // Ex: System.getenv("SERVICE_PORT")
+        final String baseUri = "http://localhost:9998";
+        final Map<String, String> initParams = new HashMap<String, String>();
+        // Classes under resources and its subpackages will be included when routing requests
+        initParams.put("com.sun.jersey.property.packages", "com.mycompany.app.resources");
+        SelectorThread threadSelector = GrizzlyWebContainerFactory.create(baseUri, initParams);
+        System.in.read();
+        threadSelector.stopEndpoint();
+        System.exit(0);
+    }
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Alternative Deployment Methods</h1>
+<ul>
+    <li><a href="http://jersey.java.net/documentation/latest/user-guide.html#d4e60" title="Jersey 1.5 User Guide - Java.net">This example</a> uses a Grizzly web container and scans given packages for resources to include</li>
+    <li>Jersey services can also be <a href="http://jersey.java.net/documentation/latest/user-guide.html#d4e194" title="Jersey 1.5 User Guide - Java.net">deployed</a> to Servlet 2.x and 3.x containers, such as <a href="http://jersey.java.net/documentation/latest/user-guide.html#d4e1682" title="Jersey 1.5 User Guide - Java.net">one that Jersey provides</a>, <a href="http://tomcat.apache.org/" title="Apache Tomcat - Welcome!">Apache Tomcat</a>, <a href="http://jetty.codehaus.org/jetty/" title="jetty - Jetty WebServer">Jetty</a>, etc.</li>
+    <li>Resource classes can be <a href="http://jersey.java.net/documentation/latest/user-guide.html#d4e194" title="Jersey 1.5 User Guide - Java.net">added explicitly</a> to a static set in an <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Application.html" title="Application (jsr311-api 1.1 API)">Application</a> subclass rather than having packages scanned</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Application Example</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app;
+import javax.ws.rs.core.Application;
+public class MyApplication extends Application {
+	public Set<Class<?>> getClasses() {
+		Set<Class<?>> s = new HashSet<Class<?>>();
+		s.add(FooResource.class);
+		// ...
+		return s;
+	}
+}
+
+package com.mycompany.app;
+import com.sun.grizzly.http.SelectorThread;
+import javax.ws.rs.ext.RuntimeDelegate;
+public class Main {
+	public static void main(String[] args) {
+		// ...
+		SelectorThread st = RuntimeDelegate.createEndpoint(new MyApplication(), SelectorThread.class);
+		// ...
+	}
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Running the Project</h1>
+<ul>
+<li><code>mvn package exec:java</code></li>
+<li>Another dependency download (~1m50s @ 10Mbps)</li>
+</ul>
+<p><img src="images/coffee.jpg" alt="Another good time to grab a cup of coffee" /></p>
+</div>
+
+<div class="slide">
+<h1>Trying Out the Project</h1>
+<ul>
+<li>Once the service is running, switch to a different shell session on the same machine</li>
+<li>Enter <code>curl -v http://localhost:9998</code> substituting your port as appropriate</li>
+<li>The server process will produce this somewhere in the console output:<br />
+<code>SEVERE: The ResourceConfig instance does not contain any root resource classes.</code></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Creating a Resource Class</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.resources;
+import javax.ws.rs.Path;
+// ...
+@Path("/users") // Base path for all resource methods in this class
+public class UsersResource { // No base resource class (unless you create one)
+// ...
+}
+]]></script>
+</div>
+<div class="handout">
+Leading <code>/</code> isn't necessary for <code>@Path</code> annotations and will cause
+subresource console errors
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing a Resource Method</h1>
+<div style="font-size: 0.6em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import com.mycompany.app.models.UserModel;
+import javax.ws.rs.GET;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+@Path("/users")
+public class UsersResource {
+// ...
+    @GET
+    // @Path annotation is inherited from the class if unspecified
+    @Produces("text/plain")
+    public Response getUserListAsPlainText() {
+        UserModel userModel = new UserModel();
+        ArrayList<String> userList = userModel.getUsernameList();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String username : userList) {
+            if (stringBuilder.length() > 0) {
+                stringBuilder.append("\n");
+            }
+            stringBuilder.append(username);
+        }
+        return Response.ok(stringBuilder.toString()).build();
+    }
+// ...
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Trying Out Resource Method</h1>
+<div style="font-size: 0.6em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+# One session
+mvn package exec:java
+
+# Another session
+curl -v http://localhost:9998/users
+
+# Output
+# > GET /users HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < Content-Type: text/plain
+# < Transfer-Encoding: chunked
+# < Date: Sun, 27 Feb 2011 19:43:49 GMT
+# <
+# foo
+# bar
+# baz
+# ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Supporting Multiple HTTP Methods</h1>
+<div style="font-size: 0.53em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// ...
+@Path("/users")
+public class UsersResource {
+// ...
+    @GET
+    public Response getUserList() {
+        // ...
+    }
+    @HEAD
+    public Response headUserList() {
+        // ...
+    }
+    @POST
+    public Response postUser() {
+        // ...
+    }
+    @PUT @Path("/{user_id: [0-9]+}")
+    public Response putUser(@PathParam("user_id") String userId) {
+        // ...
+    }
+    @DELETE @Path("/{user_id: [0-9]+}")
+    public Response deleteUser(@PathParam("user_id") String userId) {
+        // ...
+    }
+// ...
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Parameterized Paths</h1>
+<ul>
+<li>Any path segment between curly braces is considered a variable</li>
+<li>A variable name can optionally be followed by a colon and a regular expression (as supported by <a href="http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html" title="Pattern (Java Platform SE 6)">Pattern</a>) to validate that path segment</li>
+<li>Variable values are exposed to resource methods by using the <code>@PathParam</code> annotation in its parameter list</li>
+</ul>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.PathParam;
+// ...
+	@GET @Path("/{user_id: [0-9]+}")
+	public Response getUser(@PathParam("user_id") String userId) {
+		// ...
+	}
+// ...
+]]></script>
+</div>
+
+<div class="slide">
+<h1>Individual Query String Parameters</h1>
+<div style="font-size: 0.9em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.QueryParam;
+// ...
+    @GET @Produces("text/plain")
+    public Response getUserListAsPlainText(
+        @QueryParam("sort") @DefaultValue("username") String sort,
+        @QueryParam("dir") @DefaultValue("ASC") String dir,
+        @QueryParam("page") @DefaultValue(1) int page,
+        @QueryParam("filter") String filter
+    ) {
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Path and Query String Parameters as Collections</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriInfo;
+// ...
+    @GET @Produces("text/plain")
+    public Response getUserListAsPlainText(@Context UriInfo uriInfo) {
+        MultivaluedMap<String, String> queryParams = uriInfo.getQueryParameters();
+        MultivaluedMap<String, String> pathParams = uriInfo.getPathParameters();
+        String sort = queryParams.getFirst("sort");
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Individual Form Parameters</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+// ...
+    @POST @Consumes("application/x-www-form-urlencoded")
+    public Response postUser(@FormParam("username") String username) {
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Form Parameters as a Collection</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.Consumes;
+import javax.ws.rs.core.MultivaluedMap;
+// ...
+    @POST @Consumes("application/x-www-form-urlencoded")
+    public Response postUser(MultivaluedMap<String, String> formParams) {
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Individual Request Headers</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.HeaderParam;
+// ...
+    @GET @Produces("text/plain")
+    public Response getUserListAsPlainText(@HeaderParam("X-Header") String header) {
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Request Headers as a Collection</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+// ...
+    @GET @Produces("text/plain")
+    public Response getUserListAsPlainText(@Context HttpHeaders httpHeaders) {
+        MultivaluedMap<String, String> headerParams = httpHeaders.getRequestHeaders();
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Cookies</h1>
+<blockquote><p>&quot;... communication must be stateless in nature ... such that each request from client to server must contain all of the information necessary to understand the request, and cannot take advantage of any stored context on the server.&quot;</p></blockquote>
+<p>Fielding, Roy Thomas (2000). <cite>Architectural Styles and the Design of Network-based Software Architectures</cite>, Section 5.1.3. (Ph.D. thesis). University of California, Irvine.</p>
+<p>Translation: <strong>Do not</strong> use cookies in a REST web service. <strong>Ever</strong>.</p>
+</div>
+
+<div class="slide">
+<h1>Simple Responses</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// void return type results in a 204 No Content response
+@DELETE @Path("/{user_id}")
+public void deleteUser(@PathParam("user_id") String userId) {
+    // ...
+}
+// String return type results in a 200 OK response where the
+// returned string is used as the response body
+@GET @Produces("text/plain")
+public String getUserList() {
+    // ...
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>More Complex Responses</h1>
+<ul>
+<li><a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.html" title="Response (jsr311-api 1.1 API)">Response</a> provides methods such as <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.html#ok()" title="Response (jsr311-api 1.1 API)">ok()</a> and <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.html#created(java.net.URI)" title="Response (jsr311-api 1.1 API)">created()</a> to create a <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.ResponseBuilder.html" title="Response.ResponseBuilder (jsr311-api 1.1 API)">ResponseBuilder</a> instance initialized with a specific response status</li>
+<li>Most methods of ResponseBuilder implement a fluent interface so calls to them can be chained
+    <ul>
+        <li>methods like <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.ResponseBuilder.html#lastModified(java.util.Date)" title="Response.ResponseBuilder (jsr311-api 1.1 API)">lastModified()</a> and <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.ResponseBuilder.html#location(java.net.URI)" title="Response.ResponseBuilder (jsr311-api 1.1 API)">location()</a> allow various headers to be set</li>
+        <li><a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.ResponseBuilder.html#entity(java.lang.Object)" title="Response.ResponseBuilder (jsr311-api 1.1 API)">entity()</a> allows the response body to be set</li>
+    </ul>
+</li>
+<li>Finally, ResponseBuilder provides a <a href="http://jsr311.java.net/nonav/releases/1.1/javax/ws/rs/core/Response.ResponseBuilder.html#build()" title="Response.ResponseBuilder (jsr311-api 1.1 API)">build()</a> method to return a configured Response instance</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Implementing a Resource List</h1>
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@GET
+@Produces("text/plain")
+public Response getUserListAsPlainText() {
+     // ...
+     // String responseBody = ...
+     return Response.ok(responseBody).build();
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>Checking Responses</h1>
+<ul>
+<li>From <a href="http://en.wikipedia.org/wiki/CURL" title="cURL - Wikipedia, the free encyclopedia">Wikipedia</a>: &quot;cURL is a computer software project providing a library and command-line tool for transferring data using various protocols.&quot;</li>
+<li>HTTP is supported, making the curl CLI tool great for testing resources as you develop them</li>
+<li>Usage: <code>curl [options] &quot;[url including query string]&quot;</code>
+    <ul>
+        <li><code>-v</code>: output request/response headers + response body</li>
+        <li><code>--trace</code> and <code>--trace-ascii</code>: output all request/response data</li>
+        <li><code>-X [method]</code>: change request method to <code>[method]</code> (defaults to <code>GET</code>)</li>
+        <li><code>-d [variable=value]</code>: add <code>variable</code> to request body with value of <code>value</code>, may be used more than once</li>
+        <li>For more options, check the <a href="http://curl.haxx.se/docs/manpage.html" title="cURL - How To Use">man page</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Retrieving a Resource List</h1>
+<div style="font-size: 0.6em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v http://localhost:9998/users
+
+# Output
+# > GET /users HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < Content-Type: text/plain
+# < Transfer-Encoding: chunked
+# < Date: Sun, 27 Feb 2011 19:43:49 GMT
+# <
+# foo
+# bar
+# baz
+# ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Resource Creation</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import java.net.URI;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+// ...
+    @POST @Consumes("application/x-www-form-urlencoded")
+    public Response createUser(@Context UriInfo uriInfo) {
+        // Create a new user record
+        // String userId = ...
+        UriBuilder = uriInfo.getAbsolutePathBuilder();
+        URI userUri = uriBuilder.path(userId).build();
+        return Response.created(userUri).build();
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Creating a Resource</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -d username=foo http://localhost:9998/users
+
+# Output
+# > POST /users HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# > Content-Length: 12
+# > Content-Type: application/x-www-form-urlencoded
+# >
+# < HTTP/1.1 201 Created
+# < server: grizzly/1.9.18
+# < Location: http://localhost:9998/users/1
+# < Content-Type: text/plain; charset=iso-8859-1
+# < Content-Length: 0
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Resource Retrieval</h1>
+<div style="font-size: 0.88em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@GET
+@Path("/{user_id}")
+@Produces("text/plain")
+public Response getUser(@PathParam("user_id") String userId) {
+    // ...
+    // boolean userFound = ...
+    if (!userFound) {
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+    // String responseBody = ...
+    return Response.ok(responseBody).build();
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Retrieving a Resource</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v http://localhost:9998/users/1
+
+# Output
+# > GET /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < Content-Type: text/plain
+# < Transfer-Encoding: chunked
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+# < foo
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Resource Metadata Retrieval</h1>
+<div style="font-size: 0.88em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@HEAD
+@Path("/{user_id}")
+public Response headUser(@PathParam("user_id") String userId) {
+    // ...
+    // boolean userFound = ...
+    if (!userFound) {
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+    return Response.ok().build();
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Retrieving Resource Metadata</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -X HEAD http://localhost:9998/users/1
+
+# Output
+# > HEAD /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < Content-Type: text/plain
+# < Content-Length: 0
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Resource Updating</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@PUT
+@Path("/{user_id}")
+@Consumes("application/x-www-form-urlencoded")
+public Response updateUser(
+    @PathParam("user_id") String userId,
+    @FormParam("username") String username
+) {
+    // ...
+    return Response.noContent().build();
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Updating a Resource</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -X PUT -d username=bar http://localhost:9998/users/1
+
+# Output
+# > PUT /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# > Content-Length: 12
+# > Content-Type: application/x-www-form-urlencoded
+# >
+# < HTTP/1.1 204 No Content
+# < server: grizzly/1.9.18
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Resource Deletion</h1>
+<div style="font-size: 0.88em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@DELETE @Path("/{user_id}")
+public Response deleteUser(@PathParam("user_id") String userId) {
+    // ...
+    return Response.status(Response.Status.ACCEPTED).build();
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Deleting a Resource</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -X DELETE http://localhost:9998/users/1
+
+# Output
+# > DELETE /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 202 Accepted
+# < server: grizzly/1.9.18
+# < Content-Type: text/plain; charset=iso-8859-1
+# < Content-Length: 0
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Supporting Multiple Representations</h1>
+<ul>
+<li>Clients can request a specific representation of a resource using <a href="http://en.wikipedia.org/wiki/Content_negotiation" title="Content negotiation - Wikipedia, the free encyclopedia">content negotiation</a> via the <code>Accept</code> header</li>
+<li>Jersey looks for the <em>most specific</em> resource method that matches the request and sets the <code>Content-Type</code> header appropriately if it finds one or returns a proper error response otherwise</li>
+</ul>
+<div style="font-size: 0.6em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+@GET // Lack of a @Produces annotation is equivalent to @Produces("*/*")
+public Response getUserListDefault() {
+    // ...
+}
+@GET @Produces("text/plain")
+public Response getUserListAsPlainText() {
+    // ...
+}
+@GET @Produces({"application/xml", "application/json"})
+public Response getUserListAsXmlOrJson() {
+    // ...
+}
+]]></script>
+</div>
+<div class="handout">
+Examples of responses:
+<ul>
+<li><code>501 Not Implemented</code> - unrecognized HTTP method</li>
+<li><code>404 Not Found</code> - no matching <code>@Path</code></li>
+<li><code>405 Method Not Allowed</code> - matching <code>@Path</code>, but no matching HTTP method annotation</li>
+<li><code>406 Not Acceptable</code> - matching <code>@Path</code> and HTTP method annotation, no matching <code>@Produces</code></li>
+<li><code>300 Multiple Choices</code> - matching <code>@Path</code> and HTTP method annotation, multiple matching <code>@Produces</code></li>
+</ul>
+</div>
+</div>
+
+<div class="slide">
+<h1>Setting Default Representations</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// Equivalent to including the same above each method in this class
+@Produces({"application/xml", "application/json"})
+public class SomeResource {
+    // ...
+}
+]]></script>
+</div>
+<p>Tip: To support the same types for all resources in an API ...</p>
+<ul>
+    <li>implement an abstract base resource class</li>
+    <li>specify a <code>@Produces</code> annotation at its class level</li>
+    <li>make all other resource classes extend that base class</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Implementing XML Representations</h1>
+<ul>
+    <li>Resource methods can accept parameters (request bodies) and return (response bodies) of these types:
+        <ul>
+            <li><a href="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/stream/StreamSource.html" title="StreamSource (Java Platform SE 6)">javax.xml.transform.stream.StreamSource</a></li>
+            <li><a href="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/sax/SAXSource.html" title="SAXSource (Java Platform SE 6)">javax.xml.transform.sax.SAXSource</a></li>
+            <li><a href="http://download.oracle.com/javase/6/docs/api/javax/xml/transform/dom/DOMSource.html" title="DOMSource (Java Platform SE 6)">javax.xml.transform.dom.DOMSource</a></li>
+            <li><a href="http://download.oracle.com/javase/6/docs/api/org/w3c/dom/Document.html" title="Document (Java Platform SE 6)">org.w3c.dom.Document</a></li>
+        </ul>
+    </li>
+<li>Custom types can be defined using <a href="http://jaxb.java.net/tutorial/" title="JAXB Tutorial — Java.net">JAXB</a> and used the same way as above</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>XML with JAXB - Data Structure</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.data;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement(name="user") // name is derived from the class name if unspecified
+public class User {          // root element
+    public int id;           // child elements
+    public String username;
+    public User() { }        // JAXB needs this
+}
+]]></script>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<user>
+    <id>1</id>
+    <username>foo</username>
+</user>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>XML with JAXB - Implementation</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.resources;
+import javax.ws.rs.core.MediaType;
+// ...
+public class UsersResource {
+    @GET @Path("/{user_id}") @Produces(MediaType.APPLICATION_XML)
+    public User getUser(@PathParam("user_id") String userId) {
+        User user = new User();
+        // populate user
+        return user;
+    }
+    @PUT @Path("/{user_id}") @Produces(MediaType.APPLICATION_XML)
+    public void putUser(User user) {
+        // ...
+    }
+    // ...
+}
+]]></script>
+</div>
+<div class="handout">
+This approach requires more code, but allows the data structure to be kept
+separate from code that allows it to be converted to and from XML.
+</div>
+</div>
+
+<div class="slide">
+<h1>XML with POJOs using JAXB</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.resources;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+// ...
+public class UsersResource {
+   @GET @Path("/{user_id}") @Produces(MediaType.APPLICATION_XML)
+    public JAXBElement<User> getUser(@PathParam("user_id") String userId) {
+        User user = new User();
+        // populate user
+        return new JAXBElement<User>(new QName("user"), User.class, user);
+                                             // ^ root element
+    }
+    @PUT @Path("/{user_id}") @Produces(MediaType.APPLICATION_XML)
+    public void putUser(JAXBElement<User> userElement) {
+        User user = userElement.getValue();
+        // ...
+    }
+    // ...
+}
+]]></script>
+</div>
+<div class="handout">
+The User class in this example is the same, but does not use the
+@XmlRootElement annotation.
+</div>
+</div>
+
+<div class="slide">
+<h1>Adding JSON Support</h1>
+<div style="font-size: 0.6em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!-- my-app/pom.xml -->
+<project>
+    <!-- ... -->
+    <dependencies>
+        <!-- ... -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.5</version>
+        </dependency>
+    </dependencies>
+    <repositories>
+        <!-- ... -->
+        <repository>
+            <id>maven2-repository.maven.org</id>
+            <name>Apache.org Repository for Maven</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+    <!-- ... -->
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>JSON with JAXB - Data</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.data;
+import javax.xml.bind.annotation.XmlRootElement;
+@XmlRootElement
+public class User {
+    public int id;
+    public String username;
+    public User() { }
+}
+]]></script>
+<script type="syntaxhighlighter" class="brush: javascript"><![CDATA[
+{"id":1,"username":"foo"}
+]]></script>
+</div>
+<div class="handout">
+This data structure class is identical to the one in the previous XML
+example aside from the specification of a root element name in the
+@XmlRootElement annotation. While it can be specified, it's not needed.
+</div>
+</div>
+
+<div class="slide">
+<h1>JSON with JAXB - Usage</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.mycompany.app.resources;
+import javax.ws.rs.core.MediaType;
+// ...
+public class UsersResource {
+    @GET @Path("/{user_id}") @Produces(MediaType.APPLICATION_JSON)
+    public User getUser(@PathParam("user_id") String userId) {
+        User user = new User();
+        // populate user
+        return user;
+    }
+    @PUT @Path("/{user_id}") @Produces(MediaType.APPLICATION_JSON)
+    public void putUser(User user) {
+        // ...
+    }
+    // ...
+}
+]]></script>
+</div>
+<div class="handout">
+This approach requires more code, but allows the data structure to be kept
+separate from code that allows it to be converted to and from XML.
+</div>
+</div>
+
+<div class="slide">
+<h1>Low-Level JSON Support</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import com.mycompany.app.models.UserModel;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+// import org.codehaus.jettison.json.JSONArray;
+// ...
+    @GET @Path("/{user_id}") @Produces("application/json")
+    public JSONObject getUser(@PathParam("user_id") String userId) {
+        UserModel userModel = new UserModel();
+        User user = userModel.getUser(userId);
+        JSONObject response = new JSONObject();
+        response.put("id", user.id);
+        response.put("username", user.username);
+        return response;
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Caching</h1>
+<ul>
+<li>Server returns either a <code>Last-Modified</code> or <code>ETag</code> header in its response when a client requests a resource</li>
+<li>Client sends that header value in a <code>If-Modified-Since</code> or <code>If-None-Match</code> header of a subsequent request for the same resource</li>
+<li>If the resource has not changed, a <code>304 Not Modified</code> response is returned with no body</li>
+<li>If the response has changed, a <code>200 OK</code> response is returned with the new header value and body for the updated resource</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Implementing Caching with Dates</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import java.util.Date;
+import javax.ws.rs.core.Request;
+// ...
+    @GET @Path("/{user_id}")
+    public Response getUser(
+        @PathParam("user_id") String userId,
+        @Context Request request
+    ) {
+        // Date lastModified = ...
+        Response.ResponseBuiler responseBuilder = request.evaluatePreconditions(lastModified);
+        if (responseBuilder != null) {
+            return responseBuilder.build();
+        }
+        // String body = ...
+        return Response.ok(body).lastModified(lastModified).build();
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Caching with Dates - Miss</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v http://localhost:9998/users/1
+
+# Output
+# > GET /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < Last-Modified: Wed, 02 Mar 2011 04:10:11 GMT
+# < Content-Type: text/plain
+# < Transfer-Encoding: chunked
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+# < foo
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Caching with Dates - Hit</h1>
+<div style="font-size: 0.67em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -H 'If-Modified-Since: Wed, 02 Mar 2011 04:10:11 GMT' http://localhost:9998/users/1
+
+# Output
+# > GET /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# > If-Modified-Since: Wed, 02 Mar 2011 04:10:11 GMT
+# >
+# < HTTP/1.1 304 Not Modified
+# < server: grizzly/1.9.18
+# < Date: Wed, 03 Mar 2011 18:16:55 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Implementing Caching with ETags</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.Request;
+// ...
+    @GET @Path("/{user_id}")
+    public Response getUser(
+        @PathParam("user_id") String userId,
+        @Context Request request
+    ) {
+        // EntityTag tag = new EntityTag("[hash for this version of this user]");
+        Response.ResponseBuiler responseBuilder = request.evaluatePreconditions(tag);
+        if (responseBuilder != null) {
+            return responseBuilder.build();
+        }
+        // String body = ...
+        return Response.ok(body).tag(tag).build();
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Caching with ETags - Miss</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v http://localhost:9998/users/1
+
+# Output
+# > GET /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# >
+# < HTTP/1.1 200 OK
+# < server: grizzly/1.9.18
+# < ETag: "1-foo"
+# < Content-Type: text/plain
+# < Transfer-Encoding: chunked
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+# < foo
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Caching with ETags - Hit</h1>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+curl -v -H 'If-None-Match: "1-foo"' http://localhost:9998/users/1
+
+# Output
+# > GET /users/1 HTTP/1.1
+# > User-Agent: curl/7.21.0 ...
+# > Host: localhost:9998
+# > Accept: */*
+# > If-None-Match: "1-foo"
+# >
+# < HTTP/1.1 304 Not Modified
+# < server: grizzly/1.9.18
+# > ETag: "1-foo"
+# < Date: Wed, 02 Mar 2011 04:10:11 GMT
+# <
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Authentication</h1>
+<ul>
+<li>For servlet implementations, most stacks roll their own method of handling this</li>
+<li>Jersey server provides no native mechanism</li>
+<li>For Basic HTTP authentication, credentials can be parsed from the request manually</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Authentication Example</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import com.sun.jersey.core.util.Base64;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+// ...
+    @Context HttpHeaders headers;
+	// ...
+	protected boolean authenticate() {
+		String header = headers.getRequestHeader("authorization").get(0);
+		header = header.substring("Basic ".length());
+		String[] creds = new String(Base64.base64Decode(header)).split(":");
+		String username = creds[0];
+		String password = creds[1];
+		// ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Adding Testing Framework</h1>
+<div style="font-size: 0.9em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!-- my-app/pom.xml -->
+<project>
+    <!-- ... -->
+    <dependencies>
+        <!-- ... -->
+        <dependency>
+            <groupId>com.sun.jersey.jersey-test-framework</groupId>
+            <artifactId>jersey-test-framework-external</artifactId>
+            <version>1.5</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Adding a Resource test</h1>
+<div style="font-size: 0.75em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// my-app/src/test/java/com/mycompany/app/tests/resources/UserResourceTest.java
+package com.mycompany.app.tests.resources;
+import com.sun.jersey.test.framework.JerseyTest;
+import org.junit.Test;
+public class UserResourceTest extends JerseyTest {
+     // ...
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Simulating GET Requests</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// ...
+import com.sun.jersey.api.client.ClientResponse;
+// ...
+    @Test public void testGetUser() {
+        String response = resource().path("/users/1").get(String.class);
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Simulating POST Requests</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// ...
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import javax.ws.rs.core.MultivaluedMap;
+    @Test public void testPostUser() {
+        MultivaluedMap<String, String> post = new MultivaluedMapImpl();
+        MultivaluedMap<String, String> headers;
+        String location;
+        post.putSingle("username", "bar");
+        ClientResponse response = resource().path("/users").post(ClientResponse.class, post);
+        assertEquals(201, response.getStatus());
+        headers = response.getHeaders();
+        location = headers.getFirst("Location");
+        assertEquals("/users/1", location);
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Simulating PUT Requests</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// ...
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import javax.ws.rs.core.MultivaluedMap;
+    @Test public void testPutUser() {
+        MultivaluedMap<String, String> put = new MultivaluedMapImpl();
+        post.putSingle("username", "baz");
+        ClientResponse response = resource().path("/users").put(ClientResponse.class, put);
+        assertEquals(204, response.getStatus());
+        // ...
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Simulating DELETE Requests</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// ...
+import javax.ws.rs.core.MultivaluedMap;
+    @Test public void testDeleteUser() {
+        ClientResponse response = resource().path("/users/1").delete(ClientResponse.class);
+        assertEquals(204, response.getStatus());
+        // ...
+    }
+// ...
+]]></script>
+</div>
+<div class="handout">
+If including a body in a DELETE request, this error will be displayed:
+com.sun.jersey.api.client.ClientHandlerException: java.net.ProtocolException: HTTP method DELETE doesn't support output
+See http://jersey.java.net/nonav/apidocs/latest/contribs/jersey-apache-client/com/sun/jersey/client/apache/ApacheHttpClient.html
+Client client = ApacheHttpClient.create();
+</div>
+</div>
+
+<div class="slide">
+<h1>Parsing JSON Responses</h1>
+<div style="font-size: 0.65em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+import java.io.IOException;
+import java.util.HashMap;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+// ...
+    private HashMap<String, Object> parseJsonResponse(String jsonString)
+        throws JsonParseException, JsonMappingException, IOException {
+        JsonFactory factory = new JsonFactory();
+        ObjectMapper oMapper = new ObjectMapper(factory);
+        TypeReference<HashMap<String,Object>> typeRef =
+            new TypeReference<HashMap<String,Object>>() {};
+        return oMapper.readValue(jsonString, typeRef);
+    }
+// ...
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>Running Tests</h1>
+<script type="syntaxhighlighter" class="brush: bash"><![CDATA[
+# From the project directory containing pom.xml
+mvn [-e] test [-Dtest=TestClass]
+]]></script>
+</div>
+
+<div class="slide">
+<h1>API Metadata</h1>
+<ul>
+    <li>&quot;<a href="http://en.wikipedia.org/wiki/Web_Application_Description_Language" title="Web Application Description Language - Wikipedia, the free encyclopedia">Web Application Description Language</a> or <acronym title="Web Application Description Language">WADL</acronym> is an XML format that provides a machine-readable description of HTTP-based web applications... typically REST web services.&quot;</li>
+    <li>WADL is a W3C Member Submission, but the W3C currently has no plans to take up work on it</li>
+    <li>Primary alternative to WADL is WSDL 2.0, where WSDL 1.x was commonly used with RPC services (SOAP in particular) and 2.0 adds support for REST services</li>
+    <li>Accessing <code>http://host:port/application.wadl</code> will return an XML document describing available URLs, methods, media types, and parameters</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>REST Resources</h1>
+<ul>
+<li><a href="http://tomayko.com/writings/rest-to-my-wife" title="How I Explained REST to My Wife">How I Explained REST to My Wife</a></li>
+<li><a href="http://www.slideshare.net/Wombert/designing-http-interfaces-and-restful-web-services-phpbnl11-20110128" title="Designing HTTP Interfaces and RESTful Web Services (PHPBNL11 2011-01-28)">Designing HTTP Interfaces and RESTful Web Services</a></li>
+<li><a href="http://www.slideshare.net/lars3loff/rest-and-ajax-reconciled" title="REST and AJAX Reconciled">REST and AJAX Reconciled</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Representational_State_Transfer" title="Representational State Transfer - Wikipedia, the free encyclopedia">REST on Wikipedia</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>This Slide Deck</h1>
+<p>Slides will be available after the conference at <a href="http://matthewturland.com/slides/jersey" title="Building RESTful Web Services with Jersey">http://matthewturland.com/slides/jersey</a></p>
+<p>Or just go to the <a href="http://matthewturland.com/publications/" title="Matthew Turland - Publications">Publications</a> section of my site</p>
+</div>
+
+<div class="slide">
+<h1>Feedback</h1>
+<p>Please rate my talk!</p>
+<p><a href="http://joind.in/2820" title="Talk: Building RESTful Web Services with Jersey - Joind.in">http://joind.in/2820</a></p>
+<p><img src="images/qrcode.gif" alt="QR Code" /></p>
+</div>
+
+<div class="slide">
+<h1>That's All, Folks</h1>
+<ul>
+<li>Questions? Comments? Concerns?</li>
+<li><a href="http://synacor.com" title="Synacor, Inc.">http://synacor.com</a></li>
+<li><a href="http://matthewturland.com" title="Matthew Turland">http://matthewturland.com</a></li>
+<li><a href="mail:me@matthewturland.com" title="E-mail Matthew Turland">me@matthewturland.com</a></li>
+<li><a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a> on Twitter</li>
+<li>Elazar on the <a href="http://freenode.net" title="About the Network">Freenode IRC network</a></li>
+</ul>
+</div>
+
+</div>
+
+<script type="text/javascript">
+SyntaxHighlighter.defaults.gutter = false;
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<title></title>
+
+	<meta name="description" content="A presentation on the basics of developing native Android applications."/>
+	<meta name="author" content="Matthew Turland"/>
+	<meta name="contact" content="me@matthewturland.com"/>
+	<meta name="viewport" content="width=1024, user-scalable=no"/>
+	
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.menu.css"/>
+	
+	<!-- Theme CSS files -->
+	<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+	<link rel="stylesheet" id="transition-theme-link" href="css/transition/horizontal-slide.css"/>
+
+	<!-- Custom CSS files -->
+	<link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
+	<link rel="stylesheet" href="css/deck.custom.css"/>
+
+	<!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+	<script src="js/sh/shCore.js"></script>
+	<script src="js/sh/shBrushJava.js"></script>
+	<script src="js/sh/shBrushXml.js"></script>
+</head>
+<body class="deck-container">
+
+<div class="slide" id="title-slide">
+<h1>An Introduction to Android Development</h1>
+<h2>Matthew Turland</h2>
+</div>
+
+<div class="slide" id="welcome">
+<h2>Welcome!</h2>
+<img src="img/borat.jpg" alt="Borat" />
+</div>
+
+<div class="slide" id="slides">
+<h2>There (Will) Be Slides</h2>
+<img src="img/website.jpg" alt="My web site at matthewturland.com" />
+<p><a href="http://matthewturland.com" title="My web site at matthewturland.com">http://matthewturland.com</a></p>
+</div>
+
+<div class="slide" id="ask-questions">
+<h2>Ask ALL THE QUESTIONS!</h2>
+<img src="img/all-the-things.jpg" alt="ALL THE THINGS!" />
+</div>
+
+<div class="slide" id="louisiana">
+<h2>Where I'm Returning</h2>
+<img src="img/louisiana.jpg" alt="Map from Buffalo, NY to Duson, LA" />
+</div>
+
+<div class="slide" id="ull">
+<h2>My Alma Mater</h2>
+<div><img src="img/ull.png" alt="University of Louisiana at Lafayette" /></div>
+<div><img src="img/ullcs.jpg" alt="Computer Science department building" /></div>
+</div>
+
+<div class="slide" id="my-experience">
+<h2>My Industry Experience</h2>
+<ul>
+<li>May 2001: I start working in the field. Gas averages $1.67/gallon.</li>
+<li>March 2012: I'm still working in the field. Gas averages $3.92/gallon.</li>
+<li>Conclusions:
+	<ul>
+		<li>I've been doing this a long time.</li>
+		<li>Gas prices suuuuuuuuuuck.</li>
+	</ul>
+</li>
+</ul>
+<p><img src="img/dunham.jpg" alt="Comedian Jeff Dunham and his ventriloquist dummy Walter" /></p>
+</div>
+
+<div class="slide" id="books">
+<h2>I Co/Wrote These</h2>
+<div style="width: 50%; float: left;">
+	<div><img src="img/web-scraping-with-php.png" alt="php|architect's Guide to Web Scraping with PHP" /></div>
+	<div><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP">http://phparch.com</a></div>
+</div>
+<div style="width: 50%; float: right;">
+	<div><img src="img/php-master.png" alt="PHP Master: Write Cutting-Edge Code" /></div>
+	<div><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">http://sitepoint.com</a></div>
+</div>
+</div>
+
+<div class="slide" id="synacor">
+<h2>I Work For These Guys</h2>
+<p><img src="img/synacor-building.jpg" alt="Synacor headquarters" /></p>
+<p><img src="img/synacor.jpg" alt="Synacor, Portal Group" /></p>
+<p><a href="http://synacor.com" title="Synacor">http://synacor.com</a></p>
+<p>And they're <strong>AWESOME</strong>!</p>
+<p>And <strong>HIRING</strong>! Interns too!</p>
+</div>
+
+<div class="slide" id="birds-eye-view">
+<h2>Bird's Eye View of Android</h2>
+<img src="img/birdseye.jpg" alt="Bird's eye view of a city" />
+</div>
+
+<div class="slide" id="lafayette-traffic">
+<h2>Lafayette Traffic</h2>
+<div style="width: 50%; float: left">
+<img src="img/lfttraffic-map.jpg" alt="Google Maps with points for accidents and cameras" />
+</div>
+<div style="width: 50%; float: right">
+<img src="img/lfttraffic-camera.jpg" alt="Traffic camera feed" />
+</div>
+<p><a href="https://play.google.com/store/apps/details?id=us.la.lft.traffic" title="Lafayette Traffic - Android Apps on Google Play<S-Del>">Free</a> and <a href="https://github.com/elazar/lfttraffic-android" title="elazar/lfttraffic-android">Open Source</a> (BSD License)</p>
+<p><a href="http://matthewturland.com/2010/11/28/lafayette-traffic-for-android-now-available/" title="Matthew Turland - Blog Archive - Lafayette Traffic for Android Now Available!">Related blog post</a></p>
+</div>
+
+<div class="slide" id="resources">
+<h2>Handy Resources</h2>
+<img src="img/bookshelf.jpg" alt="A decorative programmer's bookshelf" />
+</div>
+
+<div class="slide" id="platforms">
+<h2>Platforms</h2>
+<ul>
+<li>Android SDK using Java</li>
+<li>Android SDK using an embedded interpreter</li>
+<li>Titanium, PhoneGap, etc.</li>
+</ul>
+<img class="top" src="img/whichway.jpg" alt="Which way?" />
+</div>
+
+<div class="slide" id="sdk-java">
+<h2>Android SDK + Java</h2>
+<ul>
+<li>Pros: It's the beaten (read: supported) path </li>
+<li>Cons: It's <a href="http://www.java.com/en/" title="java.com: Java + You">Java</a> and the supported IDE is <a href="http://www.eclipse.org" title="Eclipse - The Eclipse Foundation open source community website">Eclipse</a></li>
+<li>Side note: Android uses (and in some cases extends) <a href="http://harmony.apache.org" title="Apache Harmony - Open Source Java Platform">Apache Harmony</a> for its Java class libraries</li>
+</ul>
+<p><img class="top" src="img/lifejava.jpg" alt="Life is too short for Java" /></p>
+</div>
+
+<div class="slide" id="sdk-interpreter">
+<h2>Android SDK + Interpreter</h2>
+<ul>
+<li>Accomplished via <a href="http://code.google.com/p/android-scripting/" title="android-scripting - Project Hosting on Google Code">SL4A</a>
+    <ul>
+        <li><a href="http://python.org" title="Python Programming Language &ndash; Official Website">Python</a></li>
+        <li><a href="http://www.perl.org" title="The Perl Programming Language - www.perl.org">Perl</a></li>
+        <li><a href="http://www.ruby-lang.org/en/" title="Ruby Programming Language">Ruby</a> / <a href="http://jruby.org" title="Home - JRuby.org">JRuby</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/JavaScript" title="JavaScript - Wikipedia, the free encyclopedia">JavaScript</a></li>
+        <li><a href="http://www.lua.org" title="The Programming Language Lua">Lua</a></li>
+        <li><a href="http://www.phpforandroid.net" title="start [PHP for Android]">PHP</a> (third party)</li>
+    </ul>
+</li>
+<li>Pros: Languages are less painful, may already be in your skill set</li>
+<li>Cons: Support isn't native, may result in some performance loss</li>
+</ul>
+</div>
+
+<div class="slide" id="titanium">
+<h2>Titanium</h2>
+<ul>
+<li>Development platform produced by <a href="http://www.appcelerator.com" title="Use Appcelerator Titanium to build mobile apps for iPhone &amp; Android and desktop apps for Windows, Mac OS X &amp; Linux from Web technologies">Appcelerator</a></li>
+<li>Pros: Uses HTML5/CSS/JS; same codebase can be deployed to Android, iOS, and Blackberry with near-native performance</li>
+<li>Cons: Some performance loss from using an interpreter; middleware introduces another layer for bugs and reliance on a third party vendor</li>
+</ul>
+<img src="img/appcelerator.jpg" alt="Appcelerator logo" />
+</div>
+
+<div class="slide" id="phonegap">
+<h2>PhoneGap</h2>
+<ul>
+<li>Development platform produced by <a href="http://www.nitobi.com" title="Nitobi: Web and mobile software consulting, support training and custom development | Nitobi">Nitobi</a></li>
+<li>Later acquired by <a href="http://www.adobe.com" title="Adobe">Adobe</a> and incubated as <a href="http://incubator.apache.org/projects/callback.html" title="Apache Cordova (originally Callback) - Apache Incubator">Apache Cordova</a></li>
+<li>Pros: Native mobile app dev with HTML5/CSS/JS; can be deployed to Android, iOS, Blackberry, Windows Mobile, webOS, and others</li>
+<li>Cons: Basically the same as Titanium</li>
+</ul>
+<img class="top" src="img/phonegap.png" alt="PhoneGap logo" />
+</div>
+
+<div class="slide" id="keep-it-simple">
+<h2>Path of Least Resistance</h2>
+<ul>
+<li>Start with Android SDK + Java</li>
+<li>Download and install 3 (maybe 4) things:
+    <ul>
+		<li>Canonical Java SDK (<a href="http://www.java.com" title="java.com: Java + You">download</a>)</li>
+        <li>Android SDK (<a href="http://developer.android.com/sdk/index.html" title="Android SDK | Android Developers">download</a>, <a href="http://developer.android.com/sdk/installing.html" title="Installing the SDK | Android Developers">instructions</a>)</li>
+        <li>Eclipse (<a href="http://www.eclipse.org/downloads/" title="Eclipse Downloads">download</a>, <a href="http://developer.android.com/sdk/requirements.html" title="System Requirements | Android Developers">version requirements</a>)</li>
+        <li>Eclipse Android Development Tools (ADT) plugin (<a href="http://developer.android.com/sdk/eclipse-adt.html#installing" title="ADT Plugin for Eclipse | Android Developers">instructions</a>)</li>
+    </ul>
+</li>
+</ul>
+<div>
+<img src="img/java.png" alt="Java logo" />
+<img src="img/eclipse.jpg" alt="Eclipse logo" />
+<img src="img/android.jpg" alt="Android logo" />
+</div>
+</div>
+
+<div class="slide" id="huge-docs">
+<h2>Warning: Huge Docs</h2>
+<ul>
+<li>Docs for Android are great, but massive</li>
+<li>Try not to be overwhelmed or discouraged by this</li>
+<li>This will (to some extent) pass once you've gotten your hands dirty</li>
+</ul>
+<img class="top" src="img/docs.jpg" alt="A woman at a desk with a huge pile of papers behind her" />
+</div>
+
+<div class="slide" id="getting-tools">
+<h2>Getting the Tools</h2>
+<ul>
+<li>Android SDK and Eclipse are both "unzip and go"</li>
+<li>Install ADT plugin, <a title="ADT Plugin for Eclipse | Android Developers" href="http://developer.android.com/sdk/eclipse-adt.html#configuring">configure it</a> with the SDK location
+	<ul>
+		<li>Window - Preferences - Android - SDK Location</li>
+	</ul>
+</li>
+<li>Packages need to be <a title="Installing the SDK | Android Developers" href="http://developer.android.com/sdk/installing.html#AddingComponents">installed</a> to provide emulators for specific Android versions and (Google) APIs to be targeted by projects
+	<ul>
+		<li>Window - Android SDK and AVD Manager</li>
+	</ul>
+</li>
+</ul>
+<img class="top" src="img/tools.jpg" alt="Various tools" />
+</div>
+
+<div class="slide" id="start-simple">
+<h2>Start &quot;Simple&quot;</h2>
+<p>The <a title="Hello, World | Android Developers" href="http://developer.android.com/resources/tutorials/hello-world.html">classic "Hello World" example</a> introduces a number of basic concepts:</p>
+<ul>
+	<li>Creating a new Android project</li>
+	<li>A basic Activity Java class</li>
+	<li>Controlling and <a title="Hello, L10N | Android Developers" href="http://developer.android.com/resources/tutorials/localization/index.html">localizing</a> the UI using XML layout files</li>
+	<li>Running the project in a local emulator in normal and debug modes</li>
+</ul>
+<img src="img/helloworld.jpg" alt="Mug with lots of code on it" />
+</div>
+
+<div class="slide" id="activites">
+<h2>Activities</h2>
+<ul>
+<li>From <a title="Application Fundamentals | Android Developers" href="http://developer.android.com/guide/topics/fundamentals.html">Application Fundamentals</a>: &quot;An <em>activity</em> presents a visual user interface for one focused endeavor the user can undertake.&quot;</li>
+<li>Activities function as windows or &quot;screens&quot; that can gain focus and contain the components of the UI to present to the user</li>
+<li>A main activity serves as the entry point to the application</li>
+</ul>
+<img src="img/lfttraffic-main.png" alt="Screenshot of the Lafayette Traffic main activity" />
+</div>
+
+<div class="slide" id="activity-example">
+<h2>Activity Example</h2>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+// Taken from "Construct the UI" section of 
+// http://developer.android.com/resources/tutorials/hello-world.html
+// HelloWorld/src/com/example/helloandroid/HelloAndroid.java
+package com.example.helloandroid;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class HelloAndroid extends Activity {
+   /** Called when the activity is first created. */
+   @Override
+   public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       TextView tv = new TextView(this);
+       tv.setText("Hello, Android");
+       setContentView(tv);
+   }
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide" id="manifest-example">
+<h2>Manifest Example</h2>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="us.la.lft.traffic">
+    <application>
+		<activity android:name="MainActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+		<activity android:name="OtherActivity" />
+	</application>
+</manifest>
+]]></script>
+</div>
+</div>
+
+<div class="slide" id="activity-gotchas">
+<h2>Activity Gotchas</h2>
+<ul>
+<li>Calling superclass method implementations in subclasses first thing</li>
+<li><a href="http://developer.android.com/guide/topics/fundamentals.html#actlife" title="Application Fundamentals | Android Developers">Activity lifecycle</a> and effects of things like change in device orientation</li>
+<li><a href="http://developer.android.com/guide/topics/fundamentals.html#threads" title="Application Fundamentals | Android Developers">Threads</a> and <a href="http://developer.android.com/guide/topics/fundamentals.html#tsafe" title="Application Fundamentals | Android Developers">thread safety</a></li>
+<li><a href="http://developer.android.com/resources/articles/painless-threading.html" title="Painless Threading | Android Developers">Implementing threading painlessly</a></li>
+<li><a href="http://developer.android.com/resources/faq/commontasks.html#threading" title="Common Tasks and How to Do Them in Android | Android Developers">Handling expensive operations in separate threads</a></li>
+</ul>
+<img src="img/explosion.jpg" alt="A large explosion" />
+</div>
+
+<div class="slide" id="views-and-layouts">
+<h2>Views and Layouts</h2>
+<ul>
+<li>From the <a href="http://developer.android.com/resources/tutorials/hello-world.html#ui" title="Hello, World | Android Developers">Hello World tutorial</a>: &quot;A <em>View</em> is a drawable object used as an element in your UI layout, such as a button, image, or... a text label.&quot;</li>
+<li>Views are organized into layouts, which are covered in the <a href="http://developer.android.com/resources/tutorials/views/index.html" title="Hello, Views | Android Developers">Hello, Views tutorial</a> - <a href="http://developer.android.com/resources/tutorials/views/hello-relativelayout.html" title="Relative Layout | Android Developers">RelativeLayout</a> is a commonly used one</li>
+<li>Layout can be controlled programmatically, but the more common approach is using a separate XML file</li>
+</ul>
+<div style="width: 50%; float: left;">
+<img src="img/hello-relativelayout.png" alt="RelativeLayout" />
+</div>
+<div style="width: 50%; float: right;">
+<img src="img/hello-gridview.png" alt="GridView" />
+</div>
+</div>
+
+<div class="slide" id="layout-example">
+<h2>Layout Example</h2>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!--
+Taken from "Upgrade the UI to an XML Layout" section of 
+http://developer.android.com/resources/tutorials/hello-world.html
+HelloWorld/res/layouts/main.xml
+-->
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/textview"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:text="@string/hello"/>
+]]></script>
+</div>
+<img src="img/hello-world.png" alt="Hello World example" />
+</div>
+
+<div class="slide" id="intents">
+<h2>Intents</h2>
+<ul>
+<li>From <a href="http://developer.android.com/guide/topics/intents/intents-filters.html" title="Intents and Intent Filters | Android Developers">Intents and Intent Filters</a>: &quot;Three of the core components of an application &mdash; activities, services, and broadcast receivers &mdash; are activated through messages, called <em>intents</em>.&quot;</li>
+<li>In particular, intents are used to <a href="http://developer.android.com/resources/faq/commontasks.html#opennewscreen" title="Common Tasks and How to Do Them in Android | Android Developers">start one activity from another</a> and can also function as hash maps for passing custom parameters between activities</li>
+</ul>
+<div style="font-size: 0.7em;">
+<script type="syntaxhighlighter" class="brush: java"><![CDATA[
+package com.example.myactivity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class HelloAndroid extends Activity {
+	public void someMethod() {
+		Intent intent = new Intent(this, OtherActivity.class);
+		intent.putExtra("key", "value");
+		startActivity(intent);
+	}
+}
+]]></script>
+</div>
+</div>
+
+<div class="slide" id="drawable-resources">
+<h2>Drawable Resources</h2>
+<ul>
+<li>These are used for the application icon, if nothing else in your project</li>
+<li>PNG is the <a href="http://developer.android.com/guide/topics/resources/drawable-resource.html#Bitmap" title="Drawable Resources | Android Developers">preferred format</a></li>
+<li><a href="http://developer.android.com/guide/topics/resources/providing-resources.html" title="Providing Resources | Android Developers">Alternate versions</a> of resources can be provided for different screen densities, screen orientations, and locales</li>
+</ul>
+<div style="font-size: 0.9em;">
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<!-- Taken from LafayetteTraffic/AndroidManifest.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<manifest>
+    <!-- @drawable/icon corresponds to
+    res/layout/drawable-[density]/icon.png -->
+    <application android:icon="@drawable/icon">
+    </application>
+</manifest>
+]]></script>
+</div>
+</div>
+
+<div class="slide" id="developing-your-app">
+<h2>Developing Your App</h2>
+<ul>
+<li><a href="http://developer.android.com/index.html" title="Android Developers">developer.android.com</a>
+    <ul>
+        <li><a href="http://developer.android.com/resources/index.html" title="Developer Resources | Android Developers">Resources</a> provides great introductory information</li>
+        <li><a href="http://developer.android.com/guide/publishing/publishing.html" title="Publishing Your Applications | Android Developers">Dev Guide</a> reviews individual subsystems, best practices, and the application publishing process</li>
+        <li><a href="http://developer.android.com/reference/packages.html" title="Package Index | Android Developers">Reference</a> provides API documentation</li>
+        <li><a href="http://developer.android.com/videos/index.html" title="Videos | Android Developers">Videos</a> has excellent talks on more advanced topics</li>
+    </ul>
+</li>
+<li>Usual suspects: <a href="http://www.google.com/" title="Google">Google</a>, <a href="http://stackoverflow.com/" title="Stack Overflow">Stack Overflow</a>, etc.</li>
+<li>Look around for a mobile development group</li>
+</ul>
+</div>
+
+<div class="slide" id="testing">
+<h2>Testing</h2>
+<ul>
+<li>Android extends <a href="http://junit.org/" title="Welcome to JUnit.org! | JUnit.org">JUnit</a> to provide a <a href="http://developer.android.com/guide/topics/testing/testing_android.html" title="Testing Fundamentals | Android Developers">testing framework</a></li>
+<li><a href="http://developer.android.com/resources/tutorials/testing/helloandroid_test.html" title="Hello, Testing | Android Developers">Hello Testing</a> and <a href="http://developer.android.com/resources/tutorials/testing/activity_test.html" title="Activity Testing | Android Developers">Activity Testing</a> tutorials describe creating an Android Testing Eclipse project and writing and running simple activity test cases</li>
+<li><a href="http://developer.android.com/guide/topics/testing/activity_testing.html" title="Activity Testing | Android Developers">Android Testing dev guide</a> describes more advanced unit testing topics</li>
+<li>Automated testing is important, but so is <a href="http://developer.android.com/guide/developing/device.html" title="Developing on a Device | Android Developers">testing applications on real devices</a>; in both cases, know <a href="http://developer.android.com/guide/topics/testing/what_to_test.html" title="What To Test | Android Developers">what to test</a></li>
+</ul>
+<img src="img/testing.png" alt="Keep Calm and Continue Testing" />
+</div>
+
+<div class="slide" id="signing">
+<h2>Signing</h2>
+<ul>
+<li>Applications can't be installed if they aren't signed</li>
+<li>During development, signing can be done in <a href="http://developer.android.com/guide/publishing/app-signing.html#debugmode" title="Signing Your Applications | Android Developers">debug mode</a> (which Eclipse does automatically by default)</li>
+<li>For distribution, signing must be done in <a href="http://developer.android.com/guide/publishing/app-signing.html#releasemode" title="Signing Your Applications | Android Developers">release mode</a> using a private key</li> 
+<li>Private key is used to publish the application to <a href="https://play.google.com/store" title="Home - Google Play">Google Play</a></li>
+</ul>
+<img src="img/passport.jpg" alt="United States passport" />
+</div>
+
+<div class="slide" id="versioning">
+<h2>Versioning</h2>
+<p>Publishing applications to Google Play also requires providing two versions:</p> 
+<ul>
+<li><em>versionCode</em>: positive integer for update detection (e.g. 42 updates 41)</li>
+<li><em>versionName</em>: string displayed to the user (e.g. 1.2.3)</li>
+</ul>
+<img src="img/evolution.jpg" alt="Evolution of man to computer" />
+</div>
+
+<div class="slide" id="licensing">
+<h2>Licensing</h2>
+<ul>
+<li><strong>Warning</strong>: I haven't used this feature, take this with a grain of salt</li>
+<li><a href="http://developer.android.com/guide/publishing/licensing.html" title="Licensing Your Applications | Android Developers">Licensing</a> can be used to query Google Play for the licensing status of the current user and restrict application access as appropriate</li>
+<li>Licensing status data is made available to the application after access is granted so further custom constraints can be applied</li>
+<li>Licensing API only applies to paid applications hosted in Google Play</li>
+</ul>
+<img src="img/money.jpg" alt="Pile of US currency" />
+</div>
+
+<div class="slide" id="publishing">
+<h2>Publishing</h2>
+<ul>
+<li>In order to be <a href="http://developer.android.com/guide/publishing/publishing.html" title="Publishing Your Applications | Android Developers">published</a>, an application must:
+    <ul>
+        <li>be signed with a private key</li>
+        <li>have proper versions defined</li>
+        <li>have a defined icon and label</li>
+    </ul>
+</li>
+<li>One-time $25 fee gives you access to publish applications to Google Play</li>
+<li>Upload the built signed APK file and provide some metadata</li>
+<li>Application becomes available in Google Play fairly shortly once it's posted</li>
+</ul>
+<img src="img/package.jpg" alt="A package ready to be shipped" />
+</div>
+
+<div class="slide" id="outro">
+<h2>That's All, Folks</h2>
+<ul>
+<li>Questions? Comments? Discussion?</li>
+<li>E-mail: <a href="mail:me@matthewturland.com" title="E-mail Matthew Turland">me@matthewturland.com</a></li>
+<li>Web site: <a href="http://matthewturland.com" title="Matthew Turland">http://matthewturland.com</a></li>
+<li>Twitter: <a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a></li>
+<li>Thanks for attending!</li>
+</ul>
+</div>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+<script src="js/extensions/deck.menu.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+
+<!-- Activate deck.js and SyntaxHighlighter -->
+<script type="text/javascript">
+$(function() { $.deck('.slide'); });
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

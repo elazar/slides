@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Data Structures in PHP</title>
+
+<meta name="description" content="A presentation on data structures and using them in the PHP programming language.">
+<meta name="author" content="Matthew Turland <me@matthewturland.com>">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css" id="theme">
+<link rel="stylesheet" href="css/custom.css">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- Printing and PDF exports -->
+<script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<section id="slide-title" data-background="img/titlebg.jpg">
+    <h1>Data Structures in PHP</h1>
+    <p class="byline">Matthew Turland</p>
+    <img src="img/logo.png" alt="Nomad PHP logo" />
+</section>
+
+<section id="wheniwork">
+    <h2>Where I Work</h2>
+    <img src="img/wiw.jpg" alt="When I Work is Hiring!" />
+</section>
+
+<section id="questions-or-feedback">
+    <h2>Questions or Feedback?</h2>
+    <ul>
+        <li>Ask questions during or after the session</li>
+        <li>Contact me: <a href="http://matthewturland.com/contact">http://matthewturland.com/contact</a></li>
+        <li>Leave feedback: <a href="https://joind.in/talk/12084" title="Talk: Data Structures in PHP - Joind.in">https://joind.in/talk/12084</a></li>
+    </ul>
+</section>
+
+<section id="slides">
+    <h2>Slides</h2>
+    <p>Linked from either of these:</p>
+    <p><a href="https://joind.in/talk/12084">https://joind.in/talk/12084</a></p>
+    <p><a href="http://matthewturland.com/publications">http://matthewturland.com/publications</a></p>
+</section>
+
+<section id="goals">
+    <h2>Goals</h2>
+    <ul>
+        <li>Learn about <strong>data structures</strong> and <strong>related terminology</strong> at a conceptual level</li>
+        <li>Review <strong>concrete examples</strong> of concepts using PHP code</li>
+        <li>Discuss <strong>practical applicability</strong> of concepts both within and without PHP</li>
+    </ul>
+</section>
+
+<section id="non-goals">
+    <h2>Non-Goals</h2>
+    <ul>
+        <li>Learning <strong>PHP basics</strong>
+            <p><a href="https://www.phparch.com/training/jump-start-php/">php[architect] Jump Start PHP training</a></p>
+        </li>
+        <li>Learning <strong>PHP OOP fundamentals</strong>
+            <p><a href="http://matthewturland.com/slides/phpoop-tutorial/">Slides</a> or <a href="https://www.youtube.com/watch?v=oAaNHGK1kNk">video</a> from <a href="https://www.youtube.com/watch?v=oAaNHGK1kNk">php[world] 2014</a> tutorial</p>
+        </li>
+    </ul>
+</section>
+
+<section id="spl">
+    <h2>SPL</h2>
+    <blockquote>The <strong>Standard PHP Library (SPL)</strong> is a collection of <strong>interfaces and classes</strong> that are meant to <strong>solve common problems</strong>.</blockquote>
+    <cite><a href="http://php.net/manual/en/intro.spl.php">PHP Manual</a></cite>
+</section>
+
+<section id="ardent">
+    <h2>Ardent</h2>
+    <blockquote>A Library of Collections for OO Programming</blockquote>
+    <cite><a href="https://github.com/morrisonlevi/Ardent/">Ardent README</a></cite>
+    <p>Lead Developer: <a href="https://github.com/morrisonlevi">Levi Morrison</a></p>
+</section>
+
+<section id="equip-structure">
+    <h2>equip/structure</h2>
+    <blockquote>Simple, immutable data structures</blockquote>
+    <cite><a href="https://github.com/equip/structure">GitHub Repository</a></cite>
+    <p>Lead Developer: <a href="https://github.com/shadowhand">Woody Gilk</a></li>
+</section>
+
+<section id="spl-benchmarks">
+    <h2>spl-benchmarks</h2>
+    <blockquote>A suite of tests comparing performance of PHP SPL data structures to PHP arrays</blockquote>
+    <cite><a href="https://github.com/elazar/spl-benchmarks">spl-benchmarks README</a></cite>
+    <p>Author: Me</p>
+    <p><a href="https://en.wikipedia.org/wiki/Lies,_damned_lies,_and_statistics">&quot;Lies, damned lies, and benchmarks&quot;</a>,<br /><a href="https://en.wiktionary.org/wiki/your_mileage_may_vary"><abbr title="Your Mileage May Vary">YMMV</abbr></a>, etc.</p>
+</section>
+
+<section id="design-patterns">
+    <h2>Design Patterns</h2>
+    <blockquote>A <strong>design pattern</strong> in... computer science is a formal way of <strong>documenting a solution</strong> to a <strong>design problem</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Design_pattern">Wikipedia</a></cite>
+</section>
+
+<section id="data-structures">
+    <h2>Data Structures</h2>
+    <blockquote>In computer science, a <strong>data structure</strong> is a particular <strong>way of organizing data</strong> in a computer so that it can be <strong>used efficiently</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Data_structure">Wikipedia</a></cite>
+</section>
+
+<section id="efficiency">
+    <h2>Efficiency</h2>
+    <ul>
+        <li>Minimal <strong>execution time</strong></li>
+        <li>Minimal use of <strong>storage</strong></li>
+        <li>With respect to <strong>code design</strong></li>
+    </ul>
+</section>
+
+<section id="collections">
+    <h2>Collections</h2>
+    <blockquote>In computer science, a... <strong>collection</strong> is a <strong>grouping</strong> of... data items... that have some <strong>shared significance</strong>... and need to be <strong>operated upon together</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Collection_(abstract_data_type)">Wikipedia</a></cite>
+</section>
+
+<section id="containers">
+    <h2>Containers</h2>
+    <blockquote>In computer science, a <strong>container</strong> is... a data structure... used for storing objects in an <strong>organized way</strong> following specific <strong>access rules</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Container_(abstract_data_type)">Wikipedia</a></cite>
+</section>
+
+<section id="arrays">
+    <h2>Arrays</h2>
+    <blockquote>In computer science, an... <strong>array</strong> is a data structure consisting of... <strong>elements</strong>... each <strong>identified</strong> by at least one <strong>array index or key</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Array_data_structure">Wikipedia</a></cite>
+</section>
+
+<section id="php-arrays">
+    <h2>PHP Arrays</h2>
+    <blockquote>An array in PHP is actually an <strong>ordered map</strong>... that <strong>associates values to keys</strong>... optimized for several different uses... an array, list (vector), hash table... stack, queue... trees...</blockquote>
+    <cite><a href="http://php.net/manual/en/language.types.array.php">PHP Manual</a></cite>
+    <p><strong>Semi-related note</strong>:<br /><code>array_*()</code> functions work <em>only on PHP arrays</em></p>
+</section>
+
+<section id="php-arrays-example">
+    <h2>PHP Arrays</h2>
+    <pre><code class="php" data-trim>
+$characters = [
+    'Tyrion',
+    'Varys',
+    'Arya',
+    'Jaqen',
+];
+
+$author = [
+    'name' => 'George R. R. Martin',
+    'age' => 65,
+    'dob' => new \DateTime('1948-09-20'),
+    'home' => 'Sante Fe, NM',
+];
+    </code></pre>
+</section>
+
+<section id="spl-arrayobject">
+    <h2>SPL: <a href="http://php.net/manual/en/class.arrayobject.php"><code>ArrayObject</code></a></h2>
+    <ul>
+        <li>Limited object wrapper for native arrays</li>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a>, and <a href="http://php.net/manual/en/class.serializable.php"><code>Serializable</code></a></li>
+        <li><strong>Use case</strong>: when you need to use an array as an object and don't want to roll your own</li>
+    </ul>
+</section>
+
+<section id="spl-arrayobject-example">
+    <h2>SPL: <a href="http://php.net/manual/en/class.arrayobject.php"><code>ArrayObject</code></a></h2>
+    <pre><code class="php" data-trim>
+$characters = new \ArrayObject(['Melisandre']);
+$characters[] = 'Stannis';
+$characters[2] = 'Brienne';
+$characters->append('Podrick');
+$characters->natsort();
+    </code></pre>
+</section>
+
+<section id="random-access">
+    <h2>Random Access</h2>
+    <blockquote>In computer science, <strong>random access</strong> (more precisely... <strong>direct access</strong>) is the ability to <strong>access an item of data</strong> at <strong>any given coordinates</strong> in a population of addressable elements.</blockquote>
+    <cite><a href="http://en.wikipedia.org/wiki/Random_access">Wikipedia</a></cite>
+</section>
+
+<section id="random-access-example">
+    <h2>Random Access</h2>
+    <pre><code class="php" data-trim>
+$author = [
+    'name' => 'George R. R. Martin',
+    'age' => 65,
+    'dob' => new \DateTime('1948-09-20'),
+    'home' => 'Sante Fe, NM',
+];
+
+// Random access
+echo $author['home'], \PHP_EOL;
+echo $author['name'], \PHP_EOL;
+
+// Sequential access
+foreach ($author as $key => $value) {
+    echo $key, ' - ', $value, \PHP_EOL;
+}
+    </code></pre>
+</section>
+
+<section id="associative-arrays">
+    <h2>Associative Arrays</h2>
+    <blockquote>In computer science, an <strong>associative array</strong>, <strong>map</strong>, ... or <strong>dictionary</strong> is... a collection of <strong>(key, value) pairs</strong>, such that <strong>each possible key appears just once</strong>...</blockquote>
+    <cite><a href="http://en.wikipedia.org/wiki/Associative_array">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing an unknown number of elements for random or sequential access by unique key</p>
+</section>
+
+<section id="associative-arrays-example">
+    <h2>Associative Arrays</h2>
+    <pre><code class="php" data-trim>
+$characters = [
+    'name' => 'Theon',
+    'name' => 'Ramsay',
+];
+var_dump($characters);
+    </code></pre>
+    <pre class="fragment">
+array(1) {
+  'name' =>
+  string(6) "Ramsay"
+}
+    </pre>
+</section>
+
+<section id="hash-tables">
+    <h2>Hash Tables</h2>
+    <blockquote>In computing, a <strong>hash table</strong> (<strong>hash map</strong>) is... used to implement an associative array... A hash table uses a <strong>hash function</strong> to <strong>compute an index</strong> into an array... from which the correct value can be found.</blockquote>
+    <cite><a href="http://en.wikipedia.org/wiki/Hash_table">Wikipedia</a></cite>
+</section>
+
+<section id="hash-table-example">
+    <h2>Hash Table</h2>
+    <img src="img/hashtable.png" alt="Illustration of a hash table" />
+    <pre><code class="php" data-trim>
+    echo $array['John Smith']; // 521-8976
+    </code></pre>
+</section>
+
+<section id="hash-tables-in-php">
+    <h2>Hash Tables in PHP</h2>
+    <ul>
+        <li>PHP arrays incur overhead from use of a <a href="https://github.com/php/php-src/blob/bdf7fc67d8a146b4a5387c56268181c63047dfe6/Zend/zend_string.h#L267-335">hash function</a> and from being resized as allocated memory blocks are exceeded</li>
+        <li><a href="https://nikic.github.io/2014/12/22/PHPs-new-hashtable-implementation.html">PHP's new hashtable implementation</a> by <a href="https://twitter.com/nikita_ppv">Nikita Popov</a> AKA nikic, circa 2014-12-22</li>
+    </ul>
+</section>
+
+<section id="hash-tables-in-php-example">
+    <h2>Hash Tables in PHP</h2>
+    <pre><code class="php" data-trim>
+echo memory_get_usage(),PHP_EOL;
+$a = [];
+do {
+    echo memory_get_usage(),PHP_EOL;
+    $a[] = count($a);
+} while (count($a) &lt; 11);
+    </code></pre>
+    <table class="fragment">
+        <tr>
+            <th><code>count($a)</code></th>
+            <th><code>memory_get_usage()</code></th>
+            <th>diff</th>
+        </tr>
+        <tr>
+            <td>-</td>
+            <td>235600</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>235856</td>
+            <td><strong>256</strong></td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>236072</td>
+            <td><strong>216</strong></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>236208</td>
+            <td>136</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>236344</td>
+            <td>136</td>
+        </tr>
+        <tr>
+            <td colspan="3">...</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>237024</td>
+            <td>136</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>237224</td>
+            <td><strong>200</strong></td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>237360</td>
+            <td>136</td>
+        </tr>
+        <tr>
+            <td colspan="3">...</td>
+        </tr>
+    </table>
+</section>
+
+<section id="hash-tables-in-the-wild">
+    <h2>Hash Tables in the Wild</h2>
+    <ul>
+        <li><a href="http://memcached.org">memcached</a> is a server for an in-memory hash table, or <a href="https://en.wikipedia.org/wiki/Key-value_database">key-value store</a></li>
+        <li><a href="http://redis.io">Redis</a> is similar to memcached, but has additional capabilities and is often referred to as a data structure server</li>
+        <li>There are <a href="https://en.wikipedia.org/wiki/NoSQL#Key-value_stores">many other key-value stores</a>; these are just two well-known ones</li>
+    </ul>
+</section>
+
+<section id="ardent-map">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Map.php"><code>Map</code></a></h2>
+    <p>Extends <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></p>
+    <pre><code class="php" data-trim>
+// equivalent to ArrayAccess::offsetGet()
+function get($key);
+
+// equivalent to ArrayAccess::offsetSet()
+function set($key, $value);
+
+// equivalent to ArrayAccess::offsetUnset()
+function remove($key);
+</code></pre>
+</section>
+
+<section id="ardent-hashmap">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/HashMap.php"><code>HashMap</code></a></h2>
+    <ul>
+        <li>Implements <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Map.php"><code>Map</code></a></li>
+        <li>Uses a <a href="#/php-arrays">PHP array</a> for storage with a configurable hash function (so two hash functions are used)</li>
+        <li><a href="https://github.com/morrisonlevi/Ardent/blob/80d25bea2b9fee41d0698cd57d1e82a44772802b/src/function.php#L136-150">Hash function used by default</a>
+            <ul>
+                <li>Equal non-object values resolve to same hash</li>
+                <li>Object hashes vary by instance</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section id="ardent-sortedmap">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/SortedMap.php"><code>SortedMap</code></a></h2>
+    <ul>
+        <li>Implements <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Map.php"><code>Map</code></a></li>
+        <li>Uses an <a href="#/avl-trees">AVL tree</a> (more on those later) for storage to maintain sort order</li>
+    </ul>
+</section>
+
+<section id="enumerated-arrays">
+    <h2>Enumerated Arrays</h2>
+    <blockquote>An <strong>enumeration</strong> is a complete, <strong>ordered listing</strong> of all the items in a collection.</blockquote>
+    <cite><a href="http://en.wikipedia.org/wiki/Enumeration">Wikipedia</a></cite>
+</section>
+
+<section id="enumerated-arrays-in-php">
+    <h2>Enumerated Arrays in PHP</h2>
+    <ul>
+        <li>When no array keys are specified, PHP uses consecutive integers beginning at <code>0</code> (zero)</li>
+        <li>These are referred to as <strong>enumerated arrays</strong></li>
+        <li>Internally, they're no different from other (i.e. <a href="#/associative-arrays">associative</a>) PHP arrays</li>
+    </ul>
+</section>
+
+<section id="enumerated-arrays-example">
+    <h2>Enumerated Arrays</h2>
+    <pre><code class="php" data-trim>
+$characters = [
+    0 => 'Petyr',
+    1 => 'Catelyn',
+    2 => 'Lysa',
+    3 => 'Sansa',
+];
+    </code></pre>
+    <pre><code class="php" data-trim>
+$characters = [
+    0 => 'Lysa',
+    0 => 'Sansa',
+];
+var_dump($characters);
+    </code></pre>
+    <pre><code data-trim>
+array(1) {
+    0 =>
+    string(5) "Sansa"
+}
+    </code></pre>
+</section>
+
+<section id="dynamically-allocated-arrays">
+    <h2>Dynamically Allocated Arrays</h2>
+    <blockquote>In computer science, ... a <strong>dynamically allocated array</strong>... is an array whose size is fixed when the array is allocated.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Dynamic_array">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing a predetermined number of ordered elements for random or sequential access by position</p>
+</section>
+
+<section id="spl-fixedarray">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splfixedarray.php"><code>SplFixedArray</code></a></h2>
+    <ul>
+        <li>Dynamically allocated enumerated array</li>
+        <li>Requires an explicit initial size upon instantiation</li>
+        <li>Supports resizing, but at the cost of overhead</li>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, and <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a></li>
+    </ul>
+</section>
+
+<section id="spl-fixedarray-example">
+    <h2><a href="http://php.net/manual/en/class.splfixedarray.php"><code>SplFixedArray</code></a></h2>
+    <pre><code class="php" data-trim>
+$characters = new \SplFixedArray(4);
+$characters[0] = 'Joffrey';
+$characters[1] = 'Robert';
+$characters[2] = 'Drogo';
+$characters[3] = 'Ned';
+$characters[4] = 'Robb';
+    </code></pre>
+    <pre><code data-trim>
+PHP Fatal error:  Uncaught exception 'RuntimeException'
+with message 'Index invalid or out of range'
+    </code></pre>
+    <pre><code class="php" data-trim>
+$characters->setSize(5); /* Avoid doing this */
+$characters[4] = 'Robb';
+    </code></pre>
+</section>
+
+<section id="vectors">
+    <h2>Vectors</h2>
+    <blockquote>In computer science... a <strong>one-dimensional array</strong>.</blockquote>
+    <cite><a href="http://en.wikipedia.org/wiki/Vector">Wikipedia</a></cite>
+</section>
+
+<section id="ardent-vector">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Vector.php"><code>Vector</code></a></h2>
+    <ul>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></li>
+        <li>Uses a <a href="#/php-arrays">PHP array</a> internally for storage</li>
+        <li>Includes more methods equivalent to <code>array_*()</code> functions than <a href="#/spl-arrayobject"><code>ArrayObject</code></a> related to non-sorting modifications</li>
+    </ul>
+</section>
+
+<section id="ardent-vector-example">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Vector.php"><code>Vector</code></a></h2>
+    <pre><code class="php" data-trim>
+function appendAll(\Traversable $traversable);
+function append($item);
+function removeItem($object);
+function apply(callable $callable);
+function map(callable $map): Vector;
+function reduce($initialValue, callable $combine): Vector;
+function filter(callable $filter): Vector;
+function limit(int $n): Vector;
+function skip(int $n): Vector;
+function slice(int $start, int $count): Vector;
+function keys(): Vector;
+    </code></pre>
+</section>
+
+<section id="linked-lists">
+    <h2>Linked Lists</h2>
+    <blockquote>In computer science, a <strong>linked list</strong> is a data structure consisting of a <strong>group of nodes</strong> which together represent a <strong>sequence</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Linked_list">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing and accessing an unknown number of ordered elements sequentially</p>
+</section>
+
+<section id="linked-lists-vs-hash-tables">
+    <h2>Linked Lists vs Hash Tables</h2>
+    <ul>
+        <li><strong>Pro</strong>: dynamic size without hash function overhead</li>
+        <li><strong>Con</strong>: random access is less efficient</li>
+        <li><strong>Con</strong>: random insertion is less efficient</li>
+    </ul>
+    <img src="img/dll.svg" alt="Doubly-linked list" style="margin-top: 40px;" />
+</section>
+
+<section id="spl-dll">
+    <h2>SPL: <a href="http://php.net/manual/en/class.spldoublylinkedlist.php"><code>SplDoublyLinkedList</code></a></h2>
+    <ul>
+        <li>Implements a <a href="https://en.wikipedia.org/wiki/Doubly_linked_list">doubly-linked list</a> that allows for forward and reverse iteration</li>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, and <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a></li>
+    </ul>
+
+    <pre><code class="php" data-trim>
+function unshift($value);
+function push($value);
+function add($index, $newval);
+
+function shift();
+function pop();
+
+function top();
+function bottom();
+    </code></pre>
+</section>
+
+<section id="using-spl-dll">
+    <h2>SPL: <a href="http://php.net/manual/en/class.spldoublylinkedlist.php"><code>SplDoublyLinkedList</code></a></h2>
+    <ul>
+        <li>Favor iteration over random access</li>
+        <li>Add: use <code>unshift()</code> or <code>push()</code> vs <code>add()</code></li>
+        <li>Remove: use <code>shift()</code> or <code>pop()</code></li>
+        <li>Access: use <code>top()</code> or <code>bottom()</code></li>
+    </ul>
+</section>
+
+<section id="ardent-ll">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedList.php"><code>LinkedList</code></a></h2>
+    <ul>
+        <li>Implements a <a href="https://en.wikipedia.org/wiki/Doubly_linked_list">doubly-linked list</a></li>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, and <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a></li>
+    </ul>
+</section>
+
+<section id="ardent-ll-example">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedList.php"><code>LinkedList</code></a></h2>
+    <pre><code class="php">
+function unshift($value);
+function push($value);
+function insertBefore(int $position, $newval);
+function insertAfter(int $position, $newval);
+
+function shift();
+function pop();
+
+function first();
+function last();
+function seek(int $position);
+
+function indexOf($value, callable $f = null): int;
+function contains($value, callable $f = null): bool;
+    </code></pre>
+</section>
+
+<section id="using-ardent-ll">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedList.php"><code>LinkedList</code></a></h2>
+    <ul>
+        <li>Favor iteration over random access</li>
+        <li>Add: use <code>unshift()</code> or <code>push()</code> vs <code>insertBefore()</code> / <code>insertAfter()</code></li>
+        <li>Remove: use <code>shift()</code> or <code>post()</code></li>
+        <li>Access: use <code>first()</code> or <code>last()</code> vs <code>seek()</code></li>
+        <li>Avoid using <code>indexOf()</code> or <code>contains()</code></li>
+    </ul>
+</section>
+
+<section id="stacks-art">
+    <h2>Stacks</h2>
+    <p>Credit: <a href="http://ninjagrl.com/shop/products/stack/">@ninjagrl</a></p>
+    <img src="img/stack.jpg" alt="Stack by @ninjagrl" />
+</section>
+
+<section id="stacks">
+    <h2>Stacks</h2>
+    <blockquote>In computer science, a <strong>stack</strong>... is... a collection of elements, with two principal operations: 1) <strong>push</strong> adds an element to the collection; 2) <strong>pop</strong> removes the last element that was added.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing an unknown number of elements where only the latest element stored is accessible</p>
+</section>
+
+<section id="using-stacks">
+    <h2>Using Stacks</h2>
+    <ul>
+        <li>Stacks are basically linked lists where elements are only added and removed from the front, called the <strong>top</strong> of the stack</li>
+        <li>Useful for avoiding recursion in situations that require backtracking, such as parsing and searching / traversing <a href="#/trees-graph-theory">trees</a> -- more on those later</li>
+    </ul>
+</section>
+
+<section id="spl-stack">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splstack.php"><code>SplStack</code></a></h2>
+    <ul>
+        <li>Extends <a href="http://php.net/manual/en/class.spldoublylinkedlist.php"><code>SplDoublyLinkedList</code></a></li>
+        <li><code>setIteratorMode()</code> provides support for removing elements or not during iteration</li>
+        <li>Limited to <abbr title="Last In, First Out">LIFO</abbr> iteration order</li>
+    </ul>
+</section>
+
+<section id="spl-stack-example">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splstack.php"><code>SplStack</code></a></h2>
+    <pre><code class="php" data-trim>
+$stack = new \SplStack;
+$stack->push('Cersei');
+$stack->push('Jamie');
+$stack->push('Tywin');
+var_dump($stack->pop());
+var_dump($stack->pop());
+var_dump($stack->bottom());
+var_dump($stack->pop());
+    </code></pre>
+    <pre><code data-trim>
+string(5) "Tywin"
+string(5) "Jamie"
+string(6) "Cersei"
+string(6) "Cersei"
+    </code></pre>
+</section>
+
+<section id="ardent-linkedstack">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedStack.php"><code>LinkedStack</code></a></h2>
+    <ul>
+        <li>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></li>
+        <li>Uses a singly-<a href="#/linked-lists">linked list</a> internally for storage</li>
+    </ul>
+</section>
+
+<section id="ardent-linkedstack-example">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedStack.php"><code>LinkedStack</code></a></h2>
+    <pre><code class="php" data-trim>
+$stack = new Collections\LinkedStack;
+$stack->push('Cersei');
+$stack->push('Jamie');
+$stack->push('Tywin');
+var_dump($stack->pop());
+var_dump($stack->pop());
+var_dump($stack->last());
+var_dump($stack->pop());
+    </code></pre>
+    <pre><code data-trim>
+string(5) "Tywin"
+string(5) "Jamie"
+string(6) "Cersei"
+string(6) "Cersei"
+    </code></pre>
+</section>
+
+<section id="queues">
+    <h2>Queues</h2>
+    <blockquote>In computer science, a <strong>queue</strong> is a... collection in which the... operations... are the addition of entities to the rear terminal position, known as <strong>enqueue</strong>, and removal of entities from the front terminal position, known as <strong>dequeue</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing an unknown number of elements where only the element added earliest is accessible</p>
+</section>
+
+<section id="using-queues">
+    <h2>Using Queues</h2>
+    <ul>
+        <li>Queues are basically linked lists where elements are only added to the back of the list (enqueue) and removed from the front of the list (dequeue)</li>
+        <li>Useful for prioritization or scheduling of tasks based on the order in which they're added</li>
+    </ul>
+</section>
+
+<section id="queueing-theory">
+    <h2>Queueing Theory</h2>
+    <blockquote><strong>Queueing theory</strong> is the... study of waiting lines, or queues... so that queue lengths and waiting time can be predicted.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Queueing_theory">Wikipedia</a></cite>
+</section>
+
+<section id="queueing-theory-illustrated">
+    <h2>Queueing Theory Illustrated</h2>
+    <p><img src="img/queues.gif" alt="Japanese animation illustrating queues" /></p>
+</section>
+
+<section id="spl-queue">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splqueue.php"><code>SplQueue</code></a></h2>
+    <ul>
+        <li>Extends <a href="http://php.net/manual/en/class.spldoublylinkedlist.php"><code>SplDoublyLinkedList</code></a></li>
+        <li><code>setIteratorMode()</code> provides support for removing elements or not during iteration</li>
+        <li>Limited to <abbr title="First In, First Out">FIFO</abbr> iteration order</li>
+        <li><code>enqueue()</code> and <code>dequeue()</code> alias <code>push()</code> and <code>shift()</code> respectively</li>
+    </ul>
+</section>
+
+<section id="spl-queue-example">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splqueue.php"><code>SplQueue</code></a></h2>
+    <pre><code class="php" data-trim>
+$queue = new \SplQueue;
+$queue->enqueue('Viserys');
+$queue->enqueue('Daenerys');
+$queue->enqueue('Jon');
+var_dump($queue->dequeue());
+var_dump($queue->dequeue());
+var_dump($queue->top());
+var_dump($queue->dequeue());
+    </code></pre>
+    <pre><code data-trim>
+string(7) "Viserys"
+string(8) "Daenerys"
+string(3) "Jon"
+string(3) "Jon"
+    </code></pre>
+</section>
+
+<section id="ardent-linkedqueue">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedQueue.php"><code>LinkedQueue</code></a></h2>
+    <ul>
+        <li>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></li>
+        <li>Uses a singly-<a href="#/linked-lists">linked list</a> internally for storage</li>
+    </ul>
+</section>
+
+<section id="ardent-linkedqueue-example">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/LinkedQueue.php"><code>LinkedQueue</code></a></h2>
+    <pre><code class="php" data-trim>
+$queue = new Collections\LinkedQueue;
+$queue->enqueue('Jorah');
+$queue->enqueue('Barristan');
+$queue->enqueue('Daario');
+var_dump($queue->dequeue());
+var_dump($queue->dequeue());
+var_dump($queue->first());
+var_dump($queue->dequeue());
+    </code></pre>
+    <pre><code data-trim>
+string(5) "Jorah"
+string(9) "Barristan"
+string(6) "Daario"
+string(6) "Daario"
+    </code></pre>
+</section>
+
+<section id="priority-queues">
+    <h2>Priority Queues</h2>
+    <blockquote>In computer science, a <strong>priority queue</strong> is... like a regular queue... but where... each element has a "<strong>priority</strong>"... an element with <strong>high priority</strong> is served <strong>before</strong> an element with <strong>low priority</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Priority_queue">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing an unknown number of elements with associated priorities where only the highest priority most recently added element is accessible</p>
+</section>
+
+<section id="spl-priorityqueue">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splpriorityqueue.php"><code>SplPriorityQueue</code></a></h2>
+    <ul>
+        <li>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a></li>
+        <li>Does <strong>not</strong> extend <a href="http://php.net/manual/en/class.splqueue.php"><code>SplQueue</code></a></li>
+        <li>Uses <code>insert()</code> / <code>extract()</code> rather than <code>enqueue()</code> / <code>dequeue()</code></li>
+        <li>Priority values can be anything, including objects</li>
+        <li>Read <abbr title="Matthew Weier O'Phinney">MWOP</abbr>'s <a href="https://mwop.net/blog/253-Taming-SplPriorityQueue.html">Taming SplPriorityQueue</a> and check out Enrico's <a href="https://github.com/ezimuel/FastPriorityQueue" title="ezimuel/FastPriorityQueue - GitHub">FastPriorityQueue</a> library</li>
+        <li>Uses a <a href="#/spl-maxheap">max heap</a> internally -- more on those later</li>
+    </ul>
+</section>
+
+<section id="spl-priorityqueue-example">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splpriorityqueue.php"><code>SplPriorityQueue</code></a></h2>
+    <pre><code class="php" data-trim>
+$queue = new \SplPriorityQueue;
+$queue->insert('value1', 'priority0');
+$queue->insert('value2', 'priority1');
+$queue->insert('value0', 'priority2');
+var_dump($queue->extract());
+var_dump($queue->extract());
+var_dump($queue->extract());
+    </code></pre>
+    <pre><code data-trim>
+string(6) "value0"
+string(6) "value2"
+string(6) "value1"
+    </code></pre>
+</section>
+
+<section id="priority-queues-in-the-wild">
+    <h2>Priority Queues in the Wild</h2>
+    <ul>
+        <li>Job queues implement this structure
+            <ul>
+                <li><a href="https://github.com/chrisboulton/php-resque">Resque</a></li>
+                <li><a href="http://aws.amazon.com/sqs">Amazon SQS</a></li>
+            </ul>
+        </li>
+        <li>Check out <a href="http://bernardphp.com/en/latest/">Bernard</a></li>
+    </ul>
+</section>
+
+<section id="graphs">
+    <h2>Graphs</h2>
+    <blockquote>In computer science, a <strong>graph</strong> is... a finite... set of <strong>nodes</strong> or <strong>vertices</strong>, together with... pairs of these nodes... known as <strong>edges</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Graph_%28abstract_data_type%29">Wikipedia</a></cite>
+    <p>No SPL or Ardent implementations; see <a href="https://github.com/graphp">graphp</a></p>
+    <p><strong>Use case</strong>: modeling relationships between objects</p>
+</section>
+
+<section id="graph-theory">
+    <h2>Graph Theory</h2>
+    <blockquote>In mathematics and computer science, <strong>graph theory</strong> is the study of graphs... to model pairwise relations between objects.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Graph_theory">Wikipedia</a></cite>
+</section>
+
+<section id="directed-graphs">
+    <h2>Directed Graphs</h2>
+    <blockquote>In... graph theory, a <strong>directed graph</strong> (or <strong>digraph</strong>) is a graph... where the <strong>edges</strong> have a <strong>direction</strong> associated with them.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Directed_graph">Wikipedia</a></cite>
+    <p><img src="img/digraph.png" alt="A directed graph" /></p>
+</section>
+
+<section id="cycle-graph">
+    <h2>Cycle Graph</h2>
+    <blockquote>In graph theory, a <strong>cycle graph</strong> or <strong>circular graph</strong> is a graph that consists of... some number of <strong>vertices</strong> connected in a <strong>closed chain</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Cycle_graph">Wikipedia</a></cite>
+    <p><img src="img/cyclegraph.png" alt="A cycle graph" /></p>
+</section>
+
+<section id="graphp-example">
+    <h2>graphp</h2>
+    <pre><code class="json" data-trim>
+{
+    "require": {
+        "graphp/graph": "^0.7"
+    }
+}
+    </code></pre>
+    <pre><code class="php" data-trim>
+use Fhaculty\Graph\Graph;
+$graph = new Graph;
+$rome = $graph-&gt;createVertex('Rome');
+$madrid = $graph-&gt;createVertex('Madrid');
+$cologne = $graph-&gt;createVertex('Cologne');
+$cologne-&gt;createEdgeTo($madrid);
+$madrid-&gt;createEdgeTo($rome);
+$rome-&gt;createEdgeTo($rome);
+foreach ($rome-&gt;getVerticesEdgeFrom() as $vertex) {
+    echo $vertex-&gt;getId(), ' leads to Rome', \PHP_EOL;
+}
+    </code></pre>
+    <pre><code data-trim>
+Mandrid leads to Rome
+Rome leads to Rome
+    </code></pre>
+</section>
+
+<section id="graphs-in-the-wild">
+    <h2>Graphs in the Wild</h2>
+    <ul>
+        <li><a href="http://neo4j.com">Neo4J graph database</a></li>
+        <li><a href="http://www.graphstory.com/">Graph Story</a>, a Neo4J company</li>
+        <li><a href="http://tek.phparch.com/speakers/#62003">Michelle Sanver's talk</a> on Neo4J</li>
+    </ul>
+</section>
+
+<section id="trees-graph-theory">
+    <h2>Trees</h2>
+    <blockquote>In... graph theory, a <strong>tree</strong> is an <strong>undirected graph</strong> in which any two <strong>vertices</strong> are <strong>connected</strong> by exactly <strong>one path</strong>... <strong>without... cycles</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Tree_%28graph_theory%29">Wikipedia</a></cite>
+    <p><img src="img/treegraph.png" alt="A tree as shown in graph theory" /></p>
+</section>
+
+<section id="trees-computer-science">
+    <h2>Trees</h2>
+    <blockquote>In computer science, a <strong>tree</strong> is a... data structure... with a <strong>root</strong> value and subtrees of <strong>children</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Tree_%28data_structure%29">Wikipedia</a></cite>
+    <p><img src="img/tree.png" alt="A tree illustrated as a data structure" /></p>
+</section>
+
+<section id="trees-in-php">
+    <h2>Trees in PHP</h2>
+    <ul>
+        <li>If you've used the <a href="http://php.net/manual/en/book.dom.php">DOM</a> or <a href="http://php.net/manual/en/book.simplexml.php">SimpleXML</a> extensions, you've used tree-based XML parsers</li>
+        <li>SPL has no implementations, but Ardent does...</li>
+    </ul>
+</section>
+
+<section id="binary-trees">
+    <h2>Binary Trees</h2>
+    <blockquote>In computer science, a <strong>binary tree</strong> is a tree... in which <strong>each node</strong> has at most <strong>two children</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Binary_tree">Wikipedia</a></cite>
+</section>
+
+<section id="ardent-binarytree">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/BinaryTree.php"><code>BinaryTree</code></a></h2>
+    <p><a href="#/trees-computer-science">Tree example</a> from earlier:</p>
+    <pre><code class="php" data-trim>
+use Collections\BinaryTree as T;
+$nine = new T(9);
+$nine->setLeft(new T(4));
+$five = new T(5);
+$five->setRight($nine);
+$two = new T(2);
+$two->setRight($five);
+$eleven = new T(11);
+$six = new T(6);
+$eleven->setLeft(new T(5));
+$eleven->setRight(new T(11));
+$seven = new T(7);
+$seven->setLeft(new T(2));
+$seven->setRight($six);
+    </code></pre>
+</section>
+
+<section id="binary-search-trees">
+    <h2>Binary Search Trees</h2>
+    <blockquote>In computer science, <strong>binary search trees</strong> (<abbr title="Binary Search Tree">BST</abbr>)... store data items, known as keys, and allow <strong>fast insertion and deletion</strong> of such keys, as well as <strong>checking</strong> whether a key is <strong>present</strong> in a tree.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Binary_search_tree">Wikipedia</a></cite>
+</section>
+
+<section id="avl-trees">
+    <h2>AVL Trees</h2>
+    <blockquote>In computer science, an <strong>AVL tree</strong>... is a <strong>self-balancing binary search tree</strong>.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/AVL_tree">Wikipedia</a></cite>
+    <p><img src="img/balancedtree.png" alt="Balanced versus unbalanced trees" /></p>
+</section>
+
+<section id="ardent-avltree">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/AvlTree.php"><code>AvlTree</code></a></h2>
+    <p>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></p>
+    <pre><code class="php" data-trim>
+function __construct(callable $comparator = null);
+function add($element);
+function remove($element);
+function contains($item): bool;
+    </code></pre>
+</section>
+
+<section id="heaps">
+    <h2>Heaps</h2>
+    <blockquote>In computer science, a <strong>heap</strong> is a specialized <strong>tree-based</strong> data structure that satisfies the <strong>heap property</strong>: if A is a parent node of B then... A is ordered with respect to... B...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Heap_(data_structure)">Wikipedia</a></cite>
+    <p><strong>Use case</strong>: storing an unknown number of elements ordered based on a comparator function as applied to those elements</p>
+</section>
+
+<section id="using-heaps">
+    <h2>Using Heaps</h2>
+    <p>Useful for <a href="https://en.wikipedia.org/wiki/Heapsort">sorting elements</a><br />with minimal reordering as more are added</p>
+    <img src="img/heapsort.gif" alt="Animation illustrating the heapsort algorithm" />
+</section>
+
+<section id="spl-heap">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splheap.php"><code>SplHeap</code></a></h2>
+    <ul>
+        <li>Abstract class that implements a heap but requires a comparator function, <code>compare()</code>, to be defined by subclasses</li>
+        <li>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a>, where <em>iteration results in element extraction</em></li>
+    </ul>
+</section>
+
+<section id="spl-minheap">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splminheap.php"><code>SplMinHeap</code></a></h2>
+    <ul>
+        <li>Subclass of <a href="#/spl-heap"><code>SplHeap</code></a></li>
+        <li>Smallest element is removed first</li>
+    </ul>
+    <pre><code class="php" data-trim>
+$heap = new \SplMinHeap;
+$heap->insert(3);
+$heap->insert(2);
+$heap->insert(1);
+foreach ($heap as $n) {
+    var_dump($n);
+}
+var_dump(count($heap));
+    </code></pre>
+    <pre><code data-trim>
+int(1)
+int(2)
+int(3)
+int(0)
+    </code></pre>
+</section>
+
+<section id="spl-maxheap">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splmaxheap.php"><code>SplMaxHeap</code></a></h2>
+    <ul>
+        <li>Subclass of <a href="#/spl-heap"><code>SplHeap</code></a></li>
+        <li>Largest element is removed first</li>
+    </ul>
+    <pre><code class="php" data-trim>
+$heap = new \SplMaxHeap;
+$heap->insert(1);
+$heap->insert(2);
+$heap->insert(3);
+foreach ($heap as $n) {
+    var_dump($n);
+}
+var_dump(count($heap));
+    </code></pre>
+    <pre><code data-trim>
+int(3)
+int(2)
+int(1)
+int(0)
+    </code></pre>
+</section>
+
+<section id="sets">
+    <h2>Sets</h2>
+    <blockquote>In computer science, a <strong>set</strong>... can store certain values, <strong>without any particular order</strong>, and <strong>no repeated values</strong>... rather than retrieving a specific element... one typically <strong>tests a value for membership</strong>...</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Set_(abstract_data_type)">Wikipedia</a></cite>
+</section>
+
+<section id="set-theory">
+    <h2>Set Theory</h2>
+    <blockquote><strong>Set theory</strong> is the branch of mathematical logic that studies sets.</blockquote>
+    <cite><a href="https://en.wikipedia.org/wiki/Set_theory">Wikipedia</a></cite>
+    <p><img src="img/set.png" alt="Venn diagram illustrating the intersection of two sets" /></p>
+</section>
+
+<section id="set-operations">
+    <h2>Set Operations</h2>
+    <dl>
+        <dt>Union</dt> <dd>all unique items across multiple sets</dd>
+        <dt>Intersection</dt> <dd>items common to multiple sets</dd>
+        <dt>Difference</dt> <dd>items not common to multiple sets</dd>
+        <dt>Complement</dt> <dd>items contained in one set and not others</dd>
+        <dt>Cartesian Product</dt> <dd>all possible pairings of items from two sets</dd>
+    </dl>
+</section>
+
+<section id="spl-objectstorage">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <ul>
+        <li>Works as a set and a composite hash map</li>
+        <li>Only stores objects, but other values can be <a href="http://php.net/manual/en/language.types.object.php#language.types.object.casting">typecasted</a></li>
+        <li>Implements <a href="http://php.net/manual/en/class.arrayaccess.php"><code>ArrayAccess</code></a>, <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a>, <a href="http://php.net/manual/en/class.iterator.php"><code>Iterator</code></a>, and <a href="http://php.net/manual/en/class.serializable.php"><code>Serializable</code></a></li>
+    </ul>
+</section>
+
+<section id="using-spl-objectstorage">
+    <h2>SPL: <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <ul>
+        <li>Use <code>attach()</code> and <code>detach()</code> to add and remove elements</li>
+        <li><code>addAll()</code>, <code>removeAll()</code>, and <code>removeAllExcept()</code> (in PHP >= 5.3.6) perform the union, complement, and intersection set operations respectively</li>
+    </ul>
+</section>
+
+<section id="typecasting-for-spl-objectstorage">
+    <h2>Typecasting for <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <pre><code class="php" data-trim>
+$bran = (object) 'Bran';
+$hodor = (object) 'Hodor';
+$osha = (object) 'Osha';
+$a = new \SplObjectStorage;
+$a->attach($bran);
+$a->attach($hodor);
+$b = new \SplObjectStorage;
+$b->attach($hodor);
+$b->attach($osha);
+    </code></pre>
+</section>
+
+<section id="union-objectstorage">
+    <h2>Union with <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <pre><code class="php" data-trim>
+/* $a = ['Bran', 'Hodor']; $b = ['Hodor', 'Osha']; */
+$union = clone $a;
+$union->addAll($b);
+echo implode(PHP_EOL, array_map(
+    function($o) { return $o->scalar; },
+    iterator_to_array($union)
+));
+    </code></pre>
+    <pre><code data-trim>
+Bran
+Hodor
+Osha
+    </code></pre>
+</section>
+
+<section id="complement-spl-objectstorage">
+    <h2>Complement with <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <pre><code class="php" data-trim>
+/* $a = ['Bran', 'Hodor']; $b = ['Hodor', 'Osha']; */
+$complement = clone $a;
+$complement->removeAll($b)
+
+echo implode(PHP_EOL, array_map(
+    function($o) { return $o->scalar; },
+    iterator_to_array($complement)
+));
+    </code></pre>
+    <pre><code data-trim>
+Bran
+    </code></pre>
+</section>
+
+<section id="intersection-spl-objectstorage">
+    <h2>Intersection with <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <pre><code class="php" data-trim>
+/* $a = ['Bran', 'Hodor']; $b = ['Hodor', 'Osha']; */
+$intersection = clone $a;
+$intersection->removeAllExcept($b);
+
+echo implode(PHP_EOL, array_map(
+    function($o) { return $o->scalar; },
+    iterator_to_array($intersection)
+));
+    </code></pre>
+    <pre><code data-trim>
+Hodor
+    </code></pre>
+</section>
+
+<section id="difference-spl-objectstorage">
+    <h2>Difference with <a href="http://php.net/manual/en/class.splobjectstorage.php"><code>SplObjectStorage</code></a></h2>
+    <pre><code class="php" data-trim>
+/* $a = ['Bran', 'Hodor']; $b = ['Hodor', 'Osha']; */
+$intersection = clone $a;
+$intersection->removeAllExcept($b);
+
+$union = clone $a;
+$union->addAll($b);
+
+$difference = clone $union;
+$difference->removeAll($intersection);
+
+echo implode(PHP_EOL, array_map(
+    function($o) { return $o->scalar; },
+    iterator_to_array($difference)
+));
+    </code></pre>
+    <pre><code data-trim>
+Bran
+Osha
+    </code></pre>
+</section>
+
+<section id="ardent-set">
+    <h2>Ardent: <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Set.php"><code>Set</code></a></h2>
+    <ul>
+        <li>Implements <a href="http://php.net/manual/en/class.countable.php"><code>Countable</code></a> and <a href="http://php.net/manual/en/class.iteratoraggregate.php"><code>IteratorAggregate</code></a></li>
+        <li><a href="https://github.com/morrisonlevi/Ardent/blob/master/src/HashSet.php"><code>HashSet</code></a> implements <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Set.php"><code>Set</code></a> using a hash map</li>
+        <li><a href="https://github.com/morrisonlevi/Ardent/blob/master/src/SortedSet.php"><code>SortedSet</code></a> implements <a href="https://github.com/morrisonlevi/Ardent/blob/master/src/Set.php"><code>Set</code></a> using a <a href="#/binary-search-trees"><abbr title="Binary Search Tree">BST</abbr></a></li>
+    </ul>
+    <pre><code class="php" data-trim>
+function add($item);
+function has($item): bool;
+function remove($item);
+function difference(Set $that): Set;
+function intersection(Set $that): Set;
+function complement(Set $that): Set;
+function union(Set $that): Set;
+    </code></pre>
+</section>
+
+<section id="sets-in-the-wild">
+    <h2>Sets in the Wild</h2>
+    <ul>
+        <li><abbr title="Structured Query Language">SQL</abbr> <code>JOIN</code>s are <a href="http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/">somewhat analogous</a> to a limited <a href="https://en.wikipedia.org/wiki/Cartesian_product">Cartesian product</a> of two sets</li>
+        <li>Some <abbr title="Structured Query Language">SQL</abbr> dialects also support the union, intersection, and difference set operations</li>
+    </ul>
+</section>
+
+<section id="related-resources">
+    <h2>Related Resources</h2>
+    <ul>
+        <li><a href="http://slides.catchy.io/PHP-Data-Structures-and-the-impact-of-PHP-7-on-them.html">PHP Data Structures (and the impact of PHP 7 on them)</a></li>
+        <li><a href="http://blog.ircmaxell.com/2015/05/tries-and-lexers.html">Tries and Lexers</a> by <a href="https://twitter.com/ircmaxell">Anthony Ferrara</a></li>
+        <li><a href="http://en.wikipedia.org/wiki/List_of_data_structures">List of data structures on Wikipedia</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming">The Art of Computer Programming</a></li>
+    </ul>
+</section>
+
+<section id="thats-all-folks">
+    <h2>That's All, Folks</h2>
+    <ul>
+        <li>Questions? Comments? Discussion?</li>
+        <li><a href="http://www.wheniwork.com">wheniwork.com</a></li>
+        <li><a href="http://matthewturland.com">matthewturland.com</a> for slides</li>
+        <li>E-mail: <a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+        <li>Twitter: <a href="http://twitter.com/elazar">@elazar</a></li>
+        <li>Github: <a href="http://github.com/elazar">elazar</a></li>
+        <li>Freenode: Elazar</li>
+    </ul>
+</section>
+
+<section id="feedback">
+    <h2>Feedback</h2>
+    <p>Please rate my talk!</p>
+    <p><a href="https://joind.in/talk/12084" title="Talk: Data Structures in PHP - Joind.in">https://joind.in/talk/12084</a></p>
+    <p>Also, check out the <a href="http://joind.in/help">joind.in mobile apps</a>!</p>
+    <!--<img src="img/qrcode.png" alt="QR code for feedback link" />-->
+</section>
+
+</div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script>
+
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'none', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true }
+    ]
+});
+
+</script>
+
+</body>
+
+</html>

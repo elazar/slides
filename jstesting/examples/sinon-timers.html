@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>Timers example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script src="../js/sinon.js"></script>
+<!-- Code under test-->
+<script>
+function delay(seconds, callback) {
+    window.setTimeout(callback, seconds * 1000);
+}
+</script>
+<!-- Test code -->
+<script>
+var clock;
+
+module("Timers", {
+    setup: function() {
+        clock = sinon.useFakeTimers(1383855363000);
+    },
+    teardown: function() {
+        clock.restore();
+    },
+});
+
+test("Fast-forwarding timed callback works", function() {
+    var spy = sinon.spy();
+    delay(10, spy);
+    clock.tick(10000); // 10s
+    ok(spy.calledOnce);
+});
+
+test("Changing date works", function() {
+    clock.tick(30000); // 30s
+    equal(new Date().getTime(), 1383855393000); // 93 vs 63
+});
+</script>
+</body>
+</html>

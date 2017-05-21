@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/> 
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+
+	<title>Accessing Web Resources with PHP</title>
+
+	<meta name="description" content="This presentation covers the process of extracting and manipulating data from a variety of sources, from communicating with Web services to developing crawlers and scrapers for more traditional acquisition."/>
+	<meta name="author" content="Matthew Turland"/>
+	<meta name="contact" content="me@matthewturland.com"/>
+	<meta name="viewport" content="width=1024, user-scalable=no"/>
+	
+	<!-- Core and extension CSS files -->
+	<link rel="stylesheet" href="css/deck.core.css"/>
+	<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
+	
+	<!-- Theme CSS files -->
+	<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+	<link rel="stylesheet" id="transition-theme-link" href="css/transition/horizontal-slide.css"/>
+
+    <!-- Custom CSS files -->
+	<link rel="stylesheet" href="css/deck.custom.css"/>
+    <link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
+
+    <!-- JS files that must be included in the document head -->
+	<script src="js/modernizr.custom.js"></script>
+    <script src="js/sh/shCore.js"></script>
+    <script src="js/sh/shBrushPhp.js"></script>
+    <script src="js/sh/shBrushXml.js"></script>
+</head>
+<body class="deck-container">
+
+<div class="slide" id="title-slide">
+<h1>Accessing<br/>Web Resources<br/>with PHP</h1>
+<h2>Matthew Turland</h2>
+</div>
+
+<div class="slide" id="world-wide-web">
+<h2>The World Wide Web</h2>
+<div class="center">
+<img src="img/facebook_map.jpg" alt="A visualization of Facebook friendships forming a global map" title="A visualization of Facebook friendships forming a global map" />
+<p><a href="http://www.facebook.com/notes/facebook-engineering/visualizing-friendships/469716398919" title="Visualizing Friendships">Source</a></p>
+</div>
+</div>
+
+<div class="slide" id="web-1.0">
+<h2>&quot;Web 1.0&quot; - 1990s</h2>
+<ul class="left">
+<li>Search engines</li>
+<li>Hyperlink directories</li>
+<li>Beginnings of user-generated content</li>
+</ul>
+<img src="img/yahoo_old.jpg" alt="Yahoo.com circa 1999" title="Yahoo.com circa 1999" class="right" />
+</div>
+
+<div class="slide" id="web-2.0">
+<h2>&quot;Web 2.0&quot; - 2000s</h2>
+<ul class="left">
+<li>Rich user interfaces</li>
+<li>Social media and networks</li>
+<li>Publishing user-generated content becomes trivially easy</li>
+</ul>
+<img src="img/facebook.jpg" alt="Facebook circa 2011" title="Facebook circa 2011" class="right" />
+</div>
+
+<div class="slide" id="semantic-web">
+<h2>The Semantic Web - 2010s?</h2>
+<div class="center">
+<img src="img/semanticweb.jpg" alt="Class linkages in open datasets" title="Class linkages in open datasets" />
+<a href="http://microformats.org/" title="Microformats"><img src="img/micro-diagram.gif" alt="Diagram illustrating various microformats" title="Diagram illustrating various microformats" /></a>
+</div>
+</div>
+
+<div class="slide" id="building-blocks">
+<h2>Building Blocks</h2>
+<div class="center">
+<img src="img/semanticwebtech.jpg" alt="Technologies comprising the Semantic Web" title="Technologies comprising the Semantic Web" />
+</div>
+</div>
+
+<div class="slide" id="semantic-web-long-way-off">
+<h2>The Semantic Web is a Long Way Off</h2>
+<div class="center">
+<img src="img/longway.jpg" alt="A desert road leading off into the distance" title="A desert road leading off into the distance" />
+</div>
+</div>
+
+<div class="slide" id="rest-and-soa">
+<h2>REST and SOA Adoption is Increasing</h2>
+<div class="center">
+<img src="img/mobile.jpg" alt="A row of mobile phones from various vendors" title="A row of mobile phones from various vendors" />
+</div>
+</div>
+
+<div class="slide" id="web-scraping">
+<h2>Web Scraping is Still Used</h2>
+<div class="center">
+<p><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="&lt;shameless_plug&gt;php|architect's Guide to Web Scraping with PHP - php|architect - The site for PHP professionals&lt;/shameless_plug&gt;"><img src="img/webscraping.jpg" alt="php|architect's Guide to Web Scraping with PHP" title="php|architect's Guide to Web Scraping with PHP" /></a></p>
+<p><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="&lt;shameless_plug&gt;php|architect's Guide to Web Scraping with PHP - php|architect - The site for PHP professionals&lt;/shameless_plug&gt;">http://phparch.com</a> &lt;/shameless_plug&gt;</p>
+</div>
+</div>
+
+<div class="slide" id="humble-beginnings">
+<h2>Humble Beginnings...</h2>
+<div class="center">
+<img src="img/lafayette911.jpg" alt="Lafayette911.org" title="Lafayette911.org" />
+<p><a href="http://lafayette911.org" title="lafayette911.org">http://lafayette911.org</a></p>
+</div>
+</div>
+
+<div class="slide" id="can-lead-great-things">
+<h2>... Can Lead To Great Things</h2>
+<div class="center">
+<img src="img/lafayette911_locations.jpg" alt="Listing of addresses ordered by highest traffic incident count" title="Listing of addresses ordered by highest traffic incident count" />
+<img src="img/lafayette911_types.jpg" alt="Pie chart showing frequency of various types of traffic incidents" title="Pie chart showing frequency of various types of traffic incidents" />
+<a href="http://www.coldfusionjedi.com/index.cfm/2010/9/3/Update-to-my-911-Viewer">Source</a>
+</div>
+</div>
+
+<div class="slide" id="quality-assurance">
+<h2>Quality Assurance is Critical</h2>
+<div class="center">
+<img src="img/nabaztag.jpg" alt="A Nabaztag with flashing lights and a tilted ear" title="A Nabaztag with flashing lights and a tilted ear" />
+<p>&quot;Nabaztag&quot; pronounced &quot;na-poss-talk&quot; or &quot;na-boss-tug&quot;</p>
+</div>
+</div>
+
+<div class="slide" id="got-skills">
+<h2>Got Skills?</h2>
+<img src="img/skills.jpg" alt="Cat and skateboard in mid-air with the caption 'MAD SKILLZ i haz them'" title="Cat and skateboard in mid-air with the caption 'MAD SKILLZ i haz them'" class="right" />
+<ul>
+<li><abbr title="HyperText Transfer Protocol">HTTP</abbr></li>
+<li><abbr title="eXtensible Markup Language">XML</abbr></li>
+<li>XPath</li>
+<li><abbr title="Cascading Style Sheets">CSS</abbr> selectors</li>
+</ul>
+</div>
+
+<div class="slide" id="http">
+<h2>HTTP</h2>
+<div class="center">
+<img src="img/www.jpg" alt="Drawing highlighting HTTP as a common protocol between browsers and servers" title="Drawing highlighting HTTP as a common protocol between browsers and servers" />
+</div>
+</div>
+
+<div class="slide" id="client-libraries">
+<h2>Know Enough To Use Client Libraries</h2>
+<div class="center">
+<img src="img/hammers.jpg" alt="A number and variety of hammers on a table" title="A number and variety of hammers on a table" />
+</div>
+</div>
+
+<div class="slide" id="low-level-details">
+<h2>Also Know Low-Level Details</h2>
+<div class="center">
+<img src="img/microscope.jpg" alt="A microscope" title="A microscope" />
+</div>
+</div>
+
+<div class="slide" id="request-anatomy">
+<h2>Anatomy of a Request</h2>
+<ul class="requests">
+<li class="chrome">
+<code>POST /wiki/Main_Page HTTP/1.1
+Host: en.wikipedia.org
+
+wpAntispam=&amp;wpSection=&amp;wpStarttime=20080719022313</code>
+</li>
+</ul>
+<ul>
+<li><code>POST</code> = <strong>method</strong> or <strong>operation</strong></li>
+<li><code>/wiki/Main_Page</code> = <strong>Uniform Resource Identifier</strong> (<abbr title="Uniform Resource Identifier">URI</abbr>)</li>
+<li><code>HTTP/1.1</code> = client <strong>protocol</strong> and <strong>version</strong></li>
+<li><code>Host</code> = <strong>header name</strong>, <code>en.wikipedia.org</code> = <strong>header value</strong></li>
+<li><strong>Body</strong> contains <strong>entity</strong> data</li>
+</ul>
+</div>
+
+<div class="slide" id="url-vs-url">
+<h2>URI Versus URL</h2>
+<img src="img/urls.gif" alt="Venn diagram indicating the relationship between URIs and URLs" title="Venn diagram indicating the relationship between URIs and URLs" class="right" />
+<ul>
+<li>Related PHP functions
+    <ul>
+        <li><a href="http://php.net/urlencode" title="PHP: urlencode - Manual">urlencode()</a> / <a href="http://php.net/urldecode" title="PHP: urldecode - Manual">urldecode()</a></li>
+        <li><a href="http://php.net/rawurlencode" title="PHP: rawurlencode - Manual">rawurlencode()</a> / <a href="http://php.net/rawurldecode" title="PHP: rawurldecode - Manual">rawurldecode()</a></li>
+        <li><a href="http://php.net/parse_url" title="PHP: parse_url - Manual">parse_url()</a> / <a href="http://php.net/parse_str" title="PHP: parse_str - Manual">parse_str()</a></li>
+        <li><a href="http://php.net/http_build_query" title="PHP: http_build_query - Manual">http_build_query()</a></li>
+    </ul>
+</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc3986.html" title="RFC 3986">RFC 3986</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="url-anatomy">
+<h2>Anatomy of a URL</h2>
+<code>http://user:pass@domain.com:8080/file.ext?query=&amp;var=value</code>
+<ul>
+<li><code>http</code> = <strong>scheme</strong> or <strong>protocol</strong></li>
+<li><code>user:pass</code> = <strong>username</strong> and <strong>password</strong> for authentication</li>
+<li><code>domain.com</code> = <strong>hostname</strong></li>
+<li><code>8080</code> = server <strong>port</strong></li>
+<li><code>/file.ext</code> = <strong>path</strong></li>
+<li><code>query=&amp;var=value</code> = <strong>query string</strong>
+    <ul>
+        <li><code>?</code> separates URI and query string</li>
+        <li>key-value pairs separated by <code>&amp;</code></li>
+        <li>keys and values separated by <code>=</code></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="response-anatomy">
+<h2>Anatomy of a Response</h2>
+<ul class="requests">
+<li class="apache">
+<code>HTTP/1.1 200 OK
+Host: en.wikipedia.org
+Content-Length: 48363
+Content-Type: text/html; charset=utf-8
+
+&lt;!DOCTYPE html&gt;
+...
+</code>
+</li>
+</ul>
+<ul>
+<li><code>HTTP/1.1</code> = server <strong>protocol</strong> and <strong>version</strong></li>
+<li><code>200 OK</code> = <strong>status code</strong> and <strong>reason phrase</strong></li>
+<li><code>Host</code> = <strong>header name</strong>, <code>en.wikipedia.org</code> = <strong>header value</strong></li>
+<li><strong>Body</strong> contains <strong>entity</strong> data</li>
+</ul>
+</div>
+
+<div class="slide" id="status-codes">
+<h2>Status Codes</h2>
+<img src="img/github-404.jpg" alt="GitHub 404 page" title="GitHub 404 page" class="right" />
+<ul>
+<li>Divided into five classes:
+    <ul>
+        <li>1xx Information</li>
+        <li>2xx Success</li>
+        <li>3xx Redirection</li>
+        <li>4xx Client Error</li>
+        <li>5xx Server Error</li>
+    </ul>
+</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-10" title="RFC 2616">section 10</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="get-requests">
+<h2>GET Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /wiki/Main_Page HTTP/1.1
+Host: en.wikipedia.org</code>
+</li>
+</ul>
+<img src="img/ebooks-audiobooks.jpg" alt="Devices used to consume e-books and audiobooks" title="Devices used to consume e-books and audiobooks" class="right" />
+<ul>
+<li>Most commonly used operation</li>
+<li>Requests a representation of a resource</li>
+<li>Intended to be safe, idempotent, and generally cacheable</li>
+</ul>
+</div>
+
+<div class="slide" id="head-requests">
+<h2>HEAD Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>HEAD /wiki/MainPage HTTP/1.1
+Host: en.wikipedia.org</code>
+</li>
+</ul>
+<img src="img/head.jpg" alt="Head of Buddha sculpture" title="Head of Buddha sculpture" class="right" />
+<ul>
+<li>Response contains no body</li>
+
+<li>Header metadata with minimal bandwidth</li>
+<li>Safe and idempotent</li>
+</ul>
+</div>
+
+<div class="slide" id="post-requests">
+<h2>POST Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>POST /wiki/ HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 57
+Host: en.wikipedia.org
+
+wpAntispam=&amp;wpSection=&amp;wpStarttime=20080719022313</code>
+</li>
+</ul>
+<img src="img/make-it-so.jpg" alt="Captain Jean-Luc Picard from Star Trek: The Next Generation issuing his trademark phrase, &quot;Make it so.&quot;" title="Captain Jean-Luc Picard from Star Trek: The Next Generation issuing his trademark phrase, &quot;Make it so.&quot;" class="right" />
+<ul>
+<li>Second most commonly used operation</li>
+<li>Accepts an entity as a new subordinate of the resource</li>
+<li>Function varies; may result in creation of a new resource</li>
+<li>Not safe or idempotent, generally not cacheable</li>
+</ul>
+</div>
+
+<div class="slide" id="put-requests">
+<h2>PUT Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>PUT /wiki/Main_Page HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 57
+Host: en.wikipedia.org
+
+wpAntispam=&amp;wpSection=&amp;wpStarttime=20080719022313</code>
+</li>
+</ul>
+<img src="img/paint-over-wallpaper.jpg" alt="A woman painting over wallpaper" title="A woman painting over wallpaper" class="right" />
+<ul>
+<li>Used with RESTful APIs</li>
+<li>Accepts an entity to create or overwrite a resource</li>
+<li>PUT URI identifies entity where POST URI handles it</li>
+<li>Idempotent, not safe or cacheable</li>
+</ul>
+</div>
+
+<div class="slide" id="delete-requests">
+<h2>DELETE Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>DELETE /wiki/Main_Page HTTP/1.1
+Host: en.wikipedia.org</code>
+</li>
+</ul>
+<img src="img/deleted.jpg" alt="Strongbad facing a computer screen that says 'DELETED!!'" title="Strongbad facing a computer screen that says 'DELETED!!'" class="right" />
+<ul>
+<li>Used with RESTful APIs</li>
+<li>Deletes the specified resource, possibly with a delay</li>
+<li>Allows a body, but generally does not include one</li>
+<li>Response may include a body</li>
+<li>Idempotent, not safe or cacheable</li>
+</ul>
+</div>
+
+<div class="slide" id="headers">
+<h2>Headers</h2>
+<img src="img/metadata.jpg" alt="Custom license plate that says &quot;METADATA&quot;" title="Custom license plate that says &quot;METADATA&quot;" class="right" />
+<ul>
+<li>All-purpose method of including metadata in requests and responses</li>
+<li>Used to facilitate a variety of features
+    <ul>
+        <li>Cookies</li>
+        <li>Redirection</li>
+        <li>Referring URLs</li>
+        <li>Persistent connections</li>
+        <li>Content caching</li>
+        <li>User agents</li>
+        <li>Authentication</li>
+    </ul>
+</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-14" title="RFC 2616">section 14</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="cookies">
+<h2>Cookies</h2>
+<img src="img/darkside.jpg" alt="Come to the Dark Side - WE HAVE COOKIES!" title="Come to the Dark Side - WE HAVE COOKIES!" class="right" />
+<ul>
+<li>Used to retain state between requests, particularly to restrict access to content in web applications</li>
+<li>Most clients support handling cookies, some require explicit instruction to do so</li>
+<li>Header value contains one name-value pair and zero or more attribute-value pairs</li>
+<li>Presence of an &quot;expires&quot; attribute indicates whether a cookie is a session cookie</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2109.html" title="RFC 2109">RFC 2109</a> and <a href="http://www.apps.ietf.org/rfc/rfc2965.html" title="RFC 2965">RFC 2965</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="cookies-example">
+<h2>Cookies Example</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: google.com</code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 200 OK
+Host: google.com
+<strong>Set-Cookie: PREF=ID...; expires=Thu, 11-Apr-2013...</strong>
+
+&lt;!doctype html&gt;&lt;head&gt;&lt;title&gt;test - Google Search&lt;/title&gt;...
+</code>
+</li>
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: google.com
+<strong>Cookie: PREF=ID...; expires=Thu, 11-Apr-2013...</strong>
+</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="redirection">
+<h2>Redirection</h2>
+<img src="img/blowfish.jpg" alt="Blowfish in a sports car from the Torchwood episode &quot;Kiss Kiss, Bang Bang&quot;" title="Blowfish in a sports car from the Torchwood episode &quot;Kiss Kiss, Bang Bang&quot;" class="right" />
+<ul>
+<li>Intended for 201 or 3xx responses</li>
+<li>Used by web applications to redirect users after processing POST requests</li>
+<li>Misbehaving web applications can instigate infinite redirection loops</li>
+<li>Most client libraries offer a way to turn off or limit automatic processing of redirects</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-14.30" title="RFC 2616">section 14.30</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="redirection-example">
+<h2>Redirection Example</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: google.com</code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 <strong>301 Moved Permanently</strong>
+Host: google.com
+<strong>Location: http://www.google.com/search?q=test</strong></code>
+</li>
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="referring-urls">
+<h2>Referring URLs</h2>
+<img src="img/traffic.jpg" alt="Screenshot of referring sites from Google Analytics" title="Screenshot of referring sites from Google Analytics" class="right" />
+<ul>
+<li>Used by the client to tell the server what URL referred the client to the URL of the current request</li>
+<li>Applications:
+    <ul>
+        <li>traffic analytics</li>
+        <li>asset hot-linking prevention </li>
+        <li>enforcement of web application workflow</li>
+        <li>detection of violations of web application workflow</li>
+    </ul>
+</li>
+<li>Common example of a misspelling in a standard</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-14.36" title="RFC 2616">section 14.36</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="referring-url-example">
+<h2>Referring URL Example</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /wiki/Main_Page HTTP/1.1
+Host: en.wikipedia.org
+<strong>Referer: http://www.google.com/search?q=wikipedia</strong></code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="persistent-connections">
+<h2>Persistent Connections</h2>
+<img src="img/persistent.jpg" alt="Diagram showing the difference between multiple versus persistent connections" title="Diagram showing the difference between multiple versus persistent connections" class="right" />
+<ul>
+<li>One connection per request involves significant overhead</li>
+<li>Persistent connections facilitate multiple requests per connection</li>
+<li>HTTP 1.1 uses persistent connections by default</li>
+<li>See sections <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-8.1" title="RFC 2616">8.1</a> and <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-19.6.2" title="RFC 2616">19.6.2</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="persistent-connections-example">
+<h2>Persistent Connections Example</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com</code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 200 OK
+Host: google.com
+
+...</code>
+<li class="chrome">
+<code>GET /images/nav_logo.png HTTP/1.1
+Host: www.google.com
+<strong>Connection: close</strong></code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="content-caching">
+<h2>Content Caching</h2>
+<img src="img/calculator.jpg" alt="A calculator displaying a number" title="A calculator displaying a number" class="right" />
+<ul>
+<li>Client requests a resource</li>
+<li>Server includes headers used to determine if or when that resource may have changed</li>
+<li>Client later requests that resource and includes those header values</li>
+<li>Server only includes a body if that resource has changed</li>
+<li>When dealing with HTTP 1.0, be aware of the <code>Pragma</code> header</li>
+<li>See sections <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-13" title="RFC 2616">13</a> and <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-14" title="RFC 2616">14</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="content-caching-initial-request">
+<h2>Content Caching - Initial Request</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com</code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 200 OK
+Host: google.com
+Date: Wed, 12 Apr 2011 02:01:52 GMT
+<strong>Last-Modified: Wed, 13 Apr 2011 03:00:51 GMT
+ETag: f9edd12ec24f90a6efbcab7be46e3202
+Expires: Fri, 13 May 2011 03:00:51 GMT
+Cache-Control: public, max-age=2592000</strong>
+
+...</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="content-caching-later-requests">
+<h2>Content Caching - Later Requests</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com
+<strong>If-Modified-Since: Wed, 13 Apr 2011 03:00:51 GMT
+If-None-Match: f9edd12ec24f90a6efbcab7be46e3202</strong></code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 <strong>304 Not Modified</strong>
+Host: google.com
+
+...</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="user-agents">
+<h2>User Agents</h2>
+<img src="img/useragent.jpg" alt="Agent Smith and his clones from The Matrix trilogy" title="Agent Smith and his clones from The Matrix trilogy" class="right" />
+<ul>
+<li>Used by the client to identify itself to the server</li>
+<li>Sometimes analyzed by servers to determine client capabilities and alter responses accordingly<br />(ex: <a href="http://www.openddr.org/" title="OpenDDR - The best open and completely free Device Description Repository available worldwide">OpenDDR</a>, <a href="http://wurfl.sourceforge.net/" title="Wireless Universal Resource FiLe">WURFL</a>)</li>
+<li>Can be falsified by the client to force the server to deliver a desired response</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2616.html#sec-14.43" title="RFC 2616">section 14.43</a> of RFC 2616 for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="user-agent-example">
+<h2>User Agent Example</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com
+<strong>User-Agent: Mozilla/5.0 (iPad; U; CPU OS 3_2_1 ...</strong></code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="authentication">
+<h2>Authentication</h2>
+<img src="img/auth.jpg" alt="Hand pressed onto a biometric identification panel" title="Hand pressed onto a biometric identification panel" class="right" />
+<ul>
+<li>Client sends a request with no authentication information</li>
+<li>Server sends a response requesting authentication</li>
+<li>Client resends the request with authentication information</li>
+<li>Server sends the resource or a response indicating authentication failure</li>
+<li>See <a href="http://www.apps.ietf.org/rfc/rfc2617.html" title="RFC 2617">RFC 2617</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="authentication-initial-request">
+<h2>Authentication - Initial Request</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com</code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 <strong>401 Unauthorized</strong>
+Host: google.com
+<strong>WWW-Authenticate: Basic realm="Secure Area"</strong>
+
+...</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="authentication-later-request">
+<h2>Authentication - Later Request</h2>
+<ul class="requests">
+<li class="chrome">
+<code>GET /search?q=test HTTP/1.1
+Host: www.google.com
+<strong>Authorization: Basic YmlnYmFkd29sZjpsZXRtZWlu</strong></code>
+</li>
+<li class="apache">
+<code>HTTP/1.1 403 Forbidden
+Host: google.com
+
+...</code>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="libraries">
+<h2>Know Your Libraries</h2>
+<img src="img/library.jpg" alt="A corner of the stacks of a library" title="A corner of the stacks of a library" class="right" />
+<ul>
+<li>Lots of HTTP client libraries out there</li>
+<li>None are necessarily better; which is most appropriate depends on the circumstances</li>
+<li>Research, choose carefully, design to allow for a change of mind later</li>
+</ul>
+</div>
+
+<div class="slide" id="sockets">
+<h2>Sockets</h2>
+<img src="img/socket.jpg" alt="A socket wrench" title="A socket wrench" class="right" />
+<ul>
+<li>Pros
+    <ul>
+        <li>Native language feature</li>
+        <li>Simple API</li>
+        <li>Flexible</li>
+        <li>Allows for low-level debugging</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Procedural API</li>
+        <li>Very low-level</li>
+        <li>Limited to features you write yourself</li>
+        <li>Requires intimate knowledge of the HTTP protocol</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="sockets-example">
+<h2>Sockets Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$fp = stream_socket_client(
+    "tcp://www.google.com:80",
+    $errno,
+    $errstr,
+    $timeout
+);
+fwrite(
+    $fp,
+    "GET / HTTP/1.1\r\n" .
+        "Host: www.google.com\r\n" .
+        "Accept: */*\r\n\r\n"
+);
+$response = stream_get_contents($fp);
+fclose($fp);
+]]></script>
+</div>
+
+<div class="slide" id="streams">
+<h2>Streams</h2>
+<img src="img/streams.jpg" alt="Photo of the Ghostbusters with the caption &quot;Don't Cross the Streams. Good advice is timeless.&quot;" title="Photo of the Ghostbusters with the caption &quot;Don't Cross the Streams. Good advice is timeless.&quot;" class="right" />
+<ul>
+<li>Pros
+    <ul>
+        <li>Native language feature</li>
+        <li>Simple API</li>
+        <li>Good for basic quick-and-dirty one-offs</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Procedural API</li>
+        <li>Clunky error handling</li>
+        <li>Little debugging functionality</li>
+        <li>Few features</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="streams-example">
+<h2>Streams Example</h2>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$opts = array("http" => array(
+    "method" => "POST",
+    "header" => "Accept: */*\r\n" .
+                "Content-Type: application/x-www-form-urlencoded\r\n",
+    "content" => http_build_query(array("status" => "Message")),
+    "timeout" => 5,
+));
+$context = stream_context_create($opts);
+$fp = fopen("http://www.example.com", "r", false, $context);
+$response = stream_get_contents($fp);
+$meta = stream_get_meta_data($fp);
+fclose($fp);
+var_dump($meta["wrapper_data"]);
+]]></script>
+</div>
+</div>
+
+<div class="slide" id="curl">
+<h2>cURL</h2>
+<img src="img/curl.jpg" alt="cURL project logo" title="cURL project logo" class="right" />
+<ul>
+<li>Pros
+    <ul>
+        <li>Mature</li>
+        <li>Featureful</li>
+        <li>Core PHP extension</li>
+        <li>Sufficient debugging features</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Procedural API</li>
+        <li>Learning curve is a bit steep</li>
+    </ul>
+</li>
+<li>Use <a href="http://code.google.com/p/rolling-curl/" title="rolling-curl - A more efficient multi-curl library for PHP (non-blocking) - Google Project Hosting">rolling-curl</a> for an OO API and non-blocking parallel requests</li>
+<li><a href="http://php.net/curl_setopt" title="PHP: curl_setopt - Manual">curl_setopt() function</a> PHP manual page lists configuration constants</li>
+</ul>
+</div>
+
+<div class="slide" id="curl-example">
+<h2>cURL Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$ch = curl_init();
+curl_setopt_array($ch, array(
+    CURLOPT_URL => "http://www.google.com",
+    CURLOPT_RETURNTRANSFER => true,
+));
+$response = curl_exec($ch);
+curl_close($ch);
+</script>
+</div>
+
+<div class="slide" id="rolling-curl-example">
+<h2>rolling-curl Example</h2>
+<div style="font-size: 0.9em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+function request_callback($response, $info, $request) {
+    // ...
+}
+$rc = new RollingCurl("request_callback");
+$rc->request("http://www.msn.com");
+$rc->execute();
+$rc = new RollingCurl("request_callback");
+$urls = array(
+    // ...
+);
+foreach ($urls as $url) {
+    $rc->add(new RollingCurlRequest($url));
+}
+$rc->execute();
+</script>
+</div>
+<div class="center">
+<a href="http://code.google.com/p/rolling-curl/source/browse/trunk/example.php" title="example.php - rolling-curl - A more efficient multi-curl library for PHP (non-blocking) - Google Project Hosting">Source</a>
+</div>
+</div>
+
+<div class="slide" id="pecl-http">
+<h2>pecl_http</h2>
+<img src="img/pecl.jpg" alt="PECL project logo" title="PECL project logo" class="right" />
+<ul>
+<li>Pros
+    <ul>
+        <li>Built on the same library as the cURL extension</li>
+        <li>Both procedural and OO APIs</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Less availability than the cURL extension</li>
+        <li>Occasionally introduces its own bugs, such as <a href="http://pecl.php.net/bugs/bug.php?id=16893" title="PECL :: Bug #16893 :: Content not decoded with zlib support and compress enabled">bug #16893</a></li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="pecl-http-example">
+<h2>pecl_http Example</h2>
+<div style="font-size: 0.85em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+// Procedural
+$response = http_get("http://localhost.example", null, $info);
+
+// Object-oriented
+$request = new HttpRequest("http://localhost.example");
+$response = $request->send();
+</script>
+</div>
+</div>
+
+<div class="slide" id="pear">
+<h2>PEAR</h2>
+<img src="img/pear.gif" alt="PEAR project logo" title="PEAR project logo" class="right" />
+<ul>
+<li>Pros
+    <ul>
+        <li>Good PHP version coverage (4.2, 4.3, 5.2, 5.3)</li>
+        <li>Good environmental coverage (from sockets to cURL)</li>
+        <li>Flexibility via subclassing or listeners</li>
+        <li>Implementations can be debugged in userland</li>
+    </ul>
+</li>
+<li>Cons
+    <ul>
+        <li>Slightly less performance than C implementations</li>
+        <li>Higher minimum PHP version = lower stability</li>
+        <li>Lower minimum PHP version = lower likelihood for updates</li>
+        <li>Adapters wrap use of extensions and hide some features</li>
+    </ul>
+</li>
+<li>Alternative: <a href="http://framework.zend.com/manual/en/zend.http.client.html" title="Zend Framework: Documentation: Introduction - Zend Framework Manual">Zend_Http_Client</a></li>
+</ul>
+</div>
+
+<div class="slide" id="pear-example">
+<h2>PEAR Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+require_once "HTTP/Request2.php";
+$request = new HTTP_Request2(
+    "http://pear.php.net/",
+    HTTP_Request2::METHOD_GET
+);
+try {
+    $response = $request->send();
+    if (200 == $response->getStatus()) {
+        echo $response->getBody();
+    } else {
+        echo $response->getStatus() . ' ' 
+            . $response->getReasonPhrase();
+    }
+} catch (HTTP_Request2_Exception $e) {
+    echo $e->getMessage();
+}
+</script>
+</div>
+
+<div class="slide" id="http-tips">
+<h2>HTTP Tips</h2>
+<img src="img/washer_dryer.jpg" alt="A clothes washer/dryer set" title="A clothes washer/dryer set" class="right" />
+<ol>
+<li>Minimize and cache <a href="http://matthewturland.com/2008/11/23/benchmarking-php-http-clients/" title="Matthew Turland » Blog Archive » Benchmarking PHP HTTP Clients">DNS lookups</a>
+    <ul>
+        <li>cURL and pecl_http handle this natively</li>
+        <li>For other extensions, install a local DNS cache like nscd or dnsmasq if possible</li>
+        <li>Extend userland code to add DNS caching using <a href="http://php.net/gethostbyname" title="PHP: gethostbyname - Manual">gethostbyname()</a> (ex: <a href="http://framework.zend.com/issues/browse/ZF-5144" title="[#ZF-5144] Variation of Zend_Http_Client_Adapter_Socket with DNS caching - Zend Framework Issue Tracker">ZF-5144</a>)</li>
+    </ul>
+</li>
+<li>Use batch jobs, request pooling, parallel processes, and client-side caching when available/appropriate </li>
+<li>Plan for failure</li>
+</ol>
+</div>
+
+<div class="slide" id="http-resources">
+<h2>HTTP Resources</h2>
+<ul>
+<li>HTTP: The Definitive Guide (ISBN 1565925092)</li>
+<li>HTTP Pocket Reference: HyperText Transfer Protocol (ISBN 1565928628)</li>
+<li>HTTP Developer's Handbook (ISBN 0672324547) by <a href="http://shiflett.org/books" title="Chris Shiflett - Books">Chris Shiflett</a></li>
+<li><a href="http://benramsey.com/tag/http/" title="Ben Ramsey - http">Ben Ramsey's HTTP blog post series</a></li>
+</ul>
+</div>
+
+<div class="slide" id="tidy">
+<h2>Tidy</h2>
+<ul>
+<li>Can make markup more easily consumable by XML extensions
+    <ul>
+        <li>Corrects malformations in markup</li>
+        <li>Converts HTML to XHTML</li>
+    </ul>
+</li>
+<li>Formats markup for human readability</li>
+<li>Can introduce data loss into extremely malformed markup</li>
+<li>See the <a href="http://php.net/tidy" title="PHP: Tidy - Manual">Tidy PHP manual section</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="tidy-example">
+<h2>Tidy Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+// Procedural
+$tidy = tidy_parse_string($string, $config);
+$tidy = tidy_parse_file($filename, $config);
+$output = tidy_get_output($tidy);
+
+// Object-oriented
+$tidy = new tidy;
+$tidy->parseString($string, $config);
+$tidy->parseFile($filename, $config);
+$output = (string) $tidy;
+]]></script>
+<div class="center">
+<a href="http://tidy.sourceforge.net/docs/quickref.html" title="HTML Tidy Configuration Options Quick Reference">Configuration</a>
+</div>
+</div>
+
+<div class="slide" id="xml-extensions">
+<h2>XML Extensions</h2>
+<ul>
+<li>Four commonly used extensions
+    <ul>
+        <li>libxml</li>
+        <li>SimpleXML</li>
+        <li>DOM</li>
+        <li>XMLReader</li>
+    </ul>
+</li>
+<li>Two types of parsers
+    <ul>
+        <li>tree parsers</li>
+        <li>pull parsers</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide" id="libxml">
+<h2>libxml Extension</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+libxml_use_internal_errors(true);
+// ...
+$errors = libxml_get_errors();
+$error = libxml_get_last_error();
+libxml_clear_errors();
+]]></script>
+<div class="center">
+<a href="http://php.net/manual/en/book.libxml.php" title="PHP: libxml - Manual">libxml PHP manual section</a>
+</div>
+</div>
+
+<div class="slide" id="xml-tree-concepts">
+<h2>XML/Tree Concepts</h2>
+<script type="syntaxhighlighter" class="brush: xml"><![CDATA[
+<html>
+<body>
+<ul id="thelist">
+  <li>Foo</li>
+  <li>Bar</li>
+</ul>
+</body>
+</html>
+]]></script>
+</div>
+
+<div class="slide" id="xpath">
+<h2>XPath</h2>
+<ul>
+<li>Regular Expressions : Strings :: XPath : XML</li>
+<li>Supported by extensions implementing tree parsers</li>
+<li><a href="http://schlitt.info/opensource/blog/0704_xpath.html" title="XPath - Blog - Open Source - schlitt.info">Excellent tutorial by Tobias Schlitt</a></li>
+</ul>
+</div>
+
+<div class="slide" id="simplexml">
+<h2>SimpleXML</h2>
+<ul>
+<li>Tree-based parser</li>
+<li>Facilitates XML access through PHP object/array access syntax</li>
+<li>Best for quick-and-dirty scripts dealing with simple XHTML and XML documents</li>
+<li>See the <a href="http://php.net/simplexml" title="PHP: SimpleXML - Manual">SimpleXML PHP manual section</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="simplexml-example">
+<h2>SimpleXML Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+// Loads markup already contained within a string
+$sxe = new SimpleXMLElement($markupString);
+// Loads markup contained within an external file
+$sxe = new SimpleXMLElement($filePath, null, true);
+// Outputs the "class" attribute of the first "li"
+// child element of the second "ul" element
+echo $sxe->ul[1]->li["class"];
+// Does the same thing using XPath
+$nodes = $sxe->xpath("//ul[1]/li/@class");
+echo (string) $nodes[0];
+]]></script>
+</div>
+
+<div class="slide" id="dom">
+<h2>DOM</h2>
+<ul>
+<li>Tree parser</li>
+<li>Implements the Document Object Model standard</li>
+<li>Best for long-lived scripts dealing with complex HTML, XHTML, and XML documents</li>
+<li>See the <a href="http://php.net/dom" title="PHP: DOM - Manual">DOM PHP manual section</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="dom-example">
+<h2>DOM Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$doc = new DOMDocument;
+$doc->loadHTML($htmlString);
+$doc->loadHTMLFile($htmlFilePath);
+$doc->load($xmlFilePath);
+$doc->loadXML($xmlString);
+$xpath = new DOMXPath($doc);
+$results = $xpath->query('//ul/li');
+]]></script>
+</div>
+
+<div class="slide" id="xmlreader">
+<h2>XMLReader</h2>
+<ul>
+<li>Pull parser</li>
+<li>Works in an iterator-like fashion</li>
+<li>Best for scripts that must be memory-conservative or that work with large documents</li>
+<li>See the <a href="http://php.net/xmlreader" title="PHP: XMLReader - Manual">XMLReader PHP manual section</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="xml-reader">
+<h2>XMLReader Example</h2>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$doc = XMLReader::xml($xmlString);
+$doc = XMLReader::open($filePath);
+while ($doc->read()) {
+    if ($doc->nodeType == XMLReader::ELEMENT) {
+        var_dump($doc->localName);
+        var_dump($doc->value);
+        var_dump($doc->hasValue);
+    }
+}
+</script>
+</div>
+
+<div class="slide" id="css-selectors">
+<h2>CSS Selectors</h2>
+<ul>
+<li>Can be used as alternative to XPath</li>
+<li>Supported by third-party libraries
+    <ul>
+        <li><a href="http://framework.zend.com/manual/en/zend.dom.query.html" title="Zend Framework: Documentation: Zend_Dom_Query - Zend Framework Manual">Zend_Dom_Query</a></li>
+        <li><a href="http://simplehtmldom.sourceforge.net/" title="PHP Simple HTML DOM Parser">PHP Simple HTML DOM Parser</a></li>
+        <li><a href="http://code.google.com/p/phpquery/" title="phpquery - phpQuery - jQuery port to PHP - Google Project Hosting">phpQuery</a></li>
+    </ul>
+</li>
+<li>Excellent visual examples in the <a href="http://api.jquery.com/category/selectors/" title="Selectors – jQuery API">jQuery documentation</a></li>
+</ul>
+</div>
+
+<div class="slide" id="regular-expressions">
+<h2>Regular Expressions</h2>
+<ul>
+<li>Useful for validating extracted data</li>
+<li>Use a concise syntax of meta-characters to describe patterns in strings</li>
+<li><a href="http://oreilly.com/catalog/9780596528126" title="Mastering Regular Expressions, Third Edition - O'Reilly Media">Mastering Regular Expressions</a> (MRE) is a great reference</li>
+<li>See the <a href="http://us.php.net/pcre" title="PHP: PCRE - Manual">PCRE PHP manual section</a> for more information</li>
+</ul>
+</div>
+
+<div class="slide" id="employer">
+<h2>Who I Work For</h2>
+<p><img src="img/syn_logo.gif" alt="Synacor Logo" /></p>
+<p><img src="img/synacor.jpg" alt="Synacor Headquarters - Buffalo, NY" class="right" /></p>
+<ul>
+<li>Internet solutions for ISPs, media companies, and advertisers</li>
+<li>Offices in Buffalo and New York City</li>
+<li>Clientele includes most of the top 20 USA cable providers</li>
+<li>Great company to work for - <a href="http://www.synacor.com/careers/" title="synacor | Careers">join us</a>!</li>
+<li><a href="http://www.synacor.com" title="Synacor">http://www.synacor.com</a></li>
+<li><a href="http://twitter.com/synacor" title="Twitter">http://twitter.com/synacor</a></li>
+</ul>
+</div>
+
+<div class="slide" id="ending">
+<h2>That's All, Folks</h2>
+<ul>
+<li>Questions? Comments? Concerns?</li>
+<li>Please leave feedback! <a href="#" title=""></a></li>
+<li><a href="http://matthewturland.com" title="Matthew Turland">http://matthewturland.com</a></li>
+<li><a href="mail:me@matthewturland.com" title="E-mail Matthew Turland">me@matthewturland.com</a></li>
+<li>Elazar on <a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">Twitter</a>, <a href="https://github.com/elazar" title="elazar's Profile - GitHub">GitHub</a>, and <a href="http://freenode.net/" title="About the Network">Freenode</a></li>
+</ul>
+</div>
+
+<!-- Core JS and extension files -->
+<script src="js/jquery.min.js"></script>
+<script src="js/deck.core.js"></script>
+<script src="js/extensions/deck.hash.js"></script>
+
+<!-- Custom JS files -->
+<script src="js/deck.custom.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>

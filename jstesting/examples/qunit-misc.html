@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>QUnit miscellaneous assertions example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/qunit.js"></script>
+<script>
+function truthy(value, message) {
+    equal(value, true, message);
+}
+
+test("ok() assertions pass", function() {
+    ok(true, "true succeeds");
+    ok("non-empty", "non-empty string succeeds");
+    ok(1, "positive integer succeeds");
+    ok(-1, "negative integer succeeds");
+});
+
+test("some equivalent truthy() assertions fail", function() {
+    truthy(true, "true succeeds");
+    truthy("non-empty", "non-empty string succeeds"); // *
+    truthy(1, "positive integer succeeds");
+    truthy(-1, "negative integer succeeds"); // *
+    // [*] "If the two operands are not of the same type, JavaScript converts
+    // the operands, then applies strict comparison. If either operand is a
+    // number or a boolean, the operands are converted to numbers if
+    // possible..."
+    // ~ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comparison_Operators
+});
+
+test("ok() assertions fail", function() {
+    ok(false, "false fails");
+    ok("", "empty string fails");
+    ok(0, "zero fails");
+    ok(NaN, "NaN fails");
+    ok(null, "null fails");
+    ok(undefined, "undefined fails");
+});
+
+test("throws() assertions pass", function() {
+    throws(function() { throw "error"; }, "no expected value");
+    throws(function() { throw new Error(); }, Error, "type check");
+    throws(function() { throw new Error("message"); }, /message/, "message pattern check");
+});
+
+test("throws() assertions fail", function() {
+    throws(function() { }, "no exception thrown");
+    throws(function() { throw "error"; }, Error, "type check");
+    throws(function() { throw new Error("message"); }, /foo/, "message pattern check");
+});
+</script>
+</body>
+</html>

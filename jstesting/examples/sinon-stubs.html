@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/qunit.css">
+<title>Stubs example</title>
+</head>
+<body>
+<div id="qunit"></div>
+<script src="../js/jquery.min.js"></script>
+<script src="../js/qunit.js"></script>
+<script src="../js/sinon.js"></script>
+<!-- Code under test-->
+<script>
+function Calculator() {}
+Calculator.prototype.sum = function(a, b, callback) {
+    var sum = a + b;
+    callback(sum);
+    return sum;
+};
+Calculator.prototype.total = function(numbers, callback) {
+    var total = 0;
+    for (n = 0; n < numbers.length; n++) {
+        total = this.sum(total, numbers[n], callback);
+    }
+    return total;
+};
+</script>
+<!-- Test code -->
+<script>
+test("Stub callback is invoked", function() {
+    var calc = new Calculator();
+    var callback = sinon.stub();
+    calc.sum(2, 3, callback);
+    ok(callback.calledOnce);
+    deepEqual(callback.args[0], [5]);
+});
+
+test("Stub prototype method is invoked", function() {
+    var calc = new Calculator();
+    var callback = sinon.spy();
+    var sum = sinon.stub(calc, "sum");
+    sum.withArgs(0, 1, callback).returns(1);
+    sum.withArgs(1, 2, callback).returns(3);
+    sum.withArgs(3, 3, callback).returns(6);
+    equal(calc.total([1, 2, 3], callback), 6);
+    equal(sum.callCount, 3);
+});
+
+test("Stubbing jQuery object methods works", function() {
+    var data = sinon.stub(jQuery, "data");
+    data.returns("foo");
+    equal(jQuery.data("div", "bar", "baz"), "foo");
+});
+
+test("Stubbing jQuery prototype methods works", function() {
+    var data = sinon.stub(jQuery.fn, "data");
+    data.withArgs("foo").returns("bar");
+    jQuery("div").data("foo", "bar");
+    equal(jQuery("div").data("foo"), "bar");
+});
+
+test("Stubbing jQuery function works", function() {
+    var instance = { get: sinon.stub() };
+    instance.get.withArgs(0).returns(document.getElementById("qunit"));
+    var $ = sinon.stub(jQuery.fn, "init");
+    $.withArgs("span").returns(instance);
+    equal($("span").get(0).id, "qunit");
+});
+</script>
+</body>
+</html>

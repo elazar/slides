@@ -1,0 +1,19 @@
+body { color: #360409; font-family: "Lucida Sans", "Lucida Console", Verdana, Arial, sans-serif !important; height: 100%; width: 100%; }
+body, .deck-container, .deck-container .slide { overflow: hidden; }
+
+.deck-container { padding: 0; width: 70%; }
+.deck-container .slide blockquote { font-size: 1em; }
+.slide a { color: #999999; }
+.slide h2, .slide a, .slide p, .slide li { color: #360409; font-size: 1em; }
+.slide p a, .slide li a { font-size: 1em; }
+.slide h2 { border: 0; padding-bottom: 5px; font-size: 2em; font-weight: bold; text-align: center; }
+
+.slide .center { text-align: center; clear: both; margin-top: 20px; }
+.two-col-left { float: left; width: 50%; }
+.two-col-right { float: right; width: 50%; }
+.slide .two-col-left.center, .slide .two-col-right.center { text-align: center; clear: none; }
+
+#title-slide h1 { font-size: 2em; font-weight: bold; position: relative; text-align: center; margin-top: 100px; } 
+#title-slide img { margin-bottom: 50px; }
+
+.slide .small { font-size: 0.5em; }

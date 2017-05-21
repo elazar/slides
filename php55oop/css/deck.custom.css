@@ -1,0 +1,17 @@
+/* Some base CSS customizations I've found useful -- feel free to remove them if you don't need them */
+#title-slide { width: 100%; height: 100%; overflow: hidden; }
+#title-slide h1 { top: 45%; font-size: 2.5em; }
+#title-slide h2 { top: 35%; width: 100%; text-align: center; color: #aaaaaa; border: 0; margin-top: 50%; }
+.deck-container h2 { border-bottom: 0; font-size: 2em; }
+.deck-container img { display: inline; }
+.slide h2 { width: 100%; text-align: center; }
+
+/* Your own custom CSS goes here */
+.two-col-left, .two-col-right { text-align: center; }
+.two-col-left { float: left; width: 50%; }
+.two-col-right { float: right; width: 50%; }
+.center { text-align: center; clear: both; }
+.deck-container .slide a { text-decoration: underline; }
+.deck-container .slide blockquote { padding: 0.5em 1em; }
+.deck-container .slide code a, .deck-container .slide code a:hover { text-decoration: none; }
+.slide .gist .gist-file .gist-data { overflow: scroll; }

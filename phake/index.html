@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Mocking Dependencies in Unit Tests with Phake</title>
+
+<meta name="description" content="A presentation on the practice of mocking in PHP unit tests using the Phake library for examples.">
+<meta name="author" content="Matthew Turland <me@matthewturland.com>">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css" id="theme">
+<link rel="stylesheet" href="css/custom.css">
+
+<!-- Code syntax highlighting -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- Printing and PDF exports -->
+<script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section id="slide-title" data-background="img/titlebg.png" data-background-color="#f3f8fc" data-background-size="1522px" data-background-position="bottom">
+            <img src="img/logo.png" alt="PHP UK 2016 logo" />
+            <h1>Mocking Dependencies in Unit Tests with Phake</h1>
+            <p class="byline">Matthew Turland</p>
+        </section>
+
+        <section id="questions-or-feedback">
+            <h2>Questions or Feedback?</h2>
+            <ul>
+                <li>Ask questions during or after the session</li>
+                <li>Contact me: <a href="http://matthewturland.com/contact">matthewturland.com/contact</a></li>
+                <li>Leave feedback: <a href="https://joind.in/talk/b501b">joind.in/talk/b501b</a></li>
+            </ul>
+        </section>
+
+        <section id="slides">
+            <h2>Slides</h2>
+            <p>Linked from either of these:</p>
+            <p><a href="https://joind.in/talk/b501b">joind.in/talk/b501b</a></p>
+            <p><a href="http://matthewturland.com/publications">matthewturland.com/publications</a></p>
+        </section>
+
+        <section id="goals">
+            <h2>Goals</h2>
+            <ul>
+                <li>Learn about the <strong>general practice</strong> of mocking, why it's done, and related terminology</li>
+                <li>Review the <strong>high-level implementation</strong> of PHP mocking libraries in general</li>
+                <li>Discuss the <strong>commonly used features</strong> of Phake mocking library and how to use them</li>
+            </ul>
+        </section>
+
+        <section id="non-goals">
+            <h2>Non-Goals</h2>
+            <ul>
+                <li>Learning <strong>PHP basics</strong>
+                    <p><a href="https://www.phparch.com/training/">php[architect] training courses</a></p>
+                </li>
+                <li>Learning <strong>PHP OOP fundamentals</strong>
+                    <p><a href="http://matthewturland.com/slides/phpoop-tutorial/">Slides</a> or <a href="https://www.youtube.com/watch?v=oAaNHGK1kNk">video</a> from <a href="http://world.phparch.com">php[world] 2014</a> tutorial</p>
+                </li>
+                <li>Learning about <strong>PHPUnit basics</strong>
+                    <p><a href="https://phpunit.de/presentations.html">Presentations on PHPUnit</a></p>
+                </li>
+            </ul>
+        </section>
+
+        <section id="getting-phake">
+            <h2>Getting Phake</h2>
+            <p>Install using <a href="https://getcomposer.org">Composer</a>:
+            <pre><code class="json" data-trim>
+{
+    "require-dev": {
+        "phake/phake": "^2"
+    }
+}
+                    </code></pre>
+            <p>Or clone the <a href="http://git-scm.com/">git</a> repository:<br /><a href="https://github.com/mlively/Phake">github.com/mlively/Phake</a></p>
+        </section>
+
+        <section id="just-use-composer">
+            <h2>Just Use Composer</h2>
+            <p>Seriously, just use Composer.</p>
+            <img src="img/composer.jpg" alt="Composer is awesomesauce. I put it on everything." />
+        </section>
+
+        <section id="rtfm">
+            <h2>Also, <acronym title="Read The Fine Manual">RTFM</acronym></h2>
+            <p><a href="http://phake.readthedocs.org">phake.readthedocs.org</a></p>
+            <a href="https://xkcd.com/293/"><img src="img/rtfm.png" /></a>
+        </section>
+
+        <section id="mike-lively">
+            <h2>Mike Lively</h2>
+            <img src="img/mlively.jpg" alt="Mike Lively" />
+            <p><a href="https://github.com/mlively">github.com/mlively</a></p>
+        </section>
+
+        <section id="unit-testing">
+            <h2>Unit Testing</h2>
+            <blockquote>In computer programming, <strong>unit testing</strong>
+            is a software testing method...  The goal of unit testing is to
+            <em>isolate each part of the program</em> and <em>show that the
+            individual parts are correct</em>.</blockquote>
+            <cite><a href=" https://en.wikipedia.org/wiki/Unit_testing">Wikipedia</a></cite>
+        </section>
+
+        <section id="phpunit">
+            <h2>PHPUnit</h2>
+            <blockquote><strong>PHPUnit</strong> is a programmer-oriented testing framework for PHP.
+            It is an instance of the xUnit architecture for unit testing frameworks.</blockquote>
+            <cite><a href="https://phpunit.de">PHPUnit project web site</a></cite>
+        </section>
+
+        <section id="sebastian-bergmann">
+            <h2>Sebastian Bergmann</h2>
+            <img src="img/sb.png" alt="Sebastian Bergmann" />
+            <p><a href="https://sebastian-bergmann.de">sebastian-bergmann.de</a></p>
+            <p><a href="https://thephp.cc">thephp.cc</a></p>
+        </section>
+
+        <section id="integration-testing">
+            <h2>Integration Testing</h2>
+            <blockquote><strong>Integration testing</strong>... is the phase in
+            software testing in which individual <em>software modules are combined
+            and tested as a group</em>. It occurs <em>after unit testing</em>...</blockquote>
+            <cite><a href="http://en.wikipedia.org/wiki/Integration_testing">Wikipedia</a></cite>
+        </section>
+
+        <section id="integration-test-example">
+            <h2>Integration Test Example</h2>
+            <pre><code class="php" data-trim>
+public function testGetUsers() {
+    $model = new UserModel(new \PDO('...'));
+    $users = $model->getUsers();
+    // ...
+}
+            </code></pre>
+        </section>
+
+        <section id="integration-vs-unit-tests">
+            <h2>Why Unit Tests?</h2>
+            <ul>
+                <li>You may not want tests interacting with external systems (e.g 3rd party APIs)</li>
+                <li>Changes to a component can break integration tests for its dependents</li>
+            </ul>
+        </section>
+
+        <section id="example-class-under-test">
+            <h2>Example Class Under Test</h2>
+            <pre><code class="php" data-trim>
+use GuzzleHttp\ClientInterface;
+
+class FooRestClient {
+    protected $client;
+
+    public function __construct(ClientInterface $client) {
+        $this->client = $client;
+        /* ... */
+    }
+
+    /* ... */
+}
+            </code></pre>
+            <p>How do we test this class in isolation from the
+            <code>ClientInterface</code> instance injected into its
+            constructor?</p>
+        </section>
+
+        <section id="test-doubles">
+            <h2>Test Doubles</h2>
+            <blockquote>In automated unit testing, it may be necessary to use objects... that look and behave like their release-intended counterparts, but are actually simplified versions... A <strong>test double</strong> is a generic... term used for these objects...</blockquote>
+            <cite><a href="http://en.wikipedia.org/wiki/Test_double">Wikipedia</a></cite>
+        </section>
+
+        <section id="mock-object">
+            <h2>Mock Object</h2>
+            <blockquote>In object-oriented programming, <strong>mock
+            objects</strong> are simulated objects that mimic the behavior of
+            real objects in controlled ways... to test the behavior of some
+            other object.</blockquote>
+            <cite><a href="https://en.wikipedia.org/wiki/Mock_object">Wikipedia</a></cite>
+        </section>
+
+        <section id="mock-classes">
+            <h2>Mocking Classes</h2>
+            <p>For mock objects to pass <a href="http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration">typehint checks</a>:</p>
+            <ul>
+                <li>When mocking a <a href="http://php.net/manual/en/language.oop5.basic.php">class</a>, the mock object must be an instance of a <a href="http://php.net/manual/en/language.oop5.inheritance.php">subclass</a> of that class</li>
+                <li>When mocking an <a href="http://php.net/manual/en/language.oop5.interfaces.php">interface</a>, the mock object must be an instance of a class that implements that interface</li>
+            </ul>
+        </section>
+
+        <section id="mock-objects-in-phake">
+            <h2>Mock Objects in Phake</h2>
+            <p>Using the previous <a href="#/example-class-under-test">class under test example</a>:</p>
+            <pre><code class="php" data-trim>
+class FooRestClientTest extends PHPUnit_Framework_TestCase {
+    public function testConstructor() {
+        $http = Phake::mock(ClientInterface::class);
+        echo get_class($http), PHP_EOL;
+        $client = new FooRestClient($http);
+    }
+}
+            </code></pre>
+            <pre><code data-trim>
+ClientInterface_PHAKE5556f19936c6c
+            </code></pre>
+        </section>
+
+        <section id="stubs">
+            <h2>Stubs</h2>
+            <blockquote>The practice of replacing an object with a test double that... returns configured return values is referred to as <strong>stubbing</strong>.</blockquote>
+            <cite><a href="https://phpunit.de/manual/current/en/test-doubles.html#test-doubles.stubs">PHPUnit manual</a></cite>
+        </section>
+
+        <section id="example-method-to-stub">
+            <h2>Example Method to Stub</h2>
+            <pre><code class="php" data-trim>
+use GuzzleHttp\ClientInterface;
+
+class FooRestClient {
+    /* ... */
+
+    public function getThing($id) {
+        // The two methods called below need to be stubbed
+        $response = $this->client->get(
+            'https://api.foo.com/things/' . $id
+        );
+        return $response->json();
+    }
+}
+            </code></pre>
+        </section>
+
+        <section id="example-test-with-stubbing">
+            <h2>Example Test With Stubbing</h2>
+            <pre><code class="php" data-trim>
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Message\ResponseInterface;
+
+$data = ['id' => 1, 'name' => 'Thing One'];
+
+$response = Phake::mock(ResponseInterface::class);
+Phake::when($response)->json()->thenReturn($data);
+
+$http = Phake::mock(ClientInterface::class);
+Phake::when($http)
+    ->get('https://api.foo.com/things/1')
+    ->thenReturn($response);
+
+$client = new FooRestClient($http);
+$thing = $client->getThing('1');
+$this->assertSame($thing, $data);
+            </code></pre>
+        </section>
+
+        <section id="stub-behaviors">
+            <h2>Stub Behaviors</h2>
+            <p>Phake refers to these as <a href="http://phake.readthedocs.org/en/latest/answers.html#answers">answers</a>.</p>
+            <p>By default, mock object methods return <code>null</code>.</p>
+            <ul>
+                <li><code>thenReturn($value)</code></li>
+                <li><code>thenReturnCallback($callable)</code></li>
+                <li><code>thenThrow($exception)</code></li>
+                <li><a href="http://phake.readthedocs.org/en/latest/answers.html#custom-answers">Custom answers</a></li>
+            </ul>
+        </section>
+
+        <section id="private-methods">
+            <h2><code>private</code> Methods</h2>
+            <ul>
+                <li><a href="http://php.net/manual/en/language.oop5.visibility.php"><code>private</code></a> methods can't be overridden in subclasses and thus can't be stubbed</li>
+                <li>PHP supports <a href="https://sebastian-bergmann.de/archives/881-Testing-Your-Privates.html">invoking private methods</a> individually for testing</li>
+                <li>Phake has a feature to support <a href="http://phake.readthedocs.org/en/2.1/mocks.html#calling-private-and-protected-methods-on-mocks">calling non-<code>public</code> methods on mocks</a></li>
+                <li>tl;dr: It's best to test non-<code>public</code> methods by testing the <code>public</code> methods that call them</li>
+            </ul>
+        </section>
+
+        <section id="testing-private-methods-1">
+            <h2>Testing <code>private</code> Methods</h2>
+            <pre><code class="php" data-trim>
+class MyReallyTerribleOldClass {
+    private function cleanRowContent($dbRow) {
+        return 42;
+    }
+}
+            </code></pre>
+            <pre><code class="php" data-trim>
+$dbRow = ['foo' => 'bar'];
+$oldClass = Phake::partialMock('MyReallyTerribleOldClass');
+$data = Phake::makeVisible($oldClass)->cleanRowContent($dbRow);
+            </code></pre>
+        </section>
+
+        <section id="testing-private-methods-2">
+            <h2>Testing <code>private</code> Methods</h2>
+            <pre><code class="php" data-trim>
+class PrivateExample {
+    private function privateMethod() {
+        return 42;
+    }
+}
+
+// ...
+
+$method = new \ReflectionMethod('PrivateExample', 'privateMethod');
+$method->setAccessible(true);
+$this->assertEquals(42, $method->invoke(new PrivateExample));
+            </code></pre>
+        </section>
+
+        <section id="static-methods">
+            <h2><code>static</code> Methods</h2>
+            <p><a href="http://php.net/manual/en/language.oop5.static.php"><code>static</code></a> methods can't be stubbed<br />unless they're invoked using <a href="http://php.net/manual/en/language.oop5.late-static-bindings.php">late static binding</a></p>
+            <ul>
+                <li><a href="http://phake.readthedocs.org/en/stable/mocking-statics.html">Phake reference</a></li>
+                <li><a href="https://sebastian-bergmann.de/archives/883-Stubbing-and-Mocking-Static-Methods.html">PHPUnit reference</a></li>
+            </ul>
+        </section>
+
+        <section id="stubbing-static-method-calls-1">
+            <h2>Stubbing <code>static</code> Method Calls</h2>
+            <pre><code class="php" data-trim>
+class Foo {
+    public $logger = 'Logger';
+    public function doSomething() {
+        $logger = $this->logger;
+        $logger::logData($data);
+    }
+}
+            </code></pre>
+            <pre><code class="php" data-trim>
+class FooTest {
+    public function testDoSomething() {
+        $foo = new Foo;
+        $foo->logger = Phake::mock('Logger');
+        $foo->doSomething();
+        Phake::verify($foo->logger)
+            ->logData(Phake::anyParameters());
+    }
+}
+            </code></pre>
+            <p><a href="https://github.com/mlively/Phake/issues/184#issuecomment-185648831">Not sure this works right yet...</a></p>
+        </section>
+
+        <section id="stubbing-static-method-calls-2">
+            <h2>Stubbing <code>static</code> Method Calls</h2>
+            <pre><code class="php" data-trim>
+class ClassWithStaticMethod {
+    public static function staticMethod() {
+        return 42;
+    }
+}
+class DependentClass {
+    /* Wrap the static method call in an instance method ... */
+    protected function callStaticMethod() {
+        return ClassWithStaticMethod::staticMethod();
+    }
+}
+            </code></pre>
+            <pre><code class="php" data-trim>
+$mock = Phake::mock('DependentClass');
+/* ... then stub that instance method */
+Phake::when($mock)->callStaticMethod()->thenReturn(37);
+            </code></pre>
+        </section>
+
+        <section id="final-methods">
+            <h2><code>final</code> Methods</h2>
+            <p><a href="http://php.net/manual/en/language.oop5.final.php"><code>final</code></a> methods can't be stubbed<br />because subclasses can't override them</p>
+            <pre><code class="php" data-trim>
+class FinalExample {
+    public final function finalMethod() {
+        return 42;
+    }
+}
+$mock = Phake::mock('FinalExample');
+Phake::when($mock)->finalMethod()->thenReturn(37);
+var_dump($mock->finalMethod());
+            </code></pre>
+            <pre><code data-trim>
+int(42)
+            </code></pre>
+            <p><a href="http://php.net/manual/en/language.oop5.final.php"><code>final</code></a> classes can't be mocked or stubbed at all because they can't be subclassed.</p>
+        </section>
+
+        <section id="stubbing-final-method-calls">
+            <h2>Stubbing <code>final</code> Method Calls</h2>
+            <pre><code class="php" data-trim>
+class ClassWithFinalMethod {
+    public final function finalMethod() {
+        return 42;
+    }
+}
+class DependentClass {
+    private $instance;
+    public function __construct(ClassWithFinalMethod $instance) {
+        $this->instance = $instance;
+    }
+    /* Wrap the final method call in an instance method ... */
+    protected function callStaticMethod() {
+        return $this->instance->finalMethod();
+    }
+}
+            </code></pre>
+            <pre><code class="php" data-trim>
+$mock = Phake::mock('ClassWithFinalMethod');
+/* ... then stub that instance method */
+Phake::when($mock)->callFinalMethod()->thenReturn(37);
+            </code></pre>
+        </section>
+
+        <section id="magic-methods">
+            <h2>Magic Methods</h2>
+            <p>All <a href="http://php.net/manual/en/language.oop5.magic.php">magic methods</a> can be stubbed normally<br />except for <a href="http://php.net/manual/en/language.oop5.overloading.php#object.call"><code>__call()</code></a></p>
+            <pre><code class="php" data-trim>
+class ClassWithCall {
+    public function __call($method, $args) {
+        return 42;
+    }
+}
+$mock = Phake::mock('ClassWithCall');
+/* Either stub the call that would trigger __call() ... */
+Phake::when($mock)->nonExistentMethod()->thenReturn(37);
+/* ... or stub __call() itself */
+Phake::whenCallMethodWith('nonExistentMethod', [])
+    ->isCalledOn($mock)->thenReturn(37);
+            </code></pre>
+        </section>
+
+        <section id="stubbing-multiple-calls">
+            <h2>Stubbing Multiple Calls</h2>
+            <pre><code class="php" data-trim>
+class Adder {
+    public function add($x, $y) {
+        return $x + $y;
+    }
+}
+$mock = Phake::mock('Adder');
+Phake::when($mock)->add(0, 2)->thenReturn(2);
+Phake::when($mock)->add(2, -2)->thenReturn(0);
+Phake::when($mock)->add(0, -2)->thenReturn(-2);
+            </code></pre>
+        </section>
+
+        <section id="stubbing-consecutive-calls">
+            <h2>Stubbing Consecutive Calls</h2>
+            <pre><code class="php" data-trim>
+class FileObject {
+    public function readBytes() { /* ... */ }
+}
+$mock = Phake::mock('FileObject');
+Phake::when($mock)->readBytes()
+    ->thenReturn('foo')  // first call
+    ->thenReturn('bar')  // second call
+    ->thenReturn('baz'); // third and subsequent calls
+            </code></pre>
+        </section>
+
+        <section id="overwriting-stubs">
+            <h2>Overwriting Stubs</h2>
+            <pre><code class="php" data-trim>
+class OverwriteExample {
+    public function getValue() { /* ... */ }
+}
+$mock = Phake::mock('OverwriteExample');
+/* Define the stub */
+Phake::when($mock)->getValue()->thenReturn(42);
+/* Then re-define to overwrite it */
+Phake::when($mock)->getValue()->thenReturn(37);
+var_dump($mock->getValue());
+            </code></pre>
+            <pre><code data-trim>
+int(37)
+            </code></pre>
+        </section>
+
+        <section id="method-verification">
+            <h2>Method Verification</h2>
+            <blockquote>Mock objects in Phake can almost be viewed as a tape recorder... <code>Phake::verify()</code> will look at that recording and allow you to assert whether or not a certain call was made.</blockquote>
+            <p><cite><a href="http://phake.readthedocs.org/en/2.1/method-verification.html">Phake manual</a></cite></p>
+        </section>
+
+        <section id="example-method-call-to-verify">
+            <h2>Example Method Call to Verify</h2>
+            <pre><code class="php" data-trim>
+class EventEmitter {
+    public function emit($event, $args) { /* ... */ }
+}
+class Plugin {
+    public function __construct(EventEmitter $emitter) {
+        $this->emitter = $emitter;
+    }
+    public function doThing() {
+        /* This call must be verified */
+        $this->emitter->emit('thing.happened', ['stuff!']);
+    }
+}
+            </code></pre>
+        </section>
+
+        <section id="example-test-to-verify">
+            <h2>Example Test to Verify</h2>
+            <pre><code class="php" data-trim>
+$emitter = Phake::mock('EventEmitter');
+$plugin = new Plugin($emitter);
+$plugin->doThing();
+Phake::verify($emitter)->emit('thing.happened', ['stuff!']);
+            </code></pre>
+        </section>
+
+        <section id="verifying-different-invocations">
+            <h2>Verifying Different Invocations</h2>
+            <pre><code class="php" data-trim>
+class MultipleCallClass {
+    public function calledMethod($arg) { /* ... */ }
+}
+$mock = Phake::mock('MultipleCallClass');
+$mock->calledMethod('foo');
+$mock->calledMethod('bar');
+Phake::verify($mock)->calledMethod('bar');
+Phake::verify($mock)->calledMethod('foo');
+            </code></pre>
+        </section>
+
+        <section id="verifying-invocation-order">
+            <h2>Verifying Invocation Order</h2>
+            <pre><code class="php" data-trim>
+class OrderClass {
+    public function doThing() { /* ... */ }
+    public function doLastThing() { /* ... */ }
+    public function doOtherThing() { /* ... */ }
+}
+$mock = Phake::mock('OrderClass');
+$mock->doThing();
+$mock->doOtherThing();
+$mock->doLastThing();
+Phake::inOrder(
+    Phake::verify($mock)->doThing(),
+    Phake::verify($mock)->doOtherThing(),
+    Phake::verify($mock)->doLastThing()
+);
+            </code></pre>
+        </section>
+
+        <section id="verifying-identical-invocations">
+            <h2>Verifying Identical Invocations</h2>
+            <pre><code class="php" data-trim>
+$mock->calledMethod('foo');
+$mock->calledMethod('foo');
+Phake::verify($mock, Phake::times(2))->calledMethod('foo');
+            </code></pre>
+            <p>These <a href="http://phake.readthedocs.org/en/2.1/method-verification.html#verifying-multiple-invocations">also work</a>:</p>
+            <ul>
+                <li><code>Phake::atLeast($n)</code></li>
+                <li><code>Phake::atMost($n)</code></li>
+                <li><code>Phake::never()</code></li>
+            </ul>
+        </section>
+
+        <section id="verifying-no-interaction">
+            <h2>Verifying No Interaction</h2>
+            <pre><code class="php" data-trim>
+class ThingDoer {
+    public function doThing() { /* ... */
+}
+class StuffDoer {
+    public function __construct(ThingDoer $thing) {
+        $this->thing = $thing;
+    }
+    public function doStuff($doThing) {
+        if ($doThing) { $this->thing->doThing(); }
+    }
+}
+$thing = Phake::mock('ThingDoer');
+$stuff = new StuffDoer($thing);
+$stuff->doStuff(false);
+Phake::verifyNoInteraction($thing);
+            </code></pre>
+        </section>
+
+        <section id="verifying-no-further-interaction">
+            <h2>Verifying No Further Interaction</h2>
+            <pre><code class="php" data-trim>
+$thing = Phake::mock('ThingDoer');
+$stuff = new StuffDoer($thing);
+$stuff->doStuff(true);
+Phake::verifyNoFurtherInteraction($thing);
+$stuff->doStuff(false);
+            </code></pre>
+        </section>
+
+        <section id="verifying-unverified-interaction">
+            <h2>Verifying Unverified Interaction</h2>
+            <pre><code class="php" data-trim>
+$filter = new MyFilter();
+$list = Phake::Mock('MyList');
+$filter->addEvenToList([1, 2, 3, 4, 5], $list);
+Phake::verify($list)->push(2);
+Phake::verify($list)->push(4);
+Phake::verifyNoOtherInteractions($list);
+            </code></pre>
+        </section>
+
+        <section id="verifying-magic-methods">
+            <h2>Verifying Magic Methods</h2>
+            <p>Same story, second verse as <a href="#/magic-methods">stubbing magic methods</a></p>
+            <pre><code class="php" data-trim>
+class ClassWithCall {
+    public function __call($method, $args) {
+        return 42;
+    }
+}
+$mock = Phake::mock('ClassWithCall');
+/* Either stub the call that would trigger __call() ... */
+Phake::verify($mock)->nonExistentMethod();
+/* ... or verify the call to __call() itself */
+Phake::verifyCallMethodWith('nonExistentMethod', [])
+    ->isCalledOn($mock);
+            </code></pre>
+        </section>
+
+        <section id="phpunit-constraints">
+            <h2>PHPUnit Constraints</h2>
+            <p>Phake supports using <a href="https://phpunit.de/manual/current/en/appendixes.assertions.html#appendixes.assertions.assertThat.tables.constraints">PHPUnit constraints</a> to make assertions about stubbed and verified calls.</p>
+            <pre><code class="php" data-trim>
+class Shuffler {
+    public function shuffle($times) { /* ... */ }
+}
+class ShufflerTest extends PHPUnit_Framework_TestCase {
+    public function testShuffle() {
+        $shuffler = Phake::mock('Shuffler');
+        $shuffler->shuffle(11);
+        Phake::verify($shuffler)->shuffle($this->greaterThan(10));
+        /*                                ^ the constraint */
+    }
+}
+            </code></pre>
+            <p><a href="http://phake.readthedocs.org/en/2.1/method-parameter-matchers.html#custom-parameter-matchers">Custom matchers</a> are also supported.</p>
+        </section>
+
+        <section id="wildcard-parameters">
+            <h2>Wildcard Parameters</h2>
+            <ul>
+                <li>For individual: PHPUnit <code>anything()</code> matcher</li>
+                <li>For all:
+                    <pre><code class="php" data-trim>
+Phake::when($mock)->methodName->thenReturn('bar');
+/*                            ^
+note the lack of parentheses here */
+                    </code></pre>
+                </li>
+                <li>For trailing parameters with default values:
+                    <pre><code class="php" data-trim>
+Phake::when($mock)
+    ->methodName('foo', 'bar', Phake::ignoreRemaining())
+    ->thenReturn('bar');
+                    </code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="parameter-capturing">
+            <h2>Parameter Capturing</h2>
+            <pre><code class="php" data-trim>
+$this->bot->run();
+
+$client->emit('irc.received', [
+    /* array */ $message,
+    /* object */ $write,
+    /* object */ $connection,
+    /* object */ $logger
+]);
+
+Phake::verify($client)->emit(
+    'irc.sending.all',
+    Phake::capture($allParams)
+);
+$this->assertSame($queue, $allParams[0]);
+            </code></pre>
+        </section>
+
+        <section id="matching-captured-parameters">
+            <h2>Matching Captured Parameters</h2>
+            <pre><code class="php" data-trim>
+Phake::verify($client)->emit(
+    'irc.sending.all',
+    Phake::capture($allParams)->when($this->isType('array'))
+/*                              ^
+uses the same matchers verify() supports */
+);
+            </code></pre>
+        </section>
+
+        <section id="phpunit-mocking">
+            <h2>PHPUnit: Mocking</h2>
+            <pre><code class="php" data-trim>
+$http = $this->getMockBuilder(ClientInterface::class)
+    ->disableOriginalConstructor()
+    ->disableOriginalClone()
+    ->getMock();
+
+// or:
+
+$response = $this->getMock(
+    ClientInterface::class,
+    [],    // stub all methods
+    [],    // no constructor arguments
+    '',    // default mock class name
+    false, // do not call original __construct()
+    false  // do not call original __clone()
+);
+            </code></pre>
+            <pre><code class="php" data-trim>
+// Compare with:
+$mock = Phake::mock(ClientInterface::class);
+            </code></pre>
+        </section>
+
+        <section id="phpunit-stubbing">
+            <h2>PHPUnit: Stubbing</h2>
+            <p>Stubbing and verification APIs are conflated.</p>
+            <pre><code class="php" data-trim>
+$http->expects($this->once()) // verification
+     ->method('get')
+     ->with('https://api.foo.com/things/1')
+     ->willReturn($response); // stubbing
+            </code></pre>
+            <pre><code class="php" data-trim>
+// Compare with:
+Phake::when($http)
+    ->get('https://api.foo.com/things/1')
+    ->thenReturn($response);
+Phake::verify($http)
+    ->get('https://api.foo.com/things/1');
+            </code></pre>
+        </section>
+
+        <section id="phpunit-stubbing-multiple-calls">
+            <h2>PHPUnit: Stubbing Multiple Calls</h2>
+            <pre><code class="php" data-trim>
+$mock->method('doThing')
+     ->will($this->returnValueMap([
+        ['arg1-1', 'arg1-2', 'ret1'],
+        ['arg2-1', 'arg2-2', 'ret2'],
+     ]));
+
+// or:
+
+$mock->method('doThing')
+     ->will($this->returnCallback(
+         function($arg1, $arg2) {
+             // ...
+         }
+     );
+            </code></pre>
+            <pre><code class="php" data-trim>
+// Compare with:
+Phake::when($mock)
+    ->doThing('arg1-1', 'arg1-2')
+    ->thenReturn('ret1');
+Phake::when($mock)
+    ->doThing('arg2-1', 'arg2-2')
+    ->thenReturn('ret2');
+            </code></pre>
+        </section>
+
+        <section id="phpunit-verifying-invocation-order">
+            <h2>PHPUnit: Verifying Order</h2>
+            <pre><code class="php" data-trim>
+$mock->expects($this->at(0))
+     ->method('doThing')
+     ->with('arg1', 'arg2')
+     ->willReturn('foo');
+
+$mock->expects($this->at(1))
+    // ...
+    ;
+            </code></pre>
+            <pre><code class="php" data-trim>
+// Compare with:
+Phake::inOrder(
+    Phake::verify($mock)
+        ->doThing('arg1', 'arg2')
+        ->thenReturn('foo'),
+    Phake::verify($mock)
+        // ...
+);
+            </code></pre>
+        </section>
+
+        <section id="other-libraries">
+            <h2>Not Sure About Phake?</h2>
+            <p>Here are some alternatives:</p>
+            <ul>
+                <li><a href="https://github.com/padraic/mockery">Mockery</a></li>
+                <li><a href="https://github.com/phpspec/prophecy">Prophecy</a> (<a href="https://phpunit.de/manual/current/en/test-doubles.html#test-doubles.prophecy">integrated with PHPUnit</a>)</li>
+            </ul>
+        </section>
+
+        <section id="thats-all-folks">
+            <h2>That's All, Folks</h2>
+            <ul>
+                <li>Questions? Comments? Discussion?</li>
+                <li><a href="http://wheniwork.com">wheniwork.com</a></li>
+                <li><a href="http://matthewturland.com">matthewturland.com</a> for slides</li>
+                <li>E-mail: <a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+                <li>Twitter: <a href="http://twitter.com/elazar">@elazar</a></li>
+                <li>Github: <a href="http://github.com/elazar">elazar</a></li>
+                <li>Freenode: Elazar</li>
+            </ul>
+        </section>
+
+        <section id="feedback">
+            <h2>Feedback</h2>
+            <p>Please rate my talk!</p>
+            <p><a href="https://joind.in/talk/b501b">https://joind.in/talk/b501b</a></p>
+            <p>Also, check out the <a href="http://joind.in/help">joind.in mobile apps</a>!</p>
+        </section>
+    </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+            { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true }
+        ]
+    });
+
+</script>
+
+</body>
+
+</html>

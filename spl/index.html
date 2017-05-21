@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>New SPL Features in PHP 5.3</title>
+<!-- metadata -->
+<meta name="generator" content="S5" />
+<meta name="version" content="S5 1.1" />
+<meta name="presdate" content="20101213" />
+<meta name="author" content="Matthew Turland" />
+<meta name="company" content="Synacor, Inc." />
+<!-- configuration parameters -->
+<meta name="defaultView" content="slideshow" />
+<meta name="controlVis" content="hidden" />
+<!-- style sheet links -->
+<link rel="stylesheet" href="ui/synacor/slides.css" type="text/css" media="projection" id="slideProj" />
+<link rel="stylesheet" href="ui/synacor/outline.css" type="text/css" media="screen" id="outlineStyle" />
+<link rel="stylesheet" href="ui/synacor/print.css" type="text/css" media="print" id="slidePrint" />
+<link rel="stylesheet" href="ui/synacor/opera.css" type="text/css" media="projection" id="operaFix" />
+<!-- S5 JS -->
+<script src="ui/synacor/slides.js" type="text/javascript"></script>
+<!-- Other JS -->
+<link rel="stylesheet" href="js/sh/shCoreDefault.css" type="text/css" media="screen" />
+<script src="js/sh/shCore.js" type="text/javascript"></script>
+<script src="js/sh/shBrushPhp.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="layout">
+
+<div id="controls"><!-- DO NOT EDIT --></div>
+<div id="currentSlide"><!-- DO NOT EDIT --></div>
+<div id="header"></div>
+<div id="footer">
+<h1>Zend Webinar - 2/24/2011</h1>
+<h2>New SPL Features in PHP 5.3</h2>
+</div>
+
+</div>
+
+<div class="presentation">
+
+<div class="slide">
+<h1>New SPL Features in PHP 5.3</h1>
+<h3>Matthew Turland</h3>
+<h4>Senior Engineer - Synacor, Inc.</h4>
+</div>
+
+<div class="slide">
+<h1>My Name Is...</h1>
+<ul>
+<li>Senior Engineer at <a href="http://synacor.com" title="Synacor - Home">Synacor, Inc.</a></li>
+<li>Past author and technical editor for <a href="http://phparch.com" title="PHP Magazine - PHP Training - PHP Conferences - PHP Books">php|architect</a></li>
+<li>Author of <a href="http://phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP | php|architect">Web Scraping with PHP</a></li>
+<li>Past contributor to <a href="http://framework.zend.com" title="Zend Framework">Zend Framework</a></li>
+<li>Lead developer of <a href="http://phergie.org" title="Phergie - A PHP IRC Bot">Phergie</a></li>
+<li><a href="http://louisiana.edu" title="University of Louisiana at Lafayette: Main Page">ULL</a> alumni with a BS in <a href="http://fidelio.cacs.louisiana.edu/cmps/" title="Home / Computer Science Department / University of Louisiana">computer science</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>And I Work For...</h1>
+<ul>
+<li>Provides internet solutions to ISPs, media companies, and advertisers</li>
+<li>International company with offices in Buffalo and New York City</li>
+<li>Clientele includes most of the top 20 cable providers in the United States</li>
+<li>Great company - <a href="http://www.synacor.com/careers/" title="Synacor - Careers">join us</a>!</li>
+</ul>
+<p><img src="images/synacor-hq.jpg" alt="Synacor HQ - Buffalo, NY" style="float: right;" /></p>
+<p><a href="http://www.synacor.com" title="Synacor">http://www.synacor.com</a></p>
+</div>
+
+<div class="slide">
+<h1>And You?</h1>
+<ul>
+<li>Used SPL before?</li>
+<li>Using PHP 5.3?</li>
+<li>Computer science background?</li>
+<li>Knowledge of data structures?</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>State of SPL Pre-5.3</h1>
+<ul>
+<li><strong>Classes</strong>: <code>ArrayObject</code>, <code>SplFileInfo</code>, <code>SplSubject</code>/<code>SplObserver</code></li>
+<li><strong>Iterators</strong>: <code>RecursiveIteratorIterator</code>, <code>FilterIterator</code>, <code>LimitIterator</code></li>
+<li><strong>Interfaces</strong>: <code>ArrayAccess</code>, <code>Countable</code>, <code>Iterator</code>, <code>IteratorAggregate</code></li>
+<li><strong>Functions</strong>: <code>spl_autoload_register()</code>, <code>iterator_to_array()</code>, <code>spl_object_hash()</code></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Containers</h1>
+<blockquote>&quot;A <strong>container</strong> is a class, a data structure, or
+an abstract data type whose instances are collections of other objects. They
+are used to store objects in an organized way following specific access
+rules.&quot;
+<p><em><a href="http://en.wikipedia.org/wiki/Container_(data_structure)" title="Container (data structure) - Wikipedia">Container (data structure) - Wikipedia</a></em></p>
+</blockquote>
+</div>
+
+<div class="slide">
+<h1>Why Containers?</h1>
+<p>We already have arrays and strings!</p>
+<ul class="imglist">
+<li><img src="images/wd40.jpg" alt="WD-40" /></li>
+<li><img src="images/ducttape.jpg" alt="Duct tape" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Two Excellent Reasons</h1>
+<p>Versus traditional arrays, there's potential for:</p>
+<ul>
+<li>Less CPU usage</li>
+<li>Less memory usage</li>
+</ul>
+<ul class="imglist">
+<li><img src="images/cpu.jpg" title="CPU" /></li>
+<li><img src="images/memory.jpg" title="Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Arrays Are (Not Always) Great</h1>
+<ul>
+<li>Flexible general purpose container</li>
+<li>Underlying <a href="http://en.wikipedia.org/wiki/Hash_table" title="Hash table - Wikipedia, the free encyclopedia">hash table</a> <a href="http://svn.php.net/viewvc/php/php-src/trunk/Zend/zend_hash.h?revision=304083&view=markup#l228" title="[svn] Contents of /php/php-src/trunk/Zend/zend_hash.h">algorithm</a> is not always ideal for the task at hand</li>
+</ul>
+<ul class="imglist">
+<li><img src="images/hashtable.jpg" title="Hash table" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Warning: Benchmarks Ahead</h1>
+<ul>
+<li>Lies, Outrageous Lies, and Benchmarks</li>
+<li>PHP 5.3.4 compiled on Ubuntu 10.10</li>
+<li>Intel Core2Duo 1.83GHz, 4 GB DDR2 RAM</li>
+<li>Performance results shown in executions/second instead of time/execution for better visualization</li>
+<li><a href="http://github.com/elazar/spl-benchmarks" title="elazar/spl-benchmarks - GitHub">Code and results</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The List</h1>
+<ul class="imglist">
+<li><img src="images/list.jpg" title="List" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplFixedArray - What</h1>
+<ul>
+<li>Like an array, but with a fixed maximum element count</li>
+<li>Only allows integers &gt;= 0 for keys</li>
+<li>Can be resized, but at a cost</li>
+<li>Not compatible with array functions</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplFixedArray - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You know in advance how many elements you want to store (ex: when using the <code>mysql_num_rows()</code> function)</li>
+<li>You only need to access elements in sequential order</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplFixedArray - Code</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a[$i] = $i;
+    $i = $a[$i];
+}
+
+$a = new SplFixedArray($argv[1]);
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a[$i] = $i;
+    $i = $a[$i];
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplFixedArray - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splfixedarray_eps.gif" alt="SplFixedArray - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplFixedArray - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splfixedarray_memory.gif" alt="SplFixedArray - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplDoublyLinkedList - What</h1>
+<ul>
+<li>Mainly intended as a parent class</li>
+<li>Same unlimited size as arrays without the associated hash map algorithm</li>
+<li>Less performance, but more memory efficiency</li>
+<li>Element insertion only allowed at list start or end (<a href="http://bugs.php.net/bug.php?id=48358" title="PHP :: Request #48358 :: SplDoublyLinkedList needs an insertAfterIterator() method or something similar">feature request</a>)</li>
+</ul>
+<ul class="imglist">
+<li><img src="images/linkedlist.gif" alt="Linked list" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplDoublyLinkedList - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You do not know in advance how many elements you want to store</li>
+<li>You only need to access elements in sequential order</li>
+<li>You are more concerned with memory usage than runtime</li>
+<li>You are dealing with a fairly large number of elements</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplDoublyLinkedList - Code</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+    $i = $a[$i];
+}
+
+$a = new SplDoublyLinkedList($argv[1]);
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+    $i = $a[$i];
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplDoublyLinkedList - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/spldoublylinkedlist_eps.gif" alt="SplDoublyLinkedList - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplDoublyLinkedList - Memory</h1>
+<ul class="imglist">
+<li><img src="images/spldoublylinkedlist_memory.gif" alt="SplDoublyLinkedList - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Stack</h1>
+<ul class="imglist">
+<li><img src="images/stack.jpg" alt="Stack" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplStack - What</h1>
+<ul>
+<li>2 operations
+    <ul>
+        <li>Push: adds an item to the stack - <code>[]</code> for both <code>array</code> and <code>SplStack</code></li>
+        <li>Pop: removes an item from the stack - <code>array_pop()</code> vs <code>Splstack::pop()</code></li>
+    </ul>
+</li>
+<li>Last In, First Out (LIFO)
+    <ul>
+        <li>The last item pushed onto the top of the stack is
+        the first item that will be popped off of the top of
+        the stack</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplStack - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You do not know in advance how many elements you want to store</li>
+<li>You only ever need to access the last remaining element that was stored</li>
+<li>You are more concerned with memory usage than runtime</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplStack - Code (Array)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    array_pop($a);
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplStack - Code (SplStack)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = new SplStack;
+for($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    $a->pop();
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplStack - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splstack_eps.gif" alt="SplStack - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplStack - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splstack_memory.gif" alt="SplStack - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Queue</h1>
+<ul class="imglist">
+<li><img src="images/queue.jpg" alt="The Queue" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplQueue - What</h1>
+<ul>
+<li>2 operations
+    <ul>
+        <li>Enqueue: adds an item to the queue - <code>[]</code> for both <code>array</code> and <code>SplQueue</code></li>
+        <li>Dequeue: removes an item from the queue - <code>array_shift()</code> vs <code>SplQueue::dequeue()</code></li>
+    </ul>
+</li>
+<li>First In, First Out (FIFO)
+    <ul>
+        <li>The first item added to the end of the queue is the first item
+        removed from the front of the queue</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplQueue - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You do not know in advance how many elements you want to store</li>
+<li>You only ever need to access the remaining element that was stored earliest</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplQueue - Code (Array)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    array_shift($a);
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplQueue - Code (SplQueue)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = new SplQueue;
+for($i = 0; $i < $argv[1]; $i++) {
+    $a[] = $i;
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    $a->dequeue();
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplQueue - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splqueue_eps.gif" alt="SplQueue - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplQueue - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splqueue_memory.gif" alt="SplQueue - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Heap</h1>
+<ul class="imglist">
+<li><img src="images/heap.jpg" alt="The Heap" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplHeap - What</h1>
+<ul>
+<li>2 operations
+    <ul>
+        <li>Insert: <code>[]</code> + <code>sort()</code> vs <code>SplHeap::insert()</code></li>
+        <li>Remove: <code>array_shift()</code> vs <code>SplHeap::extract()</code></li>
+    </ul>
+</li>
+<li>Internally reorders items based on comparison
+    <ul>
+        <li><code>SplHeap::compare()</code> can be overridden in subclasses</li>
+    </ul>
+</li>
+<li>Native subclasses include <code>SplMinHeap</code> and <code>SplMaxHeap</code></li>
+<li><a href="http://en.wikipedia.org/wiki/Heap_sort#Comparison_with_other_sorts" title="Heapsort - Wikipedia, the free encyclopedia">Better worst-case performance</a> than arrays (<a href="http://svn.php.net/viewvc/php/php-src/trunk/ext/spl/spl_heap.c?revision=305335&view=markup#l240" title="[svn] Contents of /php/php-src/trunk/ext/spl/spl_heap.c">heap sort</a> versus <a href="http://svn.php.net/viewvc/php/php-src/trunk/Zend/zend_qsort.c?view=markup" title="[svn] Contents of /php/php-src/trunk/Zend/zend_qsort.c">quick sort</a>)</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Heap Diagram</h1>
+<ul class="imglist">
+<li><img src="images/realheap.gif" alt="Heap Diagram" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplHeap - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You do not know in advance how many elements you want to store</li>
+<li>You need to access elements in an order based on value comparison</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplMinHeap - Code (Array)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for($i = 0; $i < $argv[1]; $i++) {
+    $a[] = rand(1, $argv[1]);
+    sort($a);
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    array_shift($a);
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplMinHeap - Code (SplMinHeap)</h1>
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = new SplMinHeap;
+for($i = 0; $i < $argv[1]; $i++) {
+    $a->insert(rand(1, $argv[1]));
+}
+for($i = 0; $i < $argv[1]; $i++) {
+    $a->extract();
+}
+]]></script>
+</div>
+
+<div class="slide">
+<h1>SplMinHeap - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splminheap_eps.gif" alt="SplMinHeap - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplMinHeap - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splminheap_memory.gif" alt="SplMinHeap - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Priority Queue</h1>
+<ul class="imglist">
+<li><img src="images/priorityqueue.jpg" alt="The Priority Queue" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - What</h1>
+<ul>
+<li>Accepts a priority with the element value</li>
+<li>Elements are ordered internally by priority and removed in priority order</li>
+<li>Priority values may be of any comparable type
+    <ul>
+        <li><code>SplPriorityQueue::compare()</code> can be overridden in subclasses</li>
+    </ul>
+</li>
+<li>Operates similarly to a heap
+    <ul>
+        <li>In fact, a heap is used internally for storage</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You do not know in advance how many elements you want to store</li>
+<li>You need to access elements in an order based on priority comparison
+    rather than value comparison</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - Code (Array)</h1>
+<div style="font-size: 0.75em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+function priority_sort($a, $b) {
+    return $a[1] - $b[1];
+}
+$threshold = $argv[1] * 0.1;
+$a = array();
+$i = 0;
+do {
+    if ($i <= $argv[1]) {
+        $a[] = array($i, rand(1, 10));
+        usort($a, 'priority_sort');
+    }
+    if ($i > $threshold) {
+        array_shift($a);
+    }
+    $i++;
+} while (count($a));
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - Code (SplPriorityQueue)</h1>
+<div style="font-size: 0.9em">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$threshold = $argv[1] * 0.1;
+$a = new SplPriorityQueue;
+$i = 0;
+do {
+    if ($i < $argv[1]) {
+        $a->insert($i, rand(1,10));
+    }
+    if ($i > $threshold) {
+        $a->extract();
+    }
+    $i++;
+} while (count($a));
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splpriorityqueue_eps.gif" alt="SplPriorityQueue - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplPriorityQueue - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splpriorityqueue_memory.gif" alt="SplPriorityQueue - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Set</h1>
+<ul class="imglist">
+<li><img src="images/set.jpg" alt="The Set" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>The Composite Hash Map</h1>
+<ul class="imglist">
+<li><img src="images/compositehashmap.jpg" alt="The Composite Hash Map" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - What</h1>
+<ul>
+<li>Combination of two data structures:
+    <ul>
+        <li><strong>Composite hash map</strong>: a <a href="http://en.wikipedia.org/wiki/Hash_table" title="Hash table - Wikipedia, the free encyclopedia">hash map</a> with objects for
+        keys; the <code>spl_object_hash()</code> function must be used for arrays to have
+        this capability</li>
+        <li><strong>Set</strong>: focuses on a group of values rather than
+        individual values; has <a href="http://en.wikipedia.org/wiki/Set_(computer_science)#Operations" title="Set (computer science) - Wikipedia, the free encyclopedia">operations</a> like union, intersection,
+        difference, and element_of; has no concept of order</li>
+    </ul>
+</li>
+<li>Support for the intersection operation in the form of <a href="http://php.net/manual/en/splobjectstorage.removeallexcept.php" title="PHP: SplObjectStorage::removeAllExcept - Manual"><code>SplObjectStorage::removeAllExcept()</code></a> was not added until PHP 5.3.6</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - When</h1>
+<p>It's best to use this when:</p>
+<ul>
+<li>You need to store data using composite (i.e. non-scalar keys)</li>
+<li>You need the ability to access data using set operations rather than
+    operations based on order of elements</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - Code (Array)</h1>
+<div style="font-size: 0.9em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = array();
+for ($i = 0; $i < $argv[1]; $i++) {
+    $object = new stdClass;
+    $a[spl_object_hash($object)] = $object;
+}
+$a = array();
+$b = array();
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a[] = rand(1, $argv[1]);
+    $b[] = rand(1, $argv[1]);
+}
+$c = array_merge($a, $b);
+$c = array_diff($a, $b);
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - Code (SplObjectStorage)</h1>
+<div style="font-size: 0.8em;">
+<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<?php
+$a = new SplObjectStorage;
+for ($i = 0; $i < $argv[1]; $i++) {
+    $object = new stdClass;
+    $a->attach($object, $object);
+}
+$a = new SplObjectStorage;
+$b = new SplObjectStorage;
+for ($i = 0; $i < $argv[1]; $i++) {
+    $a->attach((object) rand(1, $argv[1]));
+    $b->attach((object) rand(1, $argv[1]));
+}
+$c = clone $a;
+$c->addAll($b);
+$c = clone $a;
+$c->removeAll($b);
+]]></script>
+</div>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - Executions/Second</h1>
+<ul class="imglist">
+<li><img src="images/splobjectstorage_eps.gif" alt="SplObjectStorage - Executions/Second" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>SplObjectStorage - Memory</h1>
+<ul class="imglist">
+<li><img src="images/splobjectstorage_memory.gif" alt="SplObjectStorage - Memory" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Thank This Guy</h1>
+<p><a href="http://colder.ch/" title="colder.ch - news">Etienne Kneuss</a> did a lot of the work on the new SPL features in PHP 5.3</p>
+<ul class="imglist">
+<li><img src="images/etiennekneuss.jpg" alt="Etienne Kneuss" /></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Some Great SPL Resources</h1>
+<ul>
+<li><a href="http://php.net/spl" title="PHP: SPL - Manual">SPL in the PHP manual</a></li>
+<li><a href="http://colder.ch/" title="colder.ch - news">Etienne Kneuss' blog</a></li>
+<li><a href="http://elizabethmariesmith.com/slides/spl_to_the_rescue.pdf" title="&quot;SPL to the Rescue&quot; by Elizabeth Smith">&quot;SPL to the Rescue&quot; by Elizabeth Smith</a></li>
+<li><a href="http://www.slideshare.net/DragonBe/spl-not-a-bridge-too-far-php-nw09" title="Spl Not A Bridge Too Far phpNW09">&quot;SPL, a bridge not too far&quot; by Michelangelo van Dam</a></li>
+<li><a href="http://matthewturland.com/2010/05/20/new-spl-features-in-php-5-3/" title="Matthew Turland &raquo; Blog Archive &raquo; New SPL Features in PHP 5.3">This presentation in blog post form</a></li>
+<li><a href="http://www.phparch.com/magazine/2011-2/january/" title="php|architect - January 2011 - php|architect - The site for PHP professionals">This presentation in magazine article form</a></li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>Possible Future SPL Features</h1>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Graph_(data_structure)" title="Graph (data structure) - Wikipedia, the free encyclopedia">Graphs</a>
+    <ul>
+        <li>Contain nodes and edges connecting them</li>
+        <li>Directional / non-directional</li>
+        <li>Cyclic / acyclic</li>
+        <li>Connected / unconnected</li>
+        <li>Edge costs</li>
+    </ul>
+</li>
+<li><a href="http://en.wikipedia.org/wiki/Tree_data_structure" title="Tree data structure - Wikipedia, the free encyclopedia">Trees</a>
+    <ul>
+        <li>Acyclic unidirectional graph</li>
+        <li>Hierarchical in nature</li>
+    </ul>
+</li>
+</ul>
+</div>
+
+<div class="slide">
+<h1>That's All, Folks</h1>
+<ul>
+<li>Questions? Comments? Concerns?</li>
+<li><a href="http://synacor.com" title="Synacor, Inc.">http://synacor.com</a></li>
+<li><a href="http://twitter.com/synacor" title="Synacor (Synacor) on Twitter">@synacor</a> on Twitter</li>
+<li><a href="http://matthewturland.com" title="Matthew Turland">http://matthewturland.com</a></li>
+<li><a href="mail:me@matthewturland.com" title="E-mail Matthew Turland">me@matthewturland.com</a></li>
+<li><a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a> on Twitter</li>
+<li>Elazar on the <a href="http://freenode.net" title="About the Network">Freenode IRC network</a></li>
+</ul>
+</div>
+
+</div>
+
+<script type="text/javascript">
+SyntaxHighlighter.all();
+</script>
+
+</body>
+</html>
