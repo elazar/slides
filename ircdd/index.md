@@ -15,7 +15,7 @@ class: center
 
 * This slide deck will be available at [http://matthewturland.com/publications](http://matthewturland.com/publications)
 * Don't worry too much about taking notes &mdash; the [documentation](https://github.com/phergie/phergie-irc-bot-react/wiki) is decent
-* If you have questions or feedback, ping me at [me@matthewturland.com](me@matthewturland.com) or in #phergie on [Freenode](http://freenode.net)
+* If you have questions or feedback, ping me at [me@matthewturland.com](mailto:me@matthewturland.com) or in #phergie on [Freenode](http://freenode.net)
 
 ---
 
