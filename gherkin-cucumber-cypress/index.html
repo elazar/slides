@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+<title>Gherkin and Cucumber and Cypress, Oh My!</title>
+
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/white.css">
+<link rel="stylesheet" href="css/custom.css">
+
+<!-- Theme used for syntax highlighting of code -->
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+<!-- Printing and PDF exports -->
+<script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="slides">
+
+        <section id="slide-title">
+            <h1>Cucumber and Gherkin and Cypress, Oh My!</h1>
+            <p class="byline">Matthew Turland</p>
+            <p class="byline">Tim Moravec</p>
+        </section>
+
+        <section id="what-is-cucumber">
+            <h2>What is Cucumber?</h2>
+            <blockquote>Cucumber <strong>reads executable specifications</strong> written in
+                plain text and <strong>validates that the software does what those
+                specifications say</strong>.</blockquote>
+            <cite><a href="https://cucumber.io/docs/guides/overview/#what-is-cucumber">Cucumber Documentation</a></cite>
+        </section>
+
+        <section id="what-is-gherkin">
+            <h2>What is Gherkin?</h2>
+            <blockquote>Gherkin is a <strong>set of grammar rules</strong> that
+                makes plain text <strong>structured enough for Cucumber to
+                understand</strong>.</blockquote>
+            <cite><a href="https://cucumber.io/docs/guides/overview/#what-is-gherkin">Cucumber Documentation</a></cite>
+        </section>
+
+        <section id="what-are-feature-files">
+            <h2>What are Feature Files?</h2>
+            <blockquote><strong>Gherkin documents are stored in
+                <code>.feature</code> text files</strong> and are typically
+                versioned in source control alongside the
+                software.</blockquote>
+            <cite><a href="https://cucumber.io/docs/guides/overview/#what-is-gherkin">Cucumber Documentation</a></cite>
+        </section>
+
+        <section id="what-is-a-feature">
+            <h2>What is a Feature?</h2>
+            <blockquote>The purpose of the <code>Feature</code> keyword is to
+                provide a high-level description of a software feature, and to
+                <strong>group related scenarios</strong>.</blockquote>
+            <cite><a href="https://cucumber.io/docs/gherkin/reference/#feature">Gherkin Reference</a></cite>
+        </section>
+
+        <section id="feature-example">
+            <h2>Feature Example</h2>
+            <pre><code class="gherkin">Feature: Guess the word
+
+  The word guess game is a turn-based game for two players.
+  The Maker makes a word for the Breaker to guess. The game
+  is over when the Breaker guesses the Maker's word.
+
+  Scenario: Maker starts a game
+    When the Maker starts a game
+    Then the Maker waits for a Breaker to join
+
+  Scenario: Breaker joins a game
+    Given the Maker has started a game with the word "silky"
+    When the Breaker joins the Maker's game
+    Then the Breaker must guess a word with 5 characters</code></pre>
+        </section>
+
+        <section id="what-is-a-scenario">
+            <h2>What is a Scenario?</h2>
+            <blockquote>... a <strong>concrete example</strong> that <strong>illustrates a business rule</strong>. It consists of a <strong>list of steps</strong>.</blockquote>
+            <cite><a href="https://cucumber.io/docs/gherkin/reference/#example">Gherkin Reference</a></cite>
+        </section>
+
+        <section id="scenario-example">
+            <h2>Scenario Example</h2>
+            <pre><code class="gherkin">Scenario: Breaker guesses a word
+  Given the Maker has chosen a word
+  When the Breaker makes a guess
+  Then the Maker is asked to score</code></pre>
+        </section>
+
+        <section id="what-is-a-step">
+            <h2>What is a Step?</h2>
+            <blockquote>Each step <strong>starts with <code>Given</code>,
+                <code>When</code>, <code>Then</code>, <code>And</code>, or
+                <code>But</code></strong>. Cucumber executes each step in a
+                scenario one at a time, in the sequence you've written
+                them in.</blockquote>
+            <cite><a href="https://cucumber.io/docs/gherkin/reference/#steps">Gherkin Reference</a></cite>
+        </section>
+
+        <section id="core-steps">
+            <h2>Core Steps</h2>
+            <blockquote><code>Given</code> steps... describe the initial context of the system - the scene of the scenario... typically something that happened in the past.</blockquote>
+            <blockquote><code>When</code> steps are used to describe an event, or an action.</blockquote>
+            <blockquote><code>Then</code> steps are used to describe an expected outcome, or result.</blockquote>
+        </section>
+
+        <section id="connective-steps">
+            <h2>Connective Steps</h2>
+            <p>Use <code>And</code> or <code>But</code> instead of<br />
+            multiple instances <code>Given</code>, <code>When</code>, or <code>Then</code>.</p>
+            <pre><code class="gherkin">Given one thing
+Given another thing
+When I open my eyes
+Then I should see something
+Then I shouldn't see something else</code></pre>
+            <pre><code class="gherkin">Given one thing
+And another thing
+When I open my eyes
+Then I should see something
+But I shouldn't see something else</code></pre>
+        </section>
+
+        <section id="what-is-a-background">
+            <h2>What is a Background?</h2>
+            <blockquote>Occasionally you’ll find yourself repeating the same
+                <code>Given</code> steps in all of the scenarios in a feature...
+                A <code>Background</code> is run before each scenario... In your feature file, put the <code>Background</code> before the first <code>Scenario</code>.</blockquote>
+            <cite><a href="https://cucumber.io/docs/gherkin/reference/#background">Gherkin Reference</a></cite>
+        </section>
+
+        <section id="background-example">
+            <h2>Background Example</h2>
+            <pre><code class="gherkin">Feature: Multiple site support
+  Only blog owners can post to a blog, except administrators,
+  who can post to all blogs.
+
+  Background:
+    Given a global administrator named "Greg"
+    And a blog named "Greg's anti-tax rants"
+    And a customer named "Dr. Bill"
+
+  Scenario: Dr. Bill posts to his own blog
+    # ...
+
+  Scenario: Dr. Bill posts to somebody else's blog, and fails
+    # ...</code></pre>
+        </section>
+
+        <section id="what-is-a-step-definition">
+            <h2>What is a Step Definition?</h2>
+            <blockquote>Step definitions <strong>connect Gherkin steps to programming code</strong>. A step definition <strong>carries out the action</strong> that should be performed by the step.</blockquote>
+            <cite><a href="https://cucumber.io/docs/guides/overview/#what-are-step-definitions">Cucumber Documentation</a></cite>
+        </section>
+        
+        <section id="step-definition-example">
+            <h2>Step Definition Example</h2>
+            <pre><code class="javascript">const { Given, When, Then } = require(`cucumber`);
+
+Given(`I am logged in`, () =&gt; {
+    // ...
+});
+
+When(`I place an individual order`, () =&gt; {
+    // ...
+});
+
+Then(`I should see an order status screen`, () =&gt; {
+    // ...
+});
+</code></pre>
+        </section>
+
+        <section id="what-is-cypress">
+            <h2>What is Cypress?</h2>
+            <p>A fast all-in-one<br />JavaScript end-to-end testing framework</p>
+            <p><a href="https://docs.cypress.io">https://docs.cypress.io</a></p>
+        </section>
+
+        <section id="installing-cypress">
+            <h2>Installing Cypress</h2>
+            <pre><code class="bash">npm install --save-dev cypress
+
+./node_modules/.bin/cypress open</code></pre>
+            <p><img src="img/cypress-open.png" alt="Dialog window shown when Cypress is opened for the first time" /></p>
+        </section>
+        
+        <section id="integrating-cypress-and-cucumber">
+            <h2>Integrating<br />Cypress and Cucumber</h2>
+            <pre><code class="bash"># Instead of this:
+npm install --save-dev cypress
+
+# Do this:
+npm install --save-dev cypress-cucumber-preprocessor</code></pre>
+
+            <pre><code class="javascript">// Import like so
+const {
+  Given,
+  When,
+  Then
+} = require(`cypress-cucumber-preprocessor/steps`);</code></pre>
+        </section>
+
+        <section id="cypress-example">
+            <h2>Cypress Example</h2>
+            <pre><code class="javascript">Given(`I have unlimited delivery`, () =&gt; {
+  cy.get(`button.unlimited-banner`).click();
+
+  cy.get(`#unlimited-signup-modal`).within(() =&gt; {
+    cy.get(`button[class*="CheckboxButton"]`).click();
+    cy.get(`button[type="submit"]`).click();
+  });
+  cy.wait(1000);
+
+  cy.get(`div.modal-dialog button`).click(); // close confirmation modal
+});</code></pre>
+        </section>
+
+        <section id="iframe-gotcha">
+            <h2>iframe Gotcha</h2>
+            <p>Solution lifted from <a href="https://github.com/cypress-io/cypress/issues/136#issuecomment-530806671">this issue comment</a></p>
+            <pre><code class="javascript">inputs.forEach(field => {
+    cy.get(`#braintree-hosted-field-${field.iframe}`).then($element => {
+        const $body = $element.contents().find(`body`).eq(0);
+        return cy.wrap($body)
+            .find(field.input)
+            .type(field.value);
+    });
+});</code></pre>
+        </section>
+
+        <section id="live-demo">
+            <h2>Live Demo</h2>
+            <p><img src="img/explode.gif" alt="This is your captain speaking. We have a little problem with our engine sequence. We may experience some slight turbulence and then... explode." /></p>
+        </section>
+    </div>
+</div>
+
+<script src="js/reveal.js"></script>
+
+<script>
+
+    // More info about config & dependencies:
+    // - https://github.com/hakimel/reveal.js#configuration
+    // - https://github.com/hakimel/reveal.js#dependencies
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'none', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'plugin/zoom-js/zoom.js', async: true }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
