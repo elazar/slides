@@ -32,3 +32,5 @@
 
 #job-facts-table { font-size: 0.8em; }
 #job-facts-table th { text-align: right; }
+
+blockquote.center { text-align: center; }
