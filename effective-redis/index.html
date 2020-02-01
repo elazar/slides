@@ -40,6 +40,12 @@
 <body>
 
 <div class="reveal">
+    <div class="twitter">
+        <img src="img/twitter.png" alt="Twitter logo" />
+        <a href="https://twitter.com/elazar">@elazar</a>
+        <a href="https://twitter.com/hashtag/SunPHP20">#SunPHP20</a>
+    </div>
+
     <div class="slides">
 
         <section id="slide-title" data-state="title" data-background-image="#fff" data-background-size="2560px">
@@ -48,10 +54,20 @@
             <p class="byline">Matthew Turland</p>
         </section>
 
-        <section>
-            <h2>Good Afternoon!</h2>
-            <p>I'm Matt. Or <a href="https://twitter.com/elazar">@elazar</a> if you're on Twitter.</p>
-            <p>Nice to meet you. Thanks for attending.</p>
+        <section id="greeting">
+            <h2>Good Morning!</h2>
+            <p>I'm Matt.</p>
+            <p>It's nice to meet you.</p>
+            <p>Thank you for attending.</p>
+        </section>
+
+        <section id="live-tweeting">
+            <h2>Live Tweeting</h2>
+            <ul>
+                <li>Accepted! Encouraged! Appreciated!</li>
+                <li>Please use the hashtag <a href="https://twitter.com/hashtag/SunPHP20">#SunPHP20</a></li>
+                <li>I'm <a href="https://twitter.com">@elazar</a> &mdash; feel free to @ me</li>
+            </ul>
         </section>
 
         <section id="presumptions">
@@ -68,7 +84,7 @@
             <ul>
                 <li>Ask questions during or after the session</li>
                 <li>Contact me: <a href="https://matthewturland.com/contact">matthewturland.com/contact</a></li>
-                <li>Leave feedback: <a href="https://joind.in/talk/ef737">joind.in/talk/ef737</a></p>
+                <li>Leave feedback: <a href="https://joind.in/talk/1dd1f">joind.in/talk/1dd1f</a></p>
             </ul>
         </section>
 
@@ -249,7 +265,7 @@ $books = array_map('unserialize', $cached_books);
                 <li>Allow duplicate elements</li>
                 <li>Similar to enumerated arrays</li>
                 <li>Useful for iteration and pagination</li>
-                <li>Can be used to implement job queues - check out <a href="https://legacy.joind.in/16899">Gary Hockin's talk</a></li>
+                <li>Can be used to implement job queues - check out <a href="https://joind.in/event/lone-star-php-2016/writing-workers-for-scalable-applications">Gary Hockin's talk</a></li>
             </ul>
         </section>
 
@@ -599,11 +615,17 @@ foreach (new Keyspace($redis, 'book_*') as $key) {
             </ul>
         </section>
 
+        <section id="predis-needs-help">
+            <h2>Predis Needs Help</h2>
+            <p><img src="img/predis.png" alt="" /></p>
+            <p><a href="https://github.com/nrk/predis/issues/587">Related issue</a></p>
+        </section>
+
         <section id="thats-all-folks">
             <h2>That's All, Folks</h2>
             <ul>
                 <li>Questions? Comments? Discussion?</li>
-                <li><a href="https://wheniwork.com">wheniwork.com</a></li>
+                <li><a href="https://stacksports.com/">stacksports.com</a></li>
                 <li><a href="https://matthewturland.com">matthewturland.com</a> for slides</li>
                 <li>E-mail: <a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
                 <li>Twitter: <a href="https://twitter.com/elazar">@elazar</a></li>
@@ -615,7 +637,7 @@ foreach (new Keyspace($redis, 'book_*') as $key) {
         <section id="feedback">
             <h2>Feedback</h2>
             <p>Please rate my talk!</p>
-            <p><a href="https://joind.in/talk/ef737">joind.in/talk/ef737</a></p>
+            <p><a href="https://joind.in/talk/1dd1f">joind.in/talk/1dd1f</a></p>
             <p>Also, check out the <a href="http://joind.in/help">joind.in mobile apps</a>!</p>
         </section>
     </div>
