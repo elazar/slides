@@ -7,8 +7,9 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
+body { background-color: #ddd; }
 .reveal a, .reveal a:hover { color: #b74025; font-weight: bold; }
-.reveal blockquote { background-color: #eeeeee; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; }
+.reveal blockquote { background-color: #bbb; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; }
 .reveal blockquote:before, .reveal blockquote:after { content: '"'; }
 .reveal cite:before { content: "~ "; }
 .reveal strong { font-weight: bolder; text-decoration: underline; }
@@ -26,6 +27,6 @@
 #slide-title { padding: 0; }
 #slide-title h1 { color: #1b4520; font-size: 2em; font-weight: 600; padding: 0; margin: 30px 0; }
 #slide-title .byline { clear: both; color: #b74025; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.1em; }
-#slide-title img { margin: 2em 0 0 0; }
+#slide-title img { background-color: inherit; margin: 2em 0 0 0; }
 .reveal .twitter { position: absolute; bottom: 10px; left: 10px; font-size: 0.8em; }
 .reveal .twitter a { color: #00acee; }

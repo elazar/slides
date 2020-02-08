@@ -48,7 +48,7 @@
 
     <div class="slides">
 
-        <section id="slide-title" data-state="title" data-background-image="#fff" data-background-size="2560px">
+        <section id="slide-title" data-state="title" data-background-size="2560px">
             <img src="img/logo.png" alt="Coder Cruise PHP logo" />
             <h1>Effective Redis</h1>
             <p class="byline">Matthew Turland</p>
@@ -70,6 +70,11 @@
             </ul>
         </section>
 
+        <section id="slides">
+            <h2>Slides</h2>
+            <p><a href="https://matthewturland.com/presentations">matthewturland.com/presentations</a></p>
+        </section>
+
         <section id="shameles-self-plugs">
             <h2>Shameless Self-Plugs</h2>
             <a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/web-scraping.png" alt="Web Scraping with PHP, 2nd Edition" /></a>
@@ -80,6 +85,7 @@
         <section id="obligatory-work-plug">
             <h2>Obligatory Work Plug</h2>
             <a href="https://stacksports.com/"><img src="img/stack-sports.png" alt="Stack Sports logo" /></a>
+            <p><a href="https://stacksports.com">https://stacksports.com</a></p>
             <p>Now hiring a <a href="https://boards.greenhouse.io/stacksports/jobs/1936220">Senior Software Engineer</a> for my team</p>
         </section>
 
@@ -99,11 +105,6 @@
                 <li>Contact me: <a href="https://matthewturland.com/contact">matthewturland.com/contact</a></li>
                 <li>Leave feedback: <a href="https://joind.in/talk/1dd1f">joind.in/talk/1dd1f</a></p>
             </ul>
-        </section>
-
-        <section id="slides">
-            <h2>Slides</h2>
-            <p><a href="https://matthewturland.com/presentations">matthewturland.com/presentations</a></p>
         </section>
 
         <section id="let-me-tell-you-a-story">
@@ -459,7 +460,7 @@ $ordered_books = $redis->zrangebyscore('ordered_12345', 2, '+inf');
         </section>
 
         <section id="bitmaps">
-            <h2>Storing User Flags using Bitmaps</h2>
+            <h2>Storing Flags using Bitmaps</h2>
             <pre><code class="php">
 // Enable the 8th flag for book 12345
 $redis->setbit('book_12345_flags', 7, 1);
