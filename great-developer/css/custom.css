@@ -30,3 +30,5 @@ html.title div.slide-background.present { background-position: top; }
 .reveal section dt { margin-top: 0.5em; display: inline; }
 .reveal section dd { margin-left: 1em; display: block; }
 .reveal aside { margin-top: 1em; }
+.reveal .twitter { position: absolute; bottom: 10px; left: 10px; font-size: 0.8em; }
+.reveal .twitter a { color: #00acee; }
