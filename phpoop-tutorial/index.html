@@ -1,108 +1,118 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!-->  <html class="no-js" lang="en"> <!--<![endif]-->
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/> 
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-
 <title>The OOP in PHP</title>
-
+<meta charset="utf-8">
 <meta name="description" content="An introduction to object-oriented programming concepts and applying them in PHP development."/>
-<meta name="author" content="Matthew Turland"/>
+<meta name="author" content="Matthew Turland">
 <meta name="contact" content="me@matthewturland.com"/>
-<meta name="viewport" content="width=1024, user-scalable=no"/>
 
-<!-- Core and extension CSS files -->
-<link rel="stylesheet" href="css/deck.core.css"/>
-<link rel="stylesheet" href="css/extensions/deck.hash.css"/>
-<link rel="stylesheet" href="css/extensions/deck.menu.css"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<!-- Theme CSS files -->
-<link rel="stylesheet" id="style-theme-link" href="css/style/swiss.css"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-<!-- Custom CSS files -->
-<link rel="stylesheet" href="js/sh/shCoreDefault.css"/>
-<link href="http://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="css/deck.custom.css"/>
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+<link rel="stylesheet" href="css/custom.css">
+<link rel="stylesheet" href="css/prism.css">
 
-<!-- JS files that must be included in the document head -->
-<script src="js/modernizr.custom.js"></script>
-<script src="js/sh/shCore.js"></script>
-<script src="js/sh/shBrushPhp.js"></script>
+<!-- Printing and PDF exports -->
+<script>
+var link = document.createElement( 'link' );
+link.rel = 'stylesheet';
+link.type = 'text/css';
+link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+document.getElementsByTagName( 'head' )[0].appendChild( link );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
 </head>
-<body class="deck-container">
 
-<section class="slide" id="title-slide">
+<body class="line-numbers">
+
+<div class="reveal">
+
+<div class="twitter">
+    <svg fill="currentColor" aria-hidden="true" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg>
+
+    <a href="https://twitter.com/elazar">@elazar</a>
+    <a href="https://twitter.com/hashtag/longhornphp">#longhornphp</a>
+</div>
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section id="slide-title" data-state="title" data-background-color="#fff">
+<img src="img/logo.png" alt="Longhorn PHP Conference logo" />
 <h1>The OOP in PHP</h1>
-<h2>Matthew Turland</h2>
+<p class="byline">Matthew Turland</p>
 </section>
 
-<section class="slide" id="questions-or-feedback">
+<section>
 <h2>Questions or Feedback?</h2>
 <ul>
 <li>Ask questions during or after the session</li>
-<li>Contact me: <a href="http://matthewturland.com/contact">http://matthewturland.com/contact</a></li>
-<li>Leave feedback: <a href="https://joind.in/15499" title="Talk: Data Structures in PHP - Joind.in">https://joind.in/15499</a></li>
+<li>Contact me: <a href="http://matthewturland.com/contact">matthewturland.com/contact</a></li>
+<li>Leave feedback: <a href="https://joind.in/talk/1a28f" title="Talk: Data Structures in PHP - Joind.in">joind.in/15499</a></li>
 </ul>
 </section>
 
-<section class="slide" id="slides">
+<section>
 <h2>Slides</h2>
 <p class="center">Linked from either of these:</p>
-<p class="center"><a href="https://joind.in/15499">https://joind.in/15499</a></p>
-<p class="center"><a href="http://matthewturland.com/publications">http://matthewturland.com/publications</a></p>
+<p class="center"><a href="http://matthewturland.com/publications">matthewturland.com/publications</a></p>
+<p class="center"><a href="https://joind.in/talk/1a28f">joind.in/talk/1a28f</a></p>
 </section>
 
-<section class="slide" id="who-i-work-for">
-<h2>I Work Here</h2>
-<p class="center"><a href="http://careers.wheniwork.com"><img src="img/wheniwork-hiring.png" alt="When I Work" /></a></p>
+<section>
+<h2>Obligatory Work Plug</h2>
+<a href="https://stacksports.com/careers"><img src="img/stack-sports.png" alt="Stack Sports logo" /></a>
+<p><a href="https://stacksports.com/careers">stacksports.com/careers</a></p>
 </section>
 
-<section class="slide" id="books">
-<h2>I Co/Wrote These</h2>
-<div class="two-col-left">
-<div><img src="img/web-scraping-with-php.png" alt="php|architect's Guide to Web Scraping with PHP"></div>
-<div><a href="http://www.phparch.com/books/phparchitects-guide-to-web-scraping-with-php/" title="php|architect's Guide to Web Scraping with PHP">http://phparch.com</a></div>
-</div>
-<div class="two-col-right">
-<div><img src="img/php-master.png" alt="PHP Master: Write Cutting-Edge Code"></div>
-<div><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">http://sitepoint.com</a></div>
-</div>
+<section id="shameles-self-plugs">
+<h2>Shameless Self-Plugs</h2>
+<a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/web-scraping.png" alt="Web Scraping with PHP, 2nd Edition" /></a>
+<a href="https://www.phparch.com/magazine/2019/11/object-orientation/"><img src="img/phparch-nov-2019.jpg" alt="November 2019 issue of php[architect] magazine" /></a>
+<a href="https://www.phparch.com/magazine/2020/01/object-orientation/"><img src="img/phparch-jan-2020.jpg" alt="January 2020 issue of php[architect] magazine" /></a>
+<a href="https://www.phparch.com/article/php-8-distilled/"><img src="img/phparch-dec-2020.webp" alt="December 2020 issue of php[architect] magazine" /></a>
 </section>
 
-<section class="slide" id="wont-cover-basic-concepts">
+<section>
 <h2>What We Won't Cover</h2>
 <h3>Basic programming concepts or PHP syntax</h3>
 <ul>
-<li><a href="http://zend.com" title="Zend the PHP Company">zend.com</a> for <a href="http://www.zend.com/en/services/training/php-i-foundations" title="PHP I: Foundations Training for Non-Programmers">PHP I: Foundations</a> training course</li>
-<li><a href="http://phparch.com" title="php[architect] - Magazine, Training, Books, Conferences">phparch.com</a> for <a href="http://www.phparch.com/training/jump-start-php/" title="Training Course: Jump Start PHP - php[architect] - Magazine, Training, Books, Conferences">Jump Start PHP</a> or <a href="http://www.phparch.com/training/php-5-essentials/" title="Training Course: PHP Essentials - php[architect] - Magazine, Training, Books, Conferences">PHP Essentials</a> training courses</li>
-<li>PHP and MySQL Development <a href="http://www.amazon.com/PHP-MySQL-Web-Development-Edition/dp/0672329166" title="PHP and MySQL Web Development (4th Edition): Luke Welling, Laura Thomson: 9780672329166: Amazon.com: Books">Fourth</a> or <a href="http://www.amazon.com/MySQL-Development-Edition-Developers-Library/dp/0321833899" title="PHP and MySQL Web Development (5th Edition) (Developer's Library): Luke Welling, Laura Thomson: 9780321833891: Amazon.com: Books">Fifth</a> editions</li>
+<li><a href="https://www.phparch.com" title="php[architect] - Magazine, Training, Books, Conferences">phparch.com</a> for <a href="https://www.phparch.com/training/jump-start-php/" title="Jump Start PHP | php[architect]">Jump Start PHP</a> or <a href="https://www.phparch.com/training/php-5-essentials/" title="PHP Essentials | php[architect]">PHP Essentials</a> training courses</li>
+<li><a href="https://www.zend.com" title="Enterprise PHP Solutions - Zend by Perforce">zend.com</a> for <a href="https://www.zend.com/training/help-me-choose#tab-panel-6871" title="PHP Fundamentals">PHP Fundamentals</a> training course</li>
+<li><a href="https://www.amazon.com/PHP-MySQL-Development-Developers-Library/dp/0321833899?&amp;linkCode=ll1&amp;tag=matthewturl0a-20&amp;linkId=77ebed6becf7a0c2c7f985531d58238d&amp;language=en_US&amp;ref_=as_li_ss_tl" title="PHP and MySQL Web Development (5th Edition) (Developer's Library): Luke Welling, Laura Thomson: 9780321833891: Amazon.com: Books">PHP and MySQL Development, 5th edition</a></li>
 </ul>
 </section>
 
-<section class="slide" id="wont-cover-other-talks">
+<section id="material-overlapping-with-other-talks">
 <h2>What We Won't Cover</h2>
 <h3>Material overlapping with other talks</h3>
 <ul>
-<li>Jeff Carouth: Anti-Patterns Found in Your Object-Oriented Codebase</li>
-<li>Julien Guittard: Is your code SOLID?</li>
-<li>Adam Culp: Does Your Code Measure Up?</li>
-<li>Ben Edmunds: Modern and Secure PHP</li>
-<li>Marek Matulka: Modernising the Legacy</li>
-<li>Christopher Pitt: Co-operative Multitasking with Generators</li>
-<li>Yitzchok Willroth: Fear Not the Machine of State!</li>
+<li>Refactoring with Patterns and Automation</li>
+<li>Releasing High-Quality PHP Packages</li>
+<li>Fiendish Functions: Filtering Fact From Fiction</li>
+<li>Is Eight Enough?</li>
+<li>More Than Just a Cache: Redis Data Structures</li>
+<li>Avoid Costly Framework Upgrades</li>
+<li>Strategies for testing complex (or legacy) code</li>
+<li>Level Up Your Code Quality</li>
 </ul>
 </section>
 
-<section class="slide" id="will-cover-why-object-model">
+<section>
 <h2>What We Will Cover</h2>
 <h3>Why PHP has an object model</h3>
 <p class="center">Or, at least, why <em>I</em> think it does</p>
 </section>
 
-<section class="slide" id="will-cover-terminology">
+<section>
 <h2>What We Will Cover</h2>
 <h3>Terminology</h3>
 <ul>
@@ -115,7 +125,7 @@
 </ul>
 </section>
 
-<section class="slide" id="will-cover-concepts">
+<section>
 <h2>What We Will Cover</h2>
 <h3>Concepts</h3>
 <ul>
@@ -127,7 +137,7 @@
 </ul>
 </section>
 
-<section class="slide" id="will-cover-principles">
+<section>
 <h2>What We Will Cover</h2>
 <h3>Principles</h3>
 <ul>
@@ -139,7 +149,7 @@
 </ul>
 </section>
 
-<section class="slide" id="potential-bonus-topics">
+<section>
 <h2>What We Will Cover</h2>
 <h3>Potential Bonus Topics</h3>
 <ul>
@@ -152,7 +162,7 @@
 </ul>
 </section>
 
-<section class="slide" id="what-oop-is-not">
+<section>
 <h2>What OOP Is Not</h2>
 <ul>
 <li>A relatively new idea
@@ -166,7 +176,7 @@
 </ul>
 </section>
 
-<section class="slide" id="what-oop-is">
+<section>
 <h2>What OOP Is</h2>
 <ul>
 <li>A <a href="https://en.wikipedia.org/wiki/Programming_paradigm">programming paradigm</a> contrastable with <a href="https://en.wikipedia.org/wiki/Procedural_programming" title="Procedural programming - Wikipedia, the free encyclopedia">procedural programming</a> or <a href="https://en.wikipedia.org/wiki/Functional_programming" title="Functional programming - Wikipedia, the free encyclopedia">functional programming</a></li>
@@ -178,49 +188,58 @@
 </blockquote>
 </section>
 
-<section class="slide" id="basics-variable">
+<section>
 <h2>Back to Basics</h2>
 <h3>Variable</h3>
 <blockquote>&quot;... a <strong>variable</strong> ... is a storage location and an associated symbolic name (an identifier) which contains some ... value. The variable name is the usual way to reference the stored value.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Variable_%28computer_science%29" title="Variable (computer science) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<p class="center">See also: <a href="http://php.net/manual/en/language.variables.basics.php" title="PHP: Basics - Manual">Variables</a></p>
+</section>
+
+<section>
+<h2>Back to Basics</h2>
+<h3>Variable</h3>
+<pre><code class="language-php">
 $subtotal = 10.00;
 $tax_percent = 0.10;
 $total = $subtotal * (1 + $tax_percent);
 echo $total;
-]]></script>
-<p class="center">See also: <a href="http://php.net/manual/en/language.variables.basics.php" title="PHP: Basics - Manual">Variables</a></p>
+</code></pre>
 </section>
 
-<section class="slide" id="basics-state">
+<section>
 <h2>Back to Basics</h2>
 <h3>State</h3>
 <blockquote>&quot;... a computer program stores data in variables, which represent storage locations in the computer's memory. The contents of these memory locations, at any given point in the program's execution, is called the program's <strong>state</strong>.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/State_(computer_science)#Program_state" title="State (computer science) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 </section>
 
-<section class="slide" id="basics-function">
+<section>
 <h2>Back to Basics</h2>
 <h3>Function</h3>
 <blockquote>&quot;... a <strong>subroutine</strong> is a sequence of program instructions that perform a specific task, packaged as a unit. This unit can then be used in programs wherever that particular task should be performed … a subroutine may be called a ... <strong>function</strong>...&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Subroutine" title="Subroutine - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<p class="center">See also: <a href="http://php.net/manual/en/functions.user-defined.php" title="PHP: User-defined functions - Manual">Functions</a></p>
+</section>
+
+<section>
+<h2>Back to Basics</h2>
+<h3>Function</h3>
+<pre><code class="language-php">
 function get_total($subtotal, $tax_percent) {
     $tax = $subtotal * $tax_percent;
     return $subtotal + $tax;
 }
 echo get_total(10.00, 0.10);
-]]></script>
-<p class="center">See also: <a href="http://php.net/manual/en/functions.user-defined.php" title="PHP: User-defined functions - Manual">Functions</a></p>
+</code></pre>
 </section>
 
-<section class="slide" id="scope">
+<section>
 <h2>Scope</h2>
 <blockquote>&quot;In computer programming, a <strong>scope</strong> is the context within a computer program in which an identifier is in effect, and can be resolved to an entity &ndash; when the entity is visible.&quot;~ <cite><a href="http://en.wikipedia.org/wiki/Scope_(computer_science)" title="Scope (computer science) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.variables.scope.php" title="PHP: Variable Scope - Manual">Variable Scope</a></p>
 </section>
 
-<section class="slide" id="scope-example">
+<section>
 <h2>Scope</h2>
-<div style="font-size: 80%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 function get_total($subtotal, $tax_percent) {
     $total = $subtotal + ($tax_percent * $subtotal);
     var_dump($shipping, $total, $subtotal, $tax_percent);
@@ -229,10 +248,12 @@ function get_total($subtotal, $tax_percent) {
 $shipping = 3;
 get_total(5, 0.08);
 var_dump($shipping, $total, $subtotal, $tax_percent);
+</code></pre>
+</section>
 
-/*
-Output:
-
+<section>
+<h2>Scope</h2>
+<pre><code class="language-none">
 PHP Notice:  Undefined variable: shipping
 NULL
 float(5.4)
@@ -246,85 +267,80 @@ PHP Notice:  Undefined variable: tax_percent
 NULL
 NULL
 NULL
-*/
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="global-and-function-scope">
-<h2>Global and Function Scope</h2>
+<section>
+<h2>Global Scope</h2>
 <ul>
 <li>Code that exists outside of a function uses the global scope</li>
 <li>The global scope persists throughout the lifetime of the request</li>
-<li>A new scope is implicitly created when a function is called</li>
-<li>Function scope persists for the duration of the function call <strong><sup>*</sup></strong></li>
-<li>Variables referenced out of scope resolve to <code>NULL</code> and generate notices</li>
 </ul>
-<p class="center"><strong><sup>*</sup></strong> There are some PHP-specific exceptions to this.</p>
 </section>
 
-<section class="slide" id="problems-global-scope">
-<h2>Problems with Global Scope</h2>
+<section>
+<h2>Function Scope</h2>
+<ul>
+<li>A new scope is implicitly created when a function is called</li>
+<li>Function scope persists for the duration of the function call <sup><strong>*</strong></sup></li>
+<li>Variables referenced out of scope resolve to <code>NULL</code> and generate notices</li>
+</ul>
+<p class="center"><sup><strong>*</strong></sup> There are some PHP-specific exceptions to this.</p>
+</section>
+
+<section>
+<h2>Global Scope Problems</h2>
 <ul>
 <li>PHP variables are <a href="https://en.wikipedia.org/wiki/Immutable_object" title="Immutable object - Wikipedia, the free encyclopedia">mutable</a></li>
 <li>It's easy to accidentally re-use existing variables</li>
 <li>It's easier to use variables that haven't been validated</li>
-<li>Global variables tend to contribute to brittle spaghetti code</li>
+<li>Global variables can contribute to brittle spaghetti code</li>
 <li>Large number of variables in a single scope can use a lot of memory</li>
 </ul>
-<p class="center">See also: <a href="http://c2.com/cgi/wiki?GlobalVariablesAreBad" title="Global Variables Are Bad">Why global variables can be bad</a></p>
+<p class="center">See also: <a href="http://c2.com/cgi/wiki?GlobalVariablesAreBad" title="Global Variables Are Bad">Global Variables Are Bad</a></p>
 </section>
 
-<section class="slide" id="problems-function-scope">
-<h2>Problems with Function Scope</h2>
+<section>
+<h2>Function Scope Problems</h2>
+<p>For data to be accessible to a function, it has to:</p>
 <ul>
-<li>For data to be accessible to a function, it has to:
-    <ul>
-        <li>exist in the global scope and inherit related problems</li>
-        <li>be passed between other functions, adding levels of indirection</li>
-    </ul>
-</li>
-<pre>
-#0  c() called at [/tmp/include.php:10]
-#1  b() called at [/tmp/include.php:6]
-#2  a() called at [/tmp/include.php:17]
-#3  include(/tmp/include.php) called at [/tmp/test.php:3]
-</pre>
+    <li>exist in the global scope and inherit related problems; or</li>
+    <li>be passed between other functions, adding levels of indirection</li>
 </ul>
 </section>
 
-<section class="slide" id="better-solution">
+<section>
 <h2>A Better Solution</h2>
 <ul>
-<li>Limits data being passed between global and function scopes</li>
-<li>Limits ability to change state of groups of logically related variables to groups of related functions</li>
-<li>In effect, provides another level of scope; code can't change a variable if it can't &quot;see&quot; it</li>
+<li>Limit data being passed between global and function scopes</li>
+<li>Limit ability to change the state of groups of logically related variables to groups of related functions</li>
+<li>In effect, provide another level of scope; code can't change a variable if it can't &quot;see&quot; it</li>
 </ul>
 </section>
 
-<section class="slide" id="encapsulation">
+<section>
 <h2>Encapsulation</h2>
 <blockquote>&quot;<strong>Encapsulation</strong> is... a language construct that facilitates the bundling of data with the methods... operating on that data.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29" title="Encapsulation (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center">It has another meaning, more on that in a bit</p>
 </section>
 
-<section class="slide" id="objects">
+<section>
 <h2>Objects</h2>
 <ul>
 <li>Can contain multiple variables or <strong>properties</strong>, similar to how an associative array can contain multiple elements, but with potentially limited scope</li>
 <li>Can have associated functions or <strong>methods</strong> that act on those properties</li>
 <li>Both are referenced using the single arrow operator</li>
 </ul>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 $object = new stdClass;
 $object->meaning_of_life = 42;
 
 $pdo = new PDO('...');
 $result = $pdo->query('...');
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="classes">
+<section>
 <h2>Classes</h2>
 <ul>
 <li>&quot;Blueprint&quot; for creating objects referred to as <strong>instances</strong>, a process called <strong>instantiation</strong></li>
@@ -334,15 +350,13 @@ $result = $pdo->query('...');
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.basic.php" title="PHP: The Basics - Manual">The Basics</a></p>
 </section>
 
-<section class="slide" id="classes-example">
+<section id="classes">
 <h2>Classes</h2>
-<div style="font-size: 90%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
-  private $items = array();
+  private $items = [];
   private $tax = 0;
   private $discount = 0;
-
   public function addItem($id, $price, $quantity) {
     $this->items[] = [
       'id' => $id,
@@ -359,13 +373,12 @@ class Order {
     // ...
   }
 }
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="instantiate">
+<section>
 <h2>Instantiation</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 $order1 = new Order;
 $order1->addItem('phppro1', 39.95, 1);
 $order1->setTax(0.075);
@@ -375,16 +388,16 @@ $order2 = new Order;
 $order2->addItem('web-scraping', 39.99, 1);
 $order2->setTax(0);
 $order2->setDiscount(0);
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="inheritance">
+<section id="inheritance">
 <h2>Inheritance</h2>
 <blockquote>&quot;<strong>Inheritance</strong> is a way to establish <a href="http://en.wikipedia.org/wiki/Is-a" title="Is-a - Wikipedia, the free encyclopedia">is-a relationships</a> between objects.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Inheritance_(object-oriented_programming)" title="Inheritance (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center"><img src="img/species-classification.jpg" alt="Chart showing the scientific classification of a grizzly bear" /></p>
+<p class="center"><img src="img/species-classification.jpg" alt="Chart showing the scientific classification of a a moss rose" /></p>
 </section>
 
-<section class="slide" id="subclasses">
+<section>
 <h2>Subclasses</h2>
 <ul>
 <li>A <strong>subclass</strong> inherits the code defined in another class, a <strong>superclass</strong>, plus whatever that subclass contains</li>
@@ -395,138 +408,145 @@ $order2->setDiscount(0);
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.inheritance.php" title="PHP: Object Inheritance - Manual">Object Inheritance</a></p>
 </section>
 
-<section class="slide" id="subclasses-example">
+<section>
 <h2>Subclasses</h2>
-<div style="font-size: 85%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class ShippedOrder extends Order {
     protected $shipping = 0;
     public function setShipping($shipping) {
-        $this->shipping = $shipping;
+        $this-&gt;shipping = $shipping;
     }
     public function getTotal() {
-        return parent::getTotal() + $this->shipping;
+        return parent::getTotal() + $this-&gt;shipping;
     }
 }
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="visibility">
+<section>
 <h2>Visibility</h2>
-<blockquote>&quot;"<strong>Encapsulation</strong> is... a language mechanism for restricting access to some of the object's components.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29" title="Encapsulation (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;<strong>Encapsulation</strong> is... a language mechanism for restricting access to some of the object's components.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Encapsulation_%28object-oriented_programming%29" title="Encapsulation (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<p>Controls scope of properties and methods inside classes</p>
+</section>
+
+<section>
+<h2>Visibility</h2>
 <ul>
-<li>Controls scope of properties and methods declared within classes</li>
 <li><code>public</code> allows access outside and inside the class</li>
-<li><code>protected</code> allows access only within the class and its subclasses</li>
-<li><code>private</code> allows access only within the class and can <a href="https://sebastian-bergmann.de/archives/881-Testing-Your-Privates.html" title="Testing Your Privates">make code difficult to test</a></li>
+<li><code>protected</code> allows access inside the class and its subclasses</li>
+<li><code>private</code> allows access inside the class</li>
 <li><code>const</code> allows read-only access independent of individual instances</li>
 </ul>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.visibility.php" title="PHP: Visibility - Manual">Visibility</a></p>
 </section>
 
-<section class="slide" id="public-access-modifier">
+<section>
 <h2>Public Access Modifier</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     public $tax = 0.08;
     public function getTotal() {
         // ...
     }
 }
-
 $order = new Order;
-var_dump($order->tax); // float(0.08)
-var_dump($order->getTotal()); // float(1.08)
-
-$order->tax = 0.12;
-var_dump($order->tax); // float(0.12)
-var_dump($order->getTotal()); // float(1.12)
-
+var_dump($order-&gt;tax); // float(0.08)
+var_dump($order-&gt;getTotal()); // float(1.08)
+$order-&gt;tax = 0.12;
+var_dump($order-&gt;tax); // float(0.12)
+var_dump($order-&gt;getTotal()); // float(1.12)
 // ^ Work the same for subclasses
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="protected-access-modifier">
+<section id="protected-access-modifier">
 <h2>Protected Access Modifier</h2>
-<div style="font-size: 75%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     protected $tax;
     protected function getSubtotal() {
         // ...
     }
     public function getTotal() {
-        return $this->getSubtotal() + $this->tax;
+        return $this-&gt;getSubtotal() + $this-&gt;tax;
     }
 }
+
 class ShippedOrder extends Order {
     protected $shipping;
     public function getTotal() {
-        return $this->getSubtotal() + $this->tax + $this->shipping;
+        return $this-&gt;getSubtotal() + $this-&gt;tax + $this-&gt;shipping;
     }
 }
+</code></pre>
+</section>
 
+<section>
+<h2>Protected Access Modifier</h2>
+<pre><code class="language-php">
 $order = new ShippedOrder;
 
-var_dump($order->tax);
+var_dump($order-&gt;tax);
 // PHP Fatal error: Cannot access protected property
 // ShippedOrder::$tax
 
-var_dump($order->getSubtotal());
-// PHP Fatal error: Call to protected method ShippedOrder::getSubtotal()
+var_dump($order-&gt;getSubtotal());
+// PHP Fatal error: Call to protected method
+// ShippedOrder::getSubtotal()
 
-var_dump($order->getTotal());
+var_dump($order-&gt;getTotal());
 // float(1.08)
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="private-access-modifier">
+<section class="private-access-modifier">
 <h2>Private Access Modifier</h2>
-<div style="font-size: 65%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     private $tax = 0.08;
     private function getSubtotal() {
         // ...
     }
     public function getTotal() {
-        return $this->getSubtotal() + $this->tax;
+        return $this-&gt;getSubtotal() + $this-&gt;tax;
     }
 }
 class ShippedOrder extends Order {
     public function getTax() {
-        return $this->tax;
+        return $this-&gt;tax;
     }
     public function getTotal() {
-        return $this->getSubtotal() + $this->tax + $this->shipping;
+        return $this-&gt;getSubtotal() + $this-&gt;tax + $this-&gt;shipping;
     }
 }
+</code></pre>
+</section>
 
+<section class="private-access-modifier">
+<h2>Private Access Modifier</h2>
+<pre><code class="language-php">
 $order = new Order;
-var_dump($order->getTotal()); // float(1.08)
+var_dump($order-&gt;getTotal()); // float(1.08)
 
 $order = new ShippedOrder;
 
-var_dump($order->tax);
+var_dump($order-&gt;tax);
 // PHP Notice: Undefined property: ShippedOrder::$tax
-var_dump($order->getTax());
+var_dump($order-&gt;getTax());
 // PHP Notice: Undefined property: ShippedOrder::$tax
 
-var_dump($order->getSubtotal());
-// PHP Fatal error: Call to private method Order::getSubtotal() from
-// context ''
-var_dump($order->getTotal());
-// PHP Fatal error: Call to private method Order::getSubtotal() from
-// context 'ShippedOrder'
-]]></script>
-</div>
+var_dump($order-&gt;getSubtotal());
+// PHP Fatal error: Call to private method Order::getSubtotal()
+// from context ''
+var_dump($order-&gt;getTotal());
+// PHP Fatal error: Call to private method Order::getSubtotal()
+// from context 'ShippedOrder'
+</code></pre>
 </section>
 
-<section class="slide" id="constants">
+<section>
 <h2>Constants</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     const TAX = 0.08;
     public function getTax() {
@@ -536,21 +556,30 @@ class Order {
 class ShippedOrder extends Order {
     // ...
 }
-
-var_dump(Order::TAX); // float(0.08)
-$order = new Order;
-var_dump($order->getTax()); // float(0.08)
-
-var_dump(ShippedOrder::TAX); // float(0.08)
-$order = new ShippedOrder;
-var_dump($order->getTax()); // float(0.08)
-]]></script>
+</code></pre>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.constants.php" title="PHP: Constants - Manual">Constants</a></p>
 </section>
 
-<section class="slide" id="abstraction">
+<section>
+<h2>Constants</h2>
+<pre><code class="language-php">
+var_dump(Order::TAX); // float(0.08)
+$order = new Order;
+var_dump($order-&gt;getTax()); // float(0.08)
+
+var_dump(ShippedOrder::TAX); // float(0.08)
+$order = new ShippedOrder;
+var_dump($order-&gt;getTax()); // float(0.08)
+</code></pre>
+</section>
+
+<section>
 <h2>Abstraction</h2>
 <blockquote>&quot;<strong>Abstraction</strong> is the process by which data and programs are defined with a representation similar in form to its meaning (semantics), while hiding away the implementation details... a concept or idea not associated with any specific instance.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Abstraction_(computer_science)" title="Abstraction (computer science) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+</section>
+
+<section>
+<h2>Abstraction</h2>
 <ul>
 <li>Abstract classes cannot be instantiated, only extended</li>
 <li>Abstract methods, designated using the <code>abstract</code> modifier, have no implementation in the superclass that declares them; subclasses must implement them</li>
@@ -559,14 +588,13 @@ var_dump($order->getTax()); // float(0.08)
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.abstract.php" title="PHP: Class Abstraction - Manual">Class Abstraction</a></p>
 </section>
 
-<section class="slide" id="abstract-classes">
+<section id="abstract-classes">
 <h2>Abstract Classes</h2>
-<div style="font-size: 75%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 abstract class Order {
     private $tax = 0.08;
     protected function getTax() {
-        return $this->tax;
+        return $this-&gt;tax;
     }
     protected function getSubtotal() {
         // ...
@@ -576,93 +604,50 @@ abstract class Order {
 class ShippedOrder extends Order {
     protected $shipping = 1;
     public function getTotal() {
-        return $this->getSubtotal() + $this->getTax() + $this->shipping;
+        return $this-&gt;getSubtotal() + $this-&gt;getTax() + $this-&gt;shipping;
     }
 }
+</code></pre>
+</section>
 
+<section>
+<h2>Abstract Classes</h2>
+<pre><code class="language-php">
 $order = new Order;
 // PHP Fatal error: Cannot instantiate abstract class Order
 
 $order = new ShippedOrder;
-var_dump($order->getTotal()); // float(2.08)
+var_dump($order-&gt;getTotal()); // float(2.08)
 
 class DigitalOrder extends Order { }
-// PHP Fatal error:  Class DigitalOrder contains 1 abstract method
-// and must therefore be declared abstract or implement the
-// remaining methods (Order::getTotal)
-]]></script>
-</div>
+// PHP Fatal error: Class DigitalOrder contains 1 abstract
+// method and must therefore be declared abstract or
+// implement the remaining methods (Order::getTotal)
+</code></pre>
 </section>
 
-<section class="slide" id="design-by-contract">
-<h2>Design by Contract</h2>
-<blockquote>&quot;<strong>Design by contract</strong>... is an approach for designing software. It prescribes that software designers should define formal, precise and verifiable interface specifications for software components... These specifications are referred to as 'contracts,' in accordance with a conceptual metaphor with the conditions and obligations of business contracts.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Design_by_contract" title="Design by contract - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center">Very important for <a href="https://en.wikipedia.org/wiki/Extensibility">extensibility</a> and <a href="https://en.wikipedia.org/wiki/Interoperability#Software">interoperability</a>.</p>
-</section>
-
-<section class="slide" id="interfaces">
-<h2>Interfaces</h2>
-<blockquote>&quot;... a[n]... <strong>interface</strong> is a common means for unrelated objects to communicate with each other. These are definitions of methods and values which the objects agree upon in order to cooperate.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)" title="Protocol (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<blockquote>&quot;When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck.&quot; ~ <cite>James Whitcomb Riley</cite>, the basis for <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a></blockquote>
-<ul>
-<li>Interface methods have no implementation; a class that implements an interface must implement its methods</li>
-<li>Classes can implement multiple interfaces, whereas they can only extend a single superclass</li>
-</ul>
-<p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.interfaces.php" title="PHP: Object Interfaces - Manual">Object Interfaces</a></p>
-</section>
-
-<section class="slide" id="interfaces-example">
-<h2>Interfaces</h2>
-<div style="font-size: 80%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
-interface Configurable {
-    public function setConfig(array $config);
-}
-interface Outputtable {
-    public function output();
-}
-class Foo implements Configurable, Outputtable {
-    protected $config = array();
-    public function setConfig(array $config) {
-        $this->config = $config;
-    }
-    public function output() {
-        var_dump($this);
-    }
-}
-class Configurator {
-    public function configurate(Configurable $configurable) {
-        // ...
-    }
-}
-$foo = new Foo;
-$configurator = new Configurator;
-$configurator->configurate($foo);
-// works because $foo is an instance of Foo which 
-// implements Configurable
-]]></script>
-</div>
-</section>
-
-<section class="slide" id="polymorphism">
+<section>
 <h2>Polymorphism</h2>
 <blockquote>&quot;The primary usage of <strong>polymorphism</strong>... is the ability of objects belonging to different types to respond to method, field, or property calls of the same name, each one according to an appropriate type-specific behavior.&quot;~ <cite><a href="http://en.wikipedia.org/wiki/Polymorphism_in_object-oriented_programming" title="Polymorphism in object-oriented programming - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center"><img src="img/species-classification.jpg" alt="Chart showing the scientific classification of a grizzly bear" /></p>
 </section>
 
-<section class="slide" id="class-typehints">
+<section id="polymorphism">
+<h2>Polymorphism</h2>
+<p class="center"><img src="img/species-classification.jpg" alt="Chart showing the scientific classification of a moss rose" /></p>
+</section>
+
+<section>
 <h2>Class Typehints</h2>
 <ul>
-<li>Class names can precede method parameter names to require (with a catchable fatal error) that those parameters be instances of those classes or their subclasses at runtime</li>
-<li>Interface names can precede method parameter names to require (with a catchable fatal error) that those parameters be instances of classes that implements those interfaces</li>
+<li>Class names can precede method parameter names to require that those parameters be instances of those classes or their subclasses at runtime</li>
+<li>Violations of this requirement result in a catchable fatal error</li>
 </ul>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.typehinting.php" title="PHP: Type Hinting - Manual">Type Hinting</a></p>
 </section>
 
-<section class="slide" id="class-typehints-example">
+<section>
 <h2>Class Typehints</h2>
-<div style="font-size: 80%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Dog { }
 class Dachshund extends Dog { }
 class DogWasher {
@@ -674,26 +659,95 @@ $dog = new Dog;
 $dachshund = new Dachshund;
 $dogwasher = new DogWasher;
 $cat = new Cat;
+</code></pre>
+</section>
 
+<section>
+<h2>Class Typehints</h2>
+<pre><code class="language-php">
 // $dog matches Dog
-$dogwasher->wash($dog);
+$dogwasher-&gt;wash($dog);
 
 // $dachshund matches Dachshund, a subclass of Dog
-$dogwasher->wash($dachshund);
+$dogwasher-&gt;wash($dachshund);
 
 // $cat doesn't match Dog or Dachshund
-$dogwasher->wash($cat);
+$dogwasher-&gt;wash($cat);
 // PHP Catchable fatal error: Argument 1 passed to
 // DogWasher::wash() must be an instance of Dog,
 // instance of Cat given
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="interface-typehints-example">
+<section>
+<h2>Design by Contract</h2>
+<blockquote>&quot;<strong>Design by contract</strong>... is an approach for designing software. It prescribes that software designers should define formal, precise and verifiable interface specifications for software components... referred to as 'contracts,' in accordance with a conceptual metaphor with the conditions and obligations of business contracts.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Design_by_contract" title="Design by contract - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<p class="center">Very important for <a href="https://en.wikipedia.org/wiki/Extensibility">extensibility</a> and <a href="https://en.wikipedia.org/wiki/Interoperability#Software">interoperability</a>.</p>
+</section>
+
+<section>
+<h2>Interfaces</h2>
+<blockquote>&quot;... a[n]... <strong>interface</strong> is a common means for unrelated objects to communicate with each other. These are definitions of methods and values which the objects agree upon in order to cooperate.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Protocol_(object-oriented_programming)" title="Protocol (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck.&quot; ~ <cite>James Whitcomb Riley</cite>, the basis for <a href="https://en.wikipedia.org/wiki/Duck_typing">duck typing</a></blockquote>
+</section>
+
+<section>
+<h2>Interfaces</h2>
+<ul>
+<li>Interface methods have no implementation; a class that implements an interface must implement its methods</li>
+<li>Classes can implement multiple interfaces, whereas they can only extend a single superclass</li>
+<li>Interface names can precede method parameter names to require that those parameters be instances of classes that implement those interfaces</li>
+</ul>
+<p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.interfaces.php" title="PHP: Object Interfaces - Manual">Object Interfaces</a></p>
+</section>
+
+<section>
+<h2>Interfaces</h2>
+<pre><code class="language-php">
+interface Configurable {
+    public function setConfig(array $config);
+}
+
+interface Outputable {
+    public function output();
+}
+</code></pre>
+</section>
+
+<section>
+<h2>Interfaces</h2>
+<pre><code class="language-php">
+class Foo implements Configurable, Outputable {
+    protected $config = [];
+    public function setConfig(array $config) {
+        $this-&gt;config = $config;
+    }
+    public function output() {
+        var_dump($this);
+    }
+}
+</code></pre>
+</section>
+
+<section>
+<h2>Interfaces</h2>
+<pre><code class="language-php">
+class Configurator {
+    public function configurate(Configurable $configurable) {
+        // ...
+    }
+}
+$foo = new Foo;
+$configurator = new Configurator;
+$configurator-&gt;configurate($foo);
+// works because $foo is an instance of Foo which 
+// implements Configurable
+</code></pre>
+</section>
+
+<section>
 <h2>Interface Typehints</h2>
-<div style="font-size: 80%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 interface Washable { }
 class Washer {
     public function wash(Washable $washable) { }
@@ -704,61 +758,76 @@ class Cat { }
 $washer = new Washer;
 $dog = new Dog;
 $cat = new Cat;
-
-// $dog matches Dog, which implements Washable
-$washer->wash($dog);
-
-// $cat matches Cat, which does not implement Washable
-$washer->wash($cat);
-// Catchable fatal error: Argument 1 passed to Washer::wash()
-// must implement interface Washable, instance of Cat given
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="composition">
+<section>
+<h2>Interface Typehints</h2>
+<pre><code class="language-php">
+// $dog matches Dog, which implements Washable
+$washer-&gt;wash($dog);
+
+// $cat matches Cat, which does not implement Washable
+$washer-&gt;wash($cat);
+// Catchable fatal error: Argument 1 passed to Washer::wash()
+// must implement interface Washable, instance of Cat given
+</code></pre>
+</section>
+
+<section>
 <h2>Composition</h2>
 <blockquote>&quot;Object <strong>composition</strong>... is a way to combine simple objects or data types into more complex ones.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Object_composition" title="Object composition - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<blockquote>&quot;<strong>Composition over inheritance</strong>... is a technique by which classes may achieve polymorphic behavior and code reuse by containing [instances of] other classes that implement the desired functionality instead of through inheritance.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Composition_over_inheritance" title="Composition over inheritance - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center"><img src="img/shrek-onion.jpg" alt="Onions have layer" /></p>
 </section>
 
-<section class="slide" id="constructors-and-destructors">
-<h2>Constructors / Destructors</h2>
+<section>
+<h2>Composition</h2>
+<blockquote>&quot;<strong>Composition over inheritance</strong>... is a technique by which classes may achieve polymorphic behavior and code reuse by containing [instances of] other classes that implement the desired functionality instead of through inheritance.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Composition_over_inheritance" title="Composition over inheritance - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+</section>
+
+<section>
+<h2>Constructor</h2>
 <blockquote>&quot;... a <strong>constructor</strong> in a class is a special type of subroutine … [that] prepares the new object for use, often accepting arguments that the constructor uses to set required member variables.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Constructor_(object-oriented_programming)" title="Constructor (object-oriented programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+</section>
+
+<section>
+<h2>Destructor</h2>
 <blockquote>&quot;... a <strong>destructor</strong>... is a method which is automatically invoked when the object is destroyed... Its main purpose is to free the resources... which were acquired by the object along its life cycle and/or deregister from other entities which may keep references to it.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Destructor_(computer_programming)" title="Destructor (computer programming) - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 </section>
 
-<section class="slide" id="constructors-and-destructors-example">
+<section>
 <h2>Constructors / Destructors</h2>
-<div style="font-size: 85%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Foo {
     protected $config;
     public function __construct(array $config) {
-        $this->config = $config;
+        $this-&gt;config = $config;
     }
     public function getConfig() {
-        return $this->config;
+        return $this-&gt;config;
     }
     public function __destruct() {
         // ...
     }
 }
+</code></pre>
+</section>
 
-$foo = new Foo(array('bar' => 'baz'));
+<section>
+<h2>Constructors / Destructors</h2>
+<pre><code class="language-php">
+$foo = new Foo(['bar' =&gt; 'baz']);
 // Invokes __construct()
 
-var_dump($foo->getConfig());
-// Output: array(1) { ["bar"]=> string(3) "baz" }
+var_dump($foo-&gt;getConfig());
+// Output: array(1) { ["bar"]=&gt; string(3) "baz" }
 
 unset($foo);
 // Invokes __destruct()
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="dependency-injection">
+<section>
 <h2>Dependency Injection</h2>
 <blockquote>&quot;<strong>Dependency injection</strong> is a software design pattern... An injection is the passing of a dependency (a service) to a dependent object (a client).&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Dependency_injection" title="Dependency injection - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <div class="two-col-left left">
@@ -779,9 +848,9 @@ unset($foo);
 </div>
 </section>
 
-<section class="slide" id="dependency-injection-setter">
+<section>
 <h2>Setter Dependency</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Radio {
     public function turnOn() {
         // ...
@@ -790,23 +859,31 @@ class Radio {
 class Car {
     protected $radio;
     public function setRadio(Radio $radio) {
-        $this->radio = $radio;
+        $this-&gt;radio = $radio;
     }
     public function playMusic() {
-        $this->radio->turnOn();
+        $this-&gt;radio-&gt;turnOn();
         // ...
     }
 }
-$radio = new Radio;
-$car = new Car;
-$car->setRadio($radio);
-$car->playMusic();
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="dependency-injection-constructor">
+<section>
+<h2>Setter Dependency</h2>
+<pre><code class="language-php">
+$radio = new Radio;
+
+$car = new Car;
+$car-&gt;setRadio($radio);
+
+$car-&gt;playMusic();
+</code></pre>
+</section>
+
+<section>
 <h2>Constructor Dependency</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Engine {
     public function turnOn() {
         // ...
@@ -815,24 +892,30 @@ class Engine {
 class Car {
     protected $engine;
     public function __construct(Engine $engine) {
-        $this->engine = $engine;
+        $this-&gt;engine = $engine;
     }
     public function start() {
-        $this->engine->turnOn();
+        $this-&gt;engine-&gt;turnOn();
         // ...
     }
 }
-$engine = new Engine;
-$car = new Car($engine);
-$car->start();
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="dependency-injection-containers">
-<h2>Dependency Injection Containers</h2>
-<div style="font-size: 80%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
-$container = new Pimple();
+<section>
+<h2>Constructor Dependency</h2>
+<pre><code class="language-php">
+$engine = new Engine;
+
+$car = new Car($engine);
+$car-&gt;start();
+</code></pre>
+</section>
+
+<section>
+<h2>Containers</h2>
+<pre><code class="language-php">
+$container = new \Pimple\Container();
 
 $container['cookie_name'] = 'SESSION_ID';
 $container['session_storage_class'] = 'SessionStorage';
@@ -845,42 +928,46 @@ $container['session_storage'] = function ($c) {
 $container['session'] = function ($c) {
     return new Session($c['session_storage']);
 };
-
-$session = $container['session'];
-// Roughly equivalent to:
-// $storage = new SessionStorage('SESSION_ID');
-// $session = new Session($storage);
-]]></script>
-</div>
-<p class="center"><a href="http://pimple.sensiolabs.org/" title="Pimple - A simple Dependency Injection Container for PHP 5.3">pimple.sensiolabs.org</a></p>
+</code></pre>
+<p class="center"><a href="https://github.com/silexphp/Pimple" title="Pimple - A small PHP dependency injection container">github.com/silexphp/Pimple</a></p>
 </section>
 
-<section class="slide" id="dont-repeat-yourself">
+<section>
+<h2>Containers</h2>
+<pre><code class="language-php">
+$session = $container['session'];
+
+// ^ Roughly equivalent to:
+$storage = new SessionStorage('SESSION_ID');
+$session = new Session($storage);
+</code></pre>
+</section>
+
+<section>
 <h2>Don't Repeat Yourself</h2>
-<blockquote>&quot;<strong>Don't Repeat Yourself</strong> (<abbr title="Don't Repeat Yourself">DRY</abbr>) is a principle of software development aimed at reducing repetition of information of all kinds... is stated as 'Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.'&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself" title="Don't repeat yourself - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;<strong>Don't Repeat Yourself</strong> (<abbr title="Don't Repeat Yourself">DRY</abbr>) is a principle of software development aimed at reducing repetition of information... stated as 'Every piece of knowledge must have a single, unambiguous, authoritative representation within a system.'&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Don%27t_repeat_yourself" title="Don't repeat yourself - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center"><img src="img/dont-repeat-yourself.jpg" alt="Don't Repeat Yourself: Repetition is the root of all software evil" /></p>
 </section>
 
-<section class="slide" id="separation-of-concerns">
+<section>
 <h2>Separation of Concerns</h2>
-<blockquote>&quot;... <strong>separation of concerns</strong> (SoC) is a design principle for separating a computer program into distinct sections, such that each section addresses a separate concern... When concerns are well-separated, individual sections can be reused, as well as developed and updated independently.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Separation_of_concerns" title="Separation of concerns - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;... <strong>separation of concerns</strong> (SoC) is a design principle for separating a computer program into distinct sections... each section addresses a separate concern... sections can be reused... developed and updated independently.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Separation_of_concerns" title="Separation of concerns - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center"><img src="img/thats-not-how-it-works.jpg" alt="That's not how it works" /></p>
 </section>
 
-<section class="slide" id="single-responsibility-principle">
+<section id="single-responsibility-principle">
 <h2>Single Reponsibility Principle</h2>
-<blockquote>&quot;In object-oriented programming, the <strong>single responsibility principle</strong> states that every class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Single_responsibility_principle" title="Single responsibility principle - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;... the <strong>single responsibility principle</strong> states that every class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Single_responsibility_principle" title="Single responsibility principle - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 <p class="center"><img src="img/one-job.jpg" alt="You had one job" /></p>
 </section>
 
-<section class="slide" id="lagniappe-point">
-<h2>Lagniappe Point</h2>
+<section>
+<h2><a href="https://en.wikipedia.org/wiki/Lagniappe">Lagniappe</a> Point</h2>
 </section>
 
-<section class="slide" id="comparing-objects">
+<section>
 <h2>Comparing Objects</h2>
-<div style="font-size: 85%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     public $id = 2;
 }
@@ -892,9 +979,14 @@ $order1 = new Order;
 $order2 = $order1;
 $order3 = new Order;
 $order4 = new Order;
-$order4->id = 4;
+$order4-&gt;id = 4;
 $user = new User;
+</code></pre>
+</section>
 
+<section id="comparing-objects">
+<h2>Comparing Objects</h2>
+<pre><code class="language-php">
 var_dump($order1 == $order2); // same class, true
 var_dump($order1 === $order2); // same instance, true
 
@@ -904,47 +996,49 @@ var_dump($order1 === $order3); // difference instances, false
 
 var_dump($order1 == $user); // different classes, false
 var_dump($order1 === $user); // different classes, false
-]]></script>
-</div>
+</code></pre>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.object-comparison.php" title="PHP: Comparing Objects - Manual">Comparing Objects</a></p>
 </section>
 
-<section class="slide" id="cloning-objects">
+<section>
 <h2>Cloning Objects</h2>
-<div style="font-size: 75%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class User { }
 class Order {
     public $user;
     public function __construct(User $user) {
-        $this->user = $user;
+        $this-&gt;user = $user;
     }
 }
 class DeepCloneOrder extends Order {
     public function __clone() {
-        $this->user = clone $this->user;
+        $this-&gt;user = clone $this-&gt;user;
     }
 }
+</code></pre>
+<p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.cloning.php" title="PHP: Object Cloning - Manual">Object Cloning</a> and <a href="http://www.php.net/manual/en/language.oop5.references.php" title="PHP: Objects and references - Manual">Objects and References</a></p>
+</section>
 
+<section>
+<h2>Cloning Objects</h2>
+<pre><code class="language-php">
 $user = new User;
 
 $order1 = new Order($user);
 $order2 = clone $order1;
-var_dump($order1->user === $order2->user);
+var_dump($order1-&gt;user === $order2-&gt;user);
 // same user instance, true
 
 $order1 = new DeepCloneOrder($user);
 $order2 = clone $order1;
-var_dump($order1->user === $order2->user);
+var_dump($order1-&gt;user === $order2-&gt;user);
 // cloned user instance, false
-]]></script>
-</div>
-<p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.cloning.php" title="PHP: Object Cloning - Manual">Object Cloning</a> and <a href="http://www.php.net/manual/en/language.oop5.references.php" title="PHP: Objects and references - Manual">Objects and References</a></p>
+</code></pre>
 </section>
 
-<section class="slide" id="object-serialization">
+<section>
 <h2>Object Serialization</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     public $tax = 2;
 }
@@ -957,71 +1051,73 @@ echo $serialized;
 $unserialized = unserialize($serialized);
 var_dump($unserialized);
 // object(Order)#2 (1) { ["tax"]=> int(2) }
-]]></script>
+</code></pre>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.serialization.php" title="PHP: Object Serialization - Manual">Object Serialization</a></p>
 </section>
 
-<section class="slide" id="exceptions">
+<section>
 <h2>Exceptions</h2>
-<div style="font-size: 75%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
-class ReallyBadThingHappenedException extends Exception { }
-
+<pre><code class="language-php">
+class BadThingHappenedException extends Exception { }
 try {
-    // ...
-    if ($reallyBadThingHappened) {
-        throw new ReallyBadThingHappenedException("Ruh-roh!", 404);
+    if ($badThingHappened) {
+        throw new BadThingHappenedException("Ruh-roh!", 911);
     }
-    // ...
-
-// First catch where thrown exception is 
-// instance of exception class is executed
 } catch (SomeException $e) {
     // ...
-} catch (ReallyBadThingHappenedException $e) {
-    echo $e->getCode(), ' ', $e->getMessage(), PHP_EOL;
+} catch (BadThingHappenedException $e) {
+    echo $e-&gt;getCode(), ' ', $e-&gt;getMessage(), PHP_EOL;
 } catch (Exception $e) {
     // ...
-} finally { // PHP 5.5 only
-    // executes regardless of whether an exception is caught or not
+} finally { // PHP 5.5+ only
+    // executes regardless of whether an exception is caught
 }
-]]></script>
-</div>
+</code></pre>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.exceptions.php" title="PHP: Exceptions - Manual">Exceptions</a></p>
 </section>
 
-<section class="slide" id="final">
+<section>
 <h2>Final</h2>
-<div style="font-size: 85%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class HasFinalMethod {
     final public function finalMethod() { }
 }
+
 class OverridesFinalMethod extends HasFinalMethod {
     public function finalMethod() { }
 }
 // Fatal error: Cannot override final method
 // HasFinalMethod::finalMethod()
+</code></pre>
+<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.final.php" title="PHP: Final Keyword - Manual">Final Keyword</a></p>
+</section>
 
+<section>
+<h2>Final</h2>
+<pre><code class="language-php">
 final class IsFinalClass { }
+
 class ExtendsFinalClass extends IsFinalClass { }
 // Fatal error: Class ExtendsFinalClass may not
 // inherit from final class (IsFinalClass)
+</code></pre>
+</section>
 
+<section>
+<h2>Final</h2>
+<pre><code class="language-php">
 class HasFinalProperty {
     public static final $finalProperty = 2;
 }
 // Fatal error: Cannot declare property
 // HasFinalProperty::$finalProperty final, the final
 // modifier is allowed only for methods and classes
-]]></script>
-</div>
-<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.final.php" title="PHP: Final Keyword - Manual">Final Keyword</a></p>
+</code></pre>
 </section>
 
-<section class="slide" id="statics">
+<section>
 <h2>Statics</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     protected static $tax = 2;
     public static function getTax() {
@@ -1033,97 +1129,109 @@ class Order {
         return $subtotal + self::getTax();
     }
 }
+</code></pre>
+<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.static.php" title="PHP: Static Keyword - Manual">Static Keyword</a></p>
+</section>
 
+<section>
+<h2>Statics</h2>
+<pre><code class="language-php">
 echo Order::getTax(); // 2
 
 $order = new Order;
-echo $order->getTotal(); // 4
-]]></script>
-<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.static.php" title="PHP: Static Keyword - Manual">Static Keyword</a></p>
-<p class="center"><a href="http://sebastian-bergmann.de/archives/883-Stubbing-and-Mocking-Static-Methods.html" title="Stubbing and Mocking Static Methods">Be careful with these</a></p>
+echo $order-&gt;getTotal(); // 4
+</code></pre>
 </section>
 
-<section class="slide" id="magic-methods">
+<section>
 <h2>Magic Methods</h2>
-<p class="center">&quot;Magic&quot; has the same connotation as &quot;interesting&quot; in the Chinese proverb.</p>
-<p class="center">Use these sparingly, intentionally, and with great hesitation.</p>
+<blockquote>&quot;May you live in interesting times.&quot; ~ <a href="https://en.wikipedia.org/wiki/May_you_live_in_interesting_times" title="May you live in interesting times - Wikipedia">ancient curse</a></blockquote>
+<p class="center">&quot;Magic&quot; has the same connotation as &quot;interesting&quot; here.</p>
+<p class="center">Use these very sparingly, intentionally, and hesitantly.</p>
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.magic.php" title="PHP: Magic Methods - Manual">Magic Methods</a></p>
 </section>
 
-<section class="slide" id="property-magic-methods">
+<section>
 <h2>Property Magic Methods</h2>
-<div style="font-size: 70%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
-    protected $values = array();
+    protected $values = []; 
     public function __get($name) {
-        return isset($this->values[$name]) ? $this->values[$name] : null;
+        return $this-&gt;values[$name] ?? null;
     }
     public function __set($name, $value) {
-        $this->values[$name] = $value;
+        $this-&gt;values[$name] = $value;
     }
     public function __isset($name) {
-        return isset($this->values[$name]);
+        return isset($this-&gt;values[$name]);
     }
     public function __unset($name) {
-        unset($this->values[$name]);
+        unset($this-&gt;values[$name]);
     }
 }
-$order = new Order;
-
-var_dump($order->tax); // calls __get("tax"), returns null
-var_dump(isset($order->tax)); // calls __isset("tax"), returns false
-
-$order->tax = 2; // calls __set("tax", 2)
-var_dump($order->tax); // calls __get("tax"), returns 2
-var_dump(isset($order->tax)); // calls __isset("tax"), returns true
-
-unset($order->tax); // calls __unset("tax")
-var_dump($order->tax); // calls __get("tax"), returns null
-var_dump(isset($order->tax)); // calls __isset("tax"), returns false
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="instance-magic-methods">
+<section id="property-magic-methods">
+<h2>Property Magic Methods</h2>
+<pre><code class="language-php">
+$order = new Order;
+
+var_dump($order-&gt;tax); // calls __get("tax"), returns null
+var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns false
+
+$order-&gt;tax = 2; // calls __set("tax", 2)
+var_dump($order-&gt;tax); // calls __get("tax"), returns 2
+var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns true
+
+unset($order-&gt;tax); // calls __unset("tax")
+var_dump($order-&gt;tax); // calls __get("tax"), returns null
+var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns false
+</code></pre>
+</section>
+
+<section id="instance-magic-methods">
 <h2>Instance Magic Methods</h2>
-<div style="font-size: 70%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     protected $tax = 2;
     public function __call($name, array $arguments) {
         if (strpos($name, 'get') === 0) {
             $key = strtolower(substr($name, 3));
-            if (isset($this->$key)) {
-                return $this->$key;
-            } elseif (isset($arguments[0])) {
+            if (isset($this-&gt;$key)) {
+                return $this-&gt;$key;
+            }
+            if (isset($arguments[0])) {
                 return $arguments[0];
-            } else {
-                return null;
             }
         }
+        return null;
     }
     public function getTotal() {
         return 43;
     }
 }
-$order = new Order;
-echo $order->getTax(3);
-// calls __call("getTax", array(3)), returns 2
-echo $order->getDiscount(1);
-// calls __call("getDiscount", array(1)), returns 1
-echo $order->getShipping();
-// calls __call("getShipping", array()), returns null
-echo $order->getTotal();
-// calls getTotal(), returns 43
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="static-magic-methods">
+<section>
+<h2>Instance Magic Methods</h2>
+<pre><code class="language-php">
+$order = new Order;
+echo $order-&gt;getTax(3);
+// calls __call("getTax", array(3)), returns 2
+echo $order-&gt;getDiscount(1);
+// calls __call("getDiscount", array(1)), returns 1
+echo $order-&gt;getShipping();
+// calls __call("getShipping", array()), returns null
+echo $order-&gt;getTotal();
+// calls getTotal(), returns 43
+</code></pre>
+</section>
+
+<section id="static-magic-methods">
 <h2>Static Magic Methods</h2>
-<div style="font-size: 75%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     public static function __callStatic($name, array $arguments) {
         return 2;
@@ -1134,29 +1242,32 @@ class Order {
 }
 
 echo Order::getTax();
-// calls __callStatic("getTax", array()), returns 2
+// calls __callStatic("getTax", []), returns 2
 
 echo Alpha::getTotal();
 // calls getTotal(), returns 43
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="serialization-magic-methods">
+<section>
 <h2>Serialization Magic Methods</h2>
-<div style="font-size: 85%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     protected $tax = 2;
     protected $discount = 3;
     public function __sleep() {
-        return array(
+        return [
             'tax' => $this->tax
-        );
+        ];
     }
     public function __wakeup() { }
 }
+</code></pre>
+</section>
 
+<section>
+<h2>Serialization Magic Methods</h2>
+<pre><code class="language-php">
 $order = new Order;
 
 $serialized = serialize($order);
@@ -1165,15 +1276,13 @@ $serialized = serialize($order);
 
 $unserialized = unserialize($serialized);
 // calls __wakeup()
-// returns object(Order)#2 (1) { ["tax"]=> int(2) }
-]]></script>
-</div>
+// returns object(Order)#2 (1) { ["tax"]=&gt; int(2) }
+</code></pre>
 </section>
 
-<section class="slide" id="string-magic-methods">
+<section>
 <h2>String Magic Methods</h2>
-<div style="font-size: 70%;">
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order {
     protected $tax = 2;
     public function __toString() {
@@ -1181,16 +1290,21 @@ class Order {
     }
     public static function __set_state(array $properties) {
         $order = new self; // equivalent to new Order
-        foreach ($properties as $key => $value) {
-            $order->$key = $value;
+        foreach ($properties as $key =&gt; $value) {
+            $order-&gt;$key = $value;
         }
         return $order;
     }
 }
+</code></pre>
+</section>
 
+<section>
+<h2>String Magic Methods</h2>
+<pre><code class="language-php">
 $order = new Order;
 
-$order_string = '<?php return ' . $order . ';';
+$order_string = '&lt;' . '?php return ' . $order . ';';
 // Using . with $order calls
 // __toString() -> var_export() -> __set_state()
 // returns the string
@@ -1201,13 +1315,12 @@ file_put_contents('order_instance.php', $order_string);
 $order = require 'order_instance.php';
 var_dump($order);
 // object(Order)#2 (1) { ["tax"]=> int(2) }
-]]></script>
-</div>
+</code></pre>
 </section>
 
-<section class="slide" id="invocation-magic-methods">
+<section>
 <h2>Invocation Magic Methods</h2>
-<script type="syntaxhighlighter" class="brush: php"><![CDATA[
+<pre><code class="language-php">
 class Order { }
 class OrderHandler {
     public function __invoke($order) {
@@ -1223,55 +1336,72 @@ $handler($order);
 
 var_dump(is_callable($handler));
 // bool(true) because OrderHandler implements __invoke()
-]]></script>
+</code></pre>
 </section>
 
-<section class="slide" id="resources">
+<section id="resources">
 <h2>Resources</h2>
 <ul>
 <li><a href="http://www.php.net/manual/en/language.oop5.php" title="PHP: Classes and Objects - Manual">PHP: Classes and Objects - Manual</a></li>
-<li><a href="http://www.sitepoint.com/books/phppro1/" title="Home - PHP Master: Write Cutting-Edge Code">PHP Master: Write Cutting-Edge Code</a> by <a href="http://www.lornajane.net/" title="LornaJane | Lorna Jane Mitchell's Website">Lorna Jane Mitchell</a>, <a href="http://daveyshafik.com/" title="Davey Shafik">Davey Shafik</a>, and <a href="http://matthewturland.com/" title="Matthew Turland">Matthew Turland</a></li>
+<li><a href="https://www.sitepoint.com/premium/books/php-master-write-cutting-edge-code" title="PHP Master: Write Cutting-edge Code - SitePoint Premium">PHP Master: Write Cutting-Edge Code</a> by <a href="http://www.lornajane.net/" title="LornaJane | Lorna Jane Mitchell's Website">Lorna Jane Mitchell</a>, <a href="http://daveyshafik.com/" title="Davey Shafik">Davey Shafik</a>, and <a href="http://matthewturland.com/" title="Matthew Turland">Matthew Turland</a></li>
 <li><a href="http://www.slideshare.net/ctankersley/oop-is-more-than-cars-and-dogs" title="OOP Is More Than Cars and Dogs">OOP Is More Than Cars and Dogs</a> by <a href="https://twitter.com/dragonmantank" title="Rogue PHP Engine (@dragonmantank) | Twitter">Chris Tankersley</a></li>
 <li><a href="http://mwop.net/blog/2012-11-17-zendcon-beautiful-software.html" title="My ZendCon Beautiful Software Talk :: phly, boy, phly">Designing Beautiful Software</a> by <a href="http://mwop.net/" title="phly, boy, phly">Matthew Weier O'Phinney</a></li>
-<li><a href="http://www.slideshare.net/rdohms/your-code-sucks-lets-fix-it-php-master-series-2012" title="Your code sucks, let's fix it - PHP Master Series 2012">Your code sucks, let's fix it</a> by <a href="http://www.rafaeldohms.com.br/" title="doh.ms">Rafael Dohms</a></li>
-<li><a href="https://leanpub.com/grumpy-testing" title="Grumpy Programmer's Guide…  by Chris Hartjes [PDF/iPad/Kindle]">Grumpy Programmer's Guide To Building Testable PHP Applications</a> by <a href="http://www.littlehart.net/" title="@TheKeyboard">Chris Hartjes</a></li>
+<li><a href="http://www.slideshare.net/rdohms/your-code-sucks-lets-fix-it-php-master-series-2012" title="Your code sucks, let's fix it - PHP Master Series 2012">Your code sucks, let's fix it</a> by <a href="https://doh.ms" title="doh.ms">Rafael Dohms</a></li>
+<li><a href="https://leanpub.com/grumpy-guide" title="The Grumpy Programmer's Guide To Testing PHP Applications
+">Grumpy Programmer's Guide To Testing PHP Applications</a> by <a href="http://www.littlehart.net/" title="@TheKeyboard">Chris Hartjes</a></li>
 <li><a href="http://masteringobjectorientedphp.com/" title="Mastering Object Oriented PHP | Write Better Object Oriented Code Today">Mastering Object Oriented PHP</a> by <a href="http://www.brandonsavage.net">Brandon Savage</a></li>
-<li><a href="http://www.phparch.com/books/phparchitects-guide-to-php-design-patterns/" title="php|architect's Guide to PHP Design Patterns - php|architect - The site for PHP professionals">php|architect's Guide to PHP Design Patterns</a> by <a href="http://blog.casey-sweat.us/" title="Jason E. Sweat's weblog">Jason Sweat</a></li>
 <li><a href="http://martinfowler.com/books/eaa.html" title="P of EAA">Patterns of Enterprise Application Architecture</a> by <a href="http://martinfowler.com/" title="Martin Fowler">Martin Fowler</a></li>
 </ul>
 </section>
 
-<section class="slide" id="where-to-find-me">
-<h2>Where to Find Me</h2>
+<section>
+<h2>That's All, Folks</h2>
 <ul>
-<li><a href="http://matthewturland.com" title="Matthew Turland">matthewturland.com</a></li>
-<li><a href="http://twitter.com/elazar" title="Matthew Turland (elazar) on Twitter">@elazar</a> on Twitter</li>
-<li><a href="http://github.com/elazar" title="elazar (Matthew Turland) - GitHub">elazar</a> on GitHub</li>
-<li>Elazar on Freenode</li>
+    <li>Questions? Comments? Discussion?</li>
+    <li><a href="https://stacksports.com">stacksports.com</a></li>
+    <li><a href="https://matthewturland.com">matthewturland.com</a></li>
+    <li>E-mail: <a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+    <li>Twitter: <a href="https://twitter.com/elazar">@elazar</a></li>
 </ul>
-<p class="center"><img src="img/me.jpg" alt="Me with my cat Igor" /></p>
 </section>
 
-<section class="slide" id="feedback">
+<section>
 <h2>Feedback</h2>
 <p class="center">Please rate my talk!</p>
-<p class="center"><a href="https://joind.in/15499" title="Talk: The OOP in PHP - Joind.in">https://joind.in/15499</a></p>
-<p class="center">Also, check out the <a href="http://joind.in/help" title="Joind.in">joind.in mobile apps</a>!</p>
+<p class="center"><a href="https://joind.in/talk/1a28f " title="The OOP in PHP - Longhorn PHP Conference 2021 - Joind.in">joind.in/talk/1a28f</a></p>
+<p class="center"><img src="img/qrcode.png" alt="QR code for the link to my talk on Joind.in" /></p>
 </section>
 
-<!-- Core JS and extension files -->
-<script src="js/jquery.min.js"></script>
-<script src="js/deck.core.js"></script>
-<script src="js/extensions/deck.hash.js"></script>
-<script src="js/extensions/deck.menu.js"></script>
+</div>
 
-<!-- Custom JS files -->
-<script src="js/deck.custom.js"></script>
+</div>
 
-<!-- Activate deck.js and SyntaxHighlighter -->
-<script type="text/javascript">
-$(function() { $.deck('.slide'); });
-SyntaxHighlighter.all();
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+<script src="js/prism.js"></script>
+
+<script>
+// Full list of configuration options available at:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+
+    transition: 'none', // none/fade/slide/convex/concave/zoom
+
+    // Optional reveal.js plugins
+    dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/zoom-js/zoom.js', async: true }
+    ]
+});
+Reveal.configure({
+    keyboard: {
+        39: 'next'
+    }
+});
 </script>
 
 </body>

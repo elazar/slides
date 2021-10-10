@@ -1,0 +1,62 @@
+/* @import url(http://fonts.googleapis.com/css?family=Droid+Serif); */
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif'), local('DroidSerif'), url(droidserif_v6.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+.reveal a { text-decoration: underline; }
+.reveal a, .reveal a:hover { color: #3f4976; font-weight: bold; }
+.reveal a img, .reveal a:hover img { padding: 4px; }
+.reveal blockquote { background-color: #eeeeee; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; width: inherit; }
+.reveal strong { font-weight: bolder; text-decoration: underline; }
+.reveal sup strong { text-decoration: none; }
+.reveal ul>li { line-height: 1.25em; padding-top: 0.4em; }
+.reveal tr>th, .reveal tr>td { font-size: 0.5em; }
+.reveal, .reveal h1, .reveal h2, .reveal h3 { font-family: "Droid Serif", serif; text-transform: none; margin-bottom: 0.5em; }
+.reveal h2 { font-size: 1.75em; }
+.reveal h3 { font-size: 1.25em; }
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled, .reveal .controls .navigate-left.enabled:hover { border-right-color: #707cb3; }
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled, .reveal .controls .navigate-right.enabled:hover { border-left-color: #707cb3; }
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled, .reveal .controls .navigate-up.enabled:hover { border-bottom-color: #707cb3; }
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled, .reveal .controls .navigate-down.enabled:hover { border-top-color: #707cb3; }
+.reveal section img { border: 0; box-shadow: none; background: none; }
+.reveal .progress span { background-color: #4a91a3; }
+.reveal pre { box-shadow: 0px 0px 0px; width: 100%; }
+
+#slide-title { padding: 0; }
+#slide-title h1 { color: #3f4976; font-size: 2em; font-weight: 600; padding: 0; margin: 30px 0; }
+#slide-title .byline { clear: both; color: #4f5b93; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.1em; }
+html.title div.slide-background.present { background-position: top; }
+
+.strike { text-decoration: line-through; }
+.reveal section dt { margin-top: 0.5em; display: inline; }
+.reveal section dd { margin-left: 1em; display: block; }
+.reveal aside { margin-top: 1em; }
+.reveal div.twitter { position: absolute; bottom: 10px; left: 10px; font-size: 0.8em; }
+.reveal .twitter a { color: #3f4976; }
+.reveal .twitter svg { vertical-align: middle; width: 34px; color: #3f4976; }
+
+#shameles-self-plugs img { width: 224px; }
+#material-overlapping-with-other-talks li { font-size: 0.9em; }
+.reveal pre[class*=language-].line-numbers { padding-left: 1em; margin: 0; }
+.reveal pre code[class*=language-] { font-size: 0.65em; max-height: none; padding: 0 1em; }
+#classes pre[class*=language-] { font-size: 0.8em; }
+#inheritance img { max-height: 400px; }
+#protected-access-modifier pre[class*=language-] { font-size: 0.9em; }
+.reveal section.private-access-modifier pre[class*=language-] { font-size: 0.9em; }
+#abstract-classes { font-size: 0.84em; }
+.reveal section.protected-access-modifier pre[class*=language-] { font-size: 0.9em; }
+#polymorphism img { max-height: 500px; }
+#single-responsibility-principle img { max-height: 300px; }
+#comparing-objects pre[class*=language-] { font-size: 0.9em; }
+#property-magic-methods pre[class*=language-] { font-size: 0.9em; }
+#instance-magic-methods pre[class*=language-] { font-size: 0.85em; }
+#static-magic-methods pre[class*=language-] { font-size: 0.9em; }
+#resources li { font-size: 0.9em; }
+
+.two-col-left, .two-col-right { text-align: center; }
+.two-col-left { float: left; width: 50%; }
+.two-col-right { float: right; width: 50%; }
