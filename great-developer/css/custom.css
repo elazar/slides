@@ -7,28 +7,36 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
-.reveal a, .reveal a:hover { color: #1b75bb; font-weight: bold; }
+.reveal a, .reveal a:hover { color: #3f4976; font-weight: bold; }
+.reveal a img, .reveal a:hover img { padding: 4px; }
 .reveal blockquote { background-color: #eeeeee; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; }
 .reveal strong { font-weight: bolder; text-decoration: underline; }
 .reveal ul>li { line-height: 1.5em; padding-top: 0.5em; }
 .reveal tr>th, .reveal tr>td { font-size: 0.5em; }
 .reveal, .reveal h1, .reveal h2 { font-family: "Droid Serif", serif; text-transform: none; margin-bottom: 1em; }
-.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled, .reveal .controls .navigate-left.enabled:hover { border-right-color: #1b75bb; }
-.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled, .reveal .controls .navigate-right.enabled:hover { border-left-color: #1b75bb; }
-.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled, .reveal .controls .navigate-up.enabled:hover { border-bottom-color: #1b75bb; }
-.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled, .reveal .controls .navigate-down.enabled:hover { border-top-color: #1b75bb; }
+.reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled, .reveal .controls .navigate-left.enabled:hover { border-right-color: #707cb3; }
+.reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled, .reveal .controls .navigate-right.enabled:hover { border-left-color: #707cb3; }
+.reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled, .reveal .controls .navigate-up.enabled:hover { border-bottom-color: #707cb3; }
+.reveal .controls .navigate-down, .reveal .controls .navigate-down.enabled, .reveal .controls .navigate-down.enabled:hover { border-top-color: #707cb3; }
 .reveal section img { border: 0; box-shadow: none; background: none; }
 .reveal .progress span { background-color: #4a91a3; }
 .reveal pre { box-shadow: 0px 0px 0px; width: 100%; }
 
 #slide-title { padding: 0; }
-#slide-title h1 { color: #1b75bb; font-size: 2em; font-weight: 600; padding: 0; margin: 30px 0; text-shadow: 3px 3px 0 rgba(255,255,255,0.5), 0 0 8px rgba(255,255,255,0.3); }
-#slide-title .byline { clear: both; color: #fff; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.1em; text-shadow: 3px 3px 0 rgba(27,117,187,0.5), 0 0 8px rgba(27,117,187,0.5); }
+#slide-title h1 { color: #3f4976; font-size: 2em; font-weight: 600; padding: 0; margin: 30px 0; }
+#slide-title .byline { clear: both; color: #4f5b93; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.1em; }
 html.title div.slide-background.present { background-position: top; }
 
 .strike { text-decoration: line-through; }
 .reveal section dt { margin-top: 0.5em; display: inline; }
 .reveal section dd { margin-left: 1em; display: block; }
 .reveal aside { margin-top: 1em; }
-.reveal .twitter { position: absolute; bottom: 10px; left: 10px; font-size: 0.8em; }
-.reveal .twitter a { color: #00acee; }
+.reveal div.twitter { position: absolute; bottom: 10px; left: 10px; font-size: 0.8em; }
+.reveal .twitter a { color: #3f4976; }
+.reveal .twitter svg { vertical-align: middle; width: 34px; color: #3f4976; }
+
+#shameles-self-plugs img { width: 224px; }
+#osmi img { width: 600px; }
+#listen img { width: 700px; }
+#kids img { width: 850px; }
+#share-your-knowledge img { width: 850px; }
