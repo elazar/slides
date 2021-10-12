@@ -13,7 +13,7 @@
 .reveal strong { font-weight: bolder; text-decoration: underline; }
 .reveal ul>li { line-height: 1.5em; padding-top: 0.5em; }
 .reveal tr>th, .reveal tr>td { font-size: 0.5em; }
-.reveal, .reveal h1, .reveal h2 { font-family: "Droid Serif", serif; text-transform: none; margin-bottom: 1em; }
+.reveal, .reveal h1, .reveal h2 { font-family: "Droid Serif", serif; text-transform: none; }
 .reveal .controls .navigate-left, .reveal .controls .navigate-left.enabled, .reveal .controls .navigate-left.enabled:hover { border-right-color: #707cb3; }
 .reveal .controls .navigate-right, .reveal .controls .navigate-right.enabled, .reveal .controls .navigate-right.enabled:hover { border-left-color: #707cb3; }
 .reveal .controls .navigate-up, .reveal .controls .navigate-up.enabled, .reveal .controls .navigate-up.enabled:hover { border-bottom-color: #707cb3; }
@@ -40,3 +40,4 @@ html.title div.slide-background.present { background-position: top; }
 #listen img { width: 700px; }
 #kids img { width: 850px; }
 #share-your-knowledge img { width: 850px; }
+#advancement img { max-height: 500px; }
