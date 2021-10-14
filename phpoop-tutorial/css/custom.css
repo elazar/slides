@@ -43,9 +43,10 @@ html.title div.slide-background.present { background-position: top; }
 #material-overlapping-with-other-talks li { font-size: 0.9em; }
 .reveal pre[class*=language-].line-numbers { padding-left: 1em; margin: 0; }
 .reveal pre code[class*=language-] { font-size: 0.65em; max-height: none; padding: 0 1em; }
-#classes pre[class*=language-] { font-size: 0.8em; }
+#classes pre[class*=language-] { font-size: 0.75em; }
 #inheritance img { max-height: 400px; }
 #protected-access-modifier pre[class*=language-] { font-size: 0.9em; }
+#constants pre[class*=language-] { font-size: 0.85em; }
 .reveal section.private-access-modifier pre[class*=language-] { font-size: 0.9em; }
 #abstract-classes { font-size: 0.84em; }
 .reveal section.protected-access-modifier pre[class*=language-] { font-size: 0.9em; }
@@ -55,7 +56,7 @@ html.title div.slide-background.present { background-position: top; }
 #property-magic-methods pre[class*=language-] { font-size: 0.9em; }
 #instance-magic-methods pre[class*=language-] { font-size: 0.85em; }
 #static-magic-methods pre[class*=language-] { font-size: 0.9em; }
-#resources li { font-size: 0.9em; }
+#resources li { font-size: 0.85em; }
 
 .two-col-left, .two-col-right { text-align: center; }
 .two-col-left { float: left; width: 50%; }

@@ -75,10 +75,10 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 
 <section id="shameles-self-plugs">
 <h2>Shameless Self-Plugs</h2>
-<a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/web-scraping.png" alt="Web Scraping with PHP, 2nd Edition" /></a>
 <a href="https://www.phparch.com/magazine/2019/11/object-orientation/"><img src="img/phparch-nov-2019.jpg" alt="November 2019 issue of php[architect] magazine" /></a>
 <a href="https://www.phparch.com/magazine/2020/01/object-orientation/"><img src="img/phparch-jan-2020.jpg" alt="January 2020 issue of php[architect] magazine" /></a>
 <a href="https://www.phparch.com/article/php-8-distilled/"><img src="img/phparch-dec-2020.webp" alt="December 2020 issue of php[architect] magazine" /></a>
+<a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/web-scraping.png" alt="Web Scraping with PHP, 2nd Edition" /></a>
 </section>
 
 <section>
@@ -95,14 +95,13 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 <h2>What We Won't Cover</h2>
 <h3>Material overlapping with other talks</h3>
 <ul>
-<li>Refactoring with Patterns and Automation</li>
-<li>Releasing High-Quality PHP Packages</li>
-<li>Fiendish Functions: Filtering Fact From Fiction</li>
 <li>Is Eight Enough?</li>
-<li>More Than Just a Cache: Redis Data Structures</li>
-<li>Avoid Costly Framework Upgrades</li>
-<li>Strategies for testing complex (or legacy) code</li>
+<li>Strategies for Testing Complex (or Legacy) Code</li>
 <li>Level Up Your Code Quality</li>
+<li>Refactoring with Patterns and Automation</li>
+<li>More Than Just a Cache: Redis Data Structures</li>
+<li>Releasing High-Quality PHP Packages</li>
+<li>Avoid Costly Framework Upgrades</li>
 </ul>
 </section>
 
@@ -150,7 +149,7 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 </section>
 
 <section>
-<h2>What We Will Cover</h2>
+<h2>What We <s>Will</s> <em>May</em> Cover</h2>
 <h3>Potential Bonus Topics</h3>
 <ul>
 <li>Exceptions</li>
@@ -183,8 +182,8 @@ document.getElementsByTagName( 'head' )[0].appendChild( link );
 <li>A solution to problems experienced by previous generations of PHP developers</li>
 </ul>
 <blockquote>
-<p>&quot;A language that doesn’t affect the way you think about programming, is not worth knowing.&quot;</p>
-<p><cite class="center">~ Dr. Alan Perlis, &quot;Epigrams on Programming&quot; circa 1982</cite></p>
+<p>&quot;A language that doesn’t affect the way you think about programming, is not worth knowing.&quot;<br />
+<cite class="center">~ Dr. Alan Perlis, &quot;Epigrams on Programming&quot; circa 1982</cite></p>
 </blockquote>
 </section>
 
@@ -414,10 +413,10 @@ $order2->setDiscount(0);
 class ShippedOrder extends Order {
     protected $shipping = 0;
     public function setShipping($shipping) {
-        $this-&gt;shipping = $shipping;
+        $this->shipping = $shipping;
     }
     public function getTotal() {
-        return parent::getTotal() + $this-&gt;shipping;
+        return parent::getTotal() + $this->shipping;
     }
 }
 </code></pre>
@@ -450,11 +449,11 @@ class Order {
     }
 }
 $order = new Order;
-var_dump($order-&gt;tax); // float(0.08)
-var_dump($order-&gt;getTotal()); // float(1.08)
-$order-&gt;tax = 0.12;
-var_dump($order-&gt;tax); // float(0.12)
-var_dump($order-&gt;getTotal()); // float(1.12)
+var_dump($order->tax); // float(0.08)
+var_dump($order->getTotal()); // float(1.08)
+$order->tax = 0.12;
+var_dump($order->tax); // float(0.12)
+var_dump($order->getTotal()); // float(1.12)
 // ^ Work the same for subclasses
 </code></pre>
 </section>
@@ -468,14 +467,14 @@ class Order {
         // ...
     }
     public function getTotal() {
-        return $this-&gt;getSubtotal() + $this-&gt;tax;
+        return $this->getSubtotal() + $this->tax;
     }
 }
 
 class ShippedOrder extends Order {
     protected $shipping;
     public function getTotal() {
-        return $this-&gt;getSubtotal() + $this-&gt;tax + $this-&gt;shipping;
+        return $this->getSubtotal() + $this->tax + $this->shipping;
     }
 }
 </code></pre>
@@ -486,15 +485,15 @@ class ShippedOrder extends Order {
 <pre><code class="language-php">
 $order = new ShippedOrder;
 
-var_dump($order-&gt;tax);
+var_dump($order->tax);
 // PHP Fatal error: Cannot access protected property
 // ShippedOrder::$tax
 
-var_dump($order-&gt;getSubtotal());
+var_dump($order->getSubtotal());
 // PHP Fatal error: Call to protected method
 // ShippedOrder::getSubtotal()
 
-var_dump($order-&gt;getTotal());
+var_dump($order->getTotal());
 // float(1.08)
 </code></pre>
 </section>
@@ -508,15 +507,15 @@ class Order {
         // ...
     }
     public function getTotal() {
-        return $this-&gt;getSubtotal() + $this-&gt;tax;
+        return $this->getSubtotal() + $this->tax;
     }
 }
 class ShippedOrder extends Order {
     public function getTax() {
-        return $this-&gt;tax;
+        return $this->tax;
     }
     public function getTotal() {
-        return $this-&gt;getSubtotal() + $this-&gt;tax + $this-&gt;shipping;
+        return $this->getSubtotal() + $this->tax + $this->shipping;
     }
 }
 </code></pre>
@@ -526,19 +525,19 @@ class ShippedOrder extends Order {
 <h2>Private Access Modifier</h2>
 <pre><code class="language-php">
 $order = new Order;
-var_dump($order-&gt;getTotal()); // float(1.08)
+var_dump($order->getTotal()); // float(1.08)
 
 $order = new ShippedOrder;
 
-var_dump($order-&gt;tax);
+var_dump($order->tax);
 // PHP Notice: Undefined property: ShippedOrder::$tax
-var_dump($order-&gt;getTax());
+var_dump($order->getTax());
 // PHP Notice: Undefined property: ShippedOrder::$tax
 
-var_dump($order-&gt;getSubtotal());
+var_dump($order->getSubtotal());
 // PHP Fatal error: Call to private method Order::getSubtotal()
 // from context ''
-var_dump($order-&gt;getTotal());
+var_dump($order->getTotal());
 // PHP Fatal error: Call to private method Order::getSubtotal()
 // from context 'ShippedOrder'
 </code></pre>
@@ -560,16 +559,26 @@ class ShippedOrder extends Order {
 <p class="center">See also: <a href="http://www.php.net/manual/en/language.oop5.constants.php" title="PHP: Constants - Manual">Constants</a></p>
 </section>
 
-<section>
+<section id="constants">
 <h2>Constants</h2>
 <pre><code class="language-php">
 var_dump(Order::TAX); // float(0.08)
 $order = new Order;
-var_dump($order-&gt;getTax()); // float(0.08)
+var_dump($order->getTax()); // float(0.08)
 
 var_dump(ShippedOrder::TAX); // float(0.08)
 $order = new ShippedOrder;
-var_dump($order-&gt;getTax()); // float(0.08)
+var_dump($order->getTax()); // float(0.08)
+
+Order::TAX = 0.09;
+// PHP Parse error:  syntax error, unexpected token "="
+
+class TaxOrderExample extends Order {
+  public function setTax() {
+    self::TAX = 0.09;
+  }
+}
+// PHP Parse error:  syntax error, unexpected token "="
 </code></pre>
 </section>
 
@@ -594,7 +603,7 @@ var_dump($order-&gt;getTax()); // float(0.08)
 abstract class Order {
     private $tax = 0.08;
     protected function getTax() {
-        return $this-&gt;tax;
+        return $this->tax;
     }
     protected function getSubtotal() {
         // ...
@@ -604,7 +613,7 @@ abstract class Order {
 class ShippedOrder extends Order {
     protected $shipping = 1;
     public function getTotal() {
-        return $this-&gt;getSubtotal() + $this-&gt;getTax() + $this-&gt;shipping;
+        return $this->getSubtotal() + $this->getTax() + $this->shipping;
     }
 }
 </code></pre>
@@ -617,7 +626,7 @@ $order = new Order;
 // PHP Fatal error: Cannot instantiate abstract class Order
 
 $order = new ShippedOrder;
-var_dump($order-&gt;getTotal()); // float(2.08)
+var_dump($order->getTotal()); // float(2.08)
 
 class DigitalOrder extends Order { }
 // PHP Fatal error: Class DigitalOrder contains 1 abstract
@@ -628,7 +637,7 @@ class DigitalOrder extends Order { }
 
 <section>
 <h2>Polymorphism</h2>
-<blockquote>&quot;The primary usage of <strong>polymorphism</strong>... is the ability of objects belonging to different types to respond to method, field, or property calls of the same name, each one according to an appropriate type-specific behavior.&quot;~ <cite><a href="http://en.wikipedia.org/wiki/Polymorphism_in_object-oriented_programming" title="Polymorphism in object-oriented programming - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
+<blockquote>&quot;The primary usage of <strong>polymorphism</strong>... is the ability of objects belonging to different types to respond to method... or property calls of the same name, each one according to an appropriate type-specific behavior.&quot;~ <cite><a href="http://en.wikipedia.org/wiki/Polymorphism_in_object-oriented_programming" title="Polymorphism in object-oriented programming - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
 </section>
 
 <section id="polymorphism">
@@ -666,13 +675,13 @@ $cat = new Cat;
 <h2>Class Typehints</h2>
 <pre><code class="language-php">
 // $dog matches Dog
-$dogwasher-&gt;wash($dog);
+$dogwasher->wash($dog);
 
 // $dachshund matches Dachshund, a subclass of Dog
-$dogwasher-&gt;wash($dachshund);
+$dogwasher->wash($dachshund);
 
 // $cat doesn't match Dog or Dachshund
-$dogwasher-&gt;wash($cat);
+$dogwasher->wash($cat);
 // PHP Catchable fatal error: Argument 1 passed to
 // DogWasher::wash() must be an instance of Dog,
 // instance of Cat given
@@ -720,7 +729,7 @@ interface Outputable {
 class Foo implements Configurable, Outputable {
     protected $config = [];
     public function setConfig(array $config) {
-        $this-&gt;config = $config;
+        $this->config = $config;
     }
     public function output() {
         var_dump($this);
@@ -739,7 +748,7 @@ class Configurator {
 }
 $foo = new Foo;
 $configurator = new Configurator;
-$configurator-&gt;configurate($foo);
+$configurator->configurate($foo);
 // works because $foo is an instance of Foo which 
 // implements Configurable
 </code></pre>
@@ -765,10 +774,10 @@ $cat = new Cat;
 <h2>Interface Typehints</h2>
 <pre><code class="language-php">
 // $dog matches Dog, which implements Washable
-$washer-&gt;wash($dog);
+$washer->wash($dog);
 
 // $cat matches Cat, which does not implement Washable
-$washer-&gt;wash($cat);
+$washer->wash($cat);
 // Catchable fatal error: Argument 1 passed to Washer::wash()
 // must implement interface Washable, instance of Cat given
 </code></pre>
@@ -777,7 +786,7 @@ $washer-&gt;wash($cat);
 <section>
 <h2>Composition</h2>
 <blockquote>&quot;Object <strong>composition</strong>... is a way to combine simple objects or data types into more complex ones.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Object_composition" title="Object composition - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center"><img src="img/shrek-onion.jpg" alt="Onions have layer" /></p>
+<p class="center"><img src="img/shrek-onion.jpg" alt="Shrek telling Donkey that onions have layers" /></p>
 </section>
 
 <section>
@@ -801,26 +810,27 @@ $washer-&gt;wash($cat);
 class Foo {
     protected $config;
     public function __construct(array $config) {
-        $this-&gt;config = $config;
+        $this->config = $config;
     }
     public function getConfig() {
-        return $this-&gt;config;
+        return $this->config;
     }
     public function __destruct() {
         // ...
     }
 }
 </code></pre>
+<p>Related: <a href="https://wiki.php.net/rfc/constructor_promotion">Constructor Promotion</a></p>
 </section>
 
 <section>
 <h2>Constructors / Destructors</h2>
 <pre><code class="language-php">
-$foo = new Foo(['bar' =&gt; 'baz']);
+$foo = new Foo(['bar' => 'baz']);
 // Invokes __construct()
 
-var_dump($foo-&gt;getConfig());
-// Output: array(1) { ["bar"]=&gt; string(3) "baz" }
+var_dump($foo->getConfig());
+// Output: array(1) { ["bar"]=> string(3) "baz" }
 
 unset($foo);
 // Invokes __destruct()
@@ -859,10 +869,10 @@ class Radio {
 class Car {
     protected $radio;
     public function setRadio(Radio $radio) {
-        $this-&gt;radio = $radio;
+        $this->radio = $radio;
     }
     public function playMusic() {
-        $this-&gt;radio-&gt;turnOn();
+        $this->radio->turnOn();
         // ...
     }
 }
@@ -875,9 +885,9 @@ class Car {
 $radio = new Radio;
 
 $car = new Car;
-$car-&gt;setRadio($radio);
+$car->setRadio($radio);
 
-$car-&gt;playMusic();
+$car->playMusic();
 </code></pre>
 </section>
 
@@ -892,10 +902,10 @@ class Engine {
 class Car {
     protected $engine;
     public function __construct(Engine $engine) {
-        $this-&gt;engine = $engine;
+        $this->engine = $engine;
     }
     public function start() {
-        $this-&gt;engine-&gt;turnOn();
+        $this->engine->turnOn();
         // ...
     }
 }
@@ -908,7 +918,7 @@ class Car {
 $engine = new Engine;
 
 $car = new Car($engine);
-$car-&gt;start();
+$car->start();
 </code></pre>
 </section>
 
@@ -952,13 +962,13 @@ $session = new Session($storage);
 <section>
 <h2>Separation of Concerns</h2>
 <blockquote>&quot;... <strong>separation of concerns</strong> (SoC) is a design principle for separating a computer program into distinct sections... each section addresses a separate concern... sections can be reused... developed and updated independently.&quot; ~ <cite><a href="http://en.wikipedia.org/wiki/Separation_of_concerns" title="Separation of concerns - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center"><img src="img/thats-not-how-it-works.jpg" alt="That's not how it works" /></p>
+<p class="center"><img src="img/thats-not-how-it-works.jpg" alt="Dilbert: 'That's not how it works'" /></p>
 </section>
 
 <section id="single-responsibility-principle">
 <h2>Single Reponsibility Principle</h2>
 <blockquote>&quot;... the <strong>single responsibility principle</strong> states that every class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.&quot; ~ <cite><a href="https://en.wikipedia.org/wiki/Single_responsibility_principle" title="Single responsibility principle - Wikipedia, the free encyclopedia">Wikipedia</a></cite></blockquote>
-<p class="center"><img src="img/one-job.jpg" alt="You had one job" /></p>
+<p class="center"><img src="img/one-job.jpg" alt="Photo of a lighter emblazened with the character Spiderman and the name Superman, captioned with 'You had one job'" /></p>
 </section>
 
 <section>
@@ -979,7 +989,7 @@ $order1 = new Order;
 $order2 = $order1;
 $order3 = new Order;
 $order4 = new Order;
-$order4-&gt;id = 4;
+$order4->id = 4;
 $user = new User;
 </code></pre>
 </section>
@@ -1007,12 +1017,12 @@ class User { }
 class Order {
     public $user;
     public function __construct(User $user) {
-        $this-&gt;user = $user;
+        $this->user = $user;
     }
 }
 class DeepCloneOrder extends Order {
     public function __clone() {
-        $this-&gt;user = clone $this-&gt;user;
+        $this->user = clone $this->user;
     }
 }
 </code></pre>
@@ -1026,12 +1036,12 @@ $user = new User;
 
 $order1 = new Order($user);
 $order2 = clone $order1;
-var_dump($order1-&gt;user === $order2-&gt;user);
+var_dump($order1->user === $order2->user);
 // same user instance, true
 
 $order1 = new DeepCloneOrder($user);
 $order2 = clone $order1;
-var_dump($order1-&gt;user === $order2-&gt;user);
+var_dump($order1->user === $order2->user);
 // cloned user instance, false
 </code></pre>
 </section>
@@ -1066,7 +1076,7 @@ try {
 } catch (SomeException $e) {
     // ...
 } catch (BadThingHappenedException $e) {
-    echo $e-&gt;getCode(), ' ', $e-&gt;getMessage(), PHP_EOL;
+    echo $e->getCode(), ' ', $e->getMessage(), PHP_EOL;
 } catch (Exception $e) {
     // ...
 } finally { // PHP 5.5+ only
@@ -1089,7 +1099,7 @@ class OverridesFinalMethod extends HasFinalMethod {
 // Fatal error: Cannot override final method
 // HasFinalMethod::finalMethod()
 </code></pre>
-<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.final.php" title="PHP: Final Keyword - Manual">Final Keyword</a></p>
+<p class="center">See also: <a href="http://php.net/manual/en/language.oop5.final.php" title="PHP: Final Keyword - Manual">Final Keyword</a>, <a href="https://wiki.php.net/rfc/final_class_const">Final Class Constants</a></p>
 </section>
 
 <section>
@@ -1139,7 +1149,7 @@ class Order {
 echo Order::getTax(); // 2
 
 $order = new Order;
-echo $order-&gt;getTotal(); // 4
+echo $order->getTotal(); // 4
 </code></pre>
 </section>
 
@@ -1157,16 +1167,16 @@ echo $order-&gt;getTotal(); // 4
 class Order {
     protected $values = []; 
     public function __get($name) {
-        return $this-&gt;values[$name] ?? null;
+        return $this->values[$name] ?? null;
     }
     public function __set($name, $value) {
-        $this-&gt;values[$name] = $value;
+        $this->values[$name] = $value;
     }
     public function __isset($name) {
-        return isset($this-&gt;values[$name]);
+        return isset($this->values[$name]);
     }
     public function __unset($name) {
-        unset($this-&gt;values[$name]);
+        unset($this->values[$name]);
     }
 }
 </code></pre>
@@ -1177,16 +1187,16 @@ class Order {
 <pre><code class="language-php">
 $order = new Order;
 
-var_dump($order-&gt;tax); // calls __get("tax"), returns null
-var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns false
+var_dump($order->tax); // calls __get("tax"), returns null
+var_dump(isset($order->tax)); // calls __isset("tax"), returns false
 
-$order-&gt;tax = 2; // calls __set("tax", 2)
-var_dump($order-&gt;tax); // calls __get("tax"), returns 2
-var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns true
+$order->tax = 2; // calls __set("tax", 2)
+var_dump($order->tax); // calls __get("tax"), returns 2
+var_dump(isset($order->tax)); // calls __isset("tax"), returns true
 
-unset($order-&gt;tax); // calls __unset("tax")
-var_dump($order-&gt;tax); // calls __get("tax"), returns null
-var_dump(isset($order-&gt;tax)); // calls __isset("tax"), returns false
+unset($order->tax); // calls __unset("tax")
+var_dump($order->tax); // calls __get("tax"), returns null
+var_dump(isset($order->tax)); // calls __isset("tax"), returns false
 </code></pre>
 </section>
 
@@ -1198,8 +1208,8 @@ class Order {
     public function __call($name, array $arguments) {
         if (strpos($name, 'get') === 0) {
             $key = strtolower(substr($name, 3));
-            if (isset($this-&gt;$key)) {
-                return $this-&gt;$key;
+            if (isset($this->$key)) {
+                return $this->$key;
             }
             if (isset($arguments[0])) {
                 return $arguments[0];
@@ -1218,13 +1228,13 @@ class Order {
 <h2>Instance Magic Methods</h2>
 <pre><code class="language-php">
 $order = new Order;
-echo $order-&gt;getTax(3);
+echo $order->getTax(3);
 // calls __call("getTax", array(3)), returns 2
-echo $order-&gt;getDiscount(1);
+echo $order->getDiscount(1);
 // calls __call("getDiscount", array(1)), returns 1
-echo $order-&gt;getShipping();
+echo $order->getShipping();
 // calls __call("getShipping", array()), returns null
-echo $order-&gt;getTotal();
+echo $order->getTotal();
 // calls getTotal(), returns 43
 </code></pre>
 </section>
@@ -1276,7 +1286,7 @@ $serialized = serialize($order);
 
 $unserialized = unserialize($serialized);
 // calls __wakeup()
-// returns object(Order)#2 (1) { ["tax"]=&gt; int(2) }
+// returns object(Order)#2 (1) { ["tax"]=> int(2) }
 </code></pre>
 </section>
 
@@ -1290,8 +1300,8 @@ class Order {
     }
     public static function __set_state(array $properties) {
         $order = new self; // equivalent to new Order
-        foreach ($properties as $key =&gt; $value) {
-            $order-&gt;$key = $value;
+        foreach ($properties as $key => $value) {
+            $order->$key = $value;
         }
         return $order;
     }
@@ -1337,6 +1347,38 @@ $handler($order);
 var_dump(is_callable($handler));
 // bool(true) because OrderHandler implements __invoke()
 </code></pre>
+</section>
+
+<section>
+<h2>PHP-FIG / PSR Standards</h2>
+<ul>
+<li><a href="https://github.com/Seldaek/monolog/">Monolog</a> library and <a href="https://www.php-fig.org/psr/psr-3/">PSR-3</a> standard</li>
+<li>Other <a href="https://www.php-fig.org/">PHP-FIG</a> standards
+    <ul>
+        <li><a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> dependency injection containers</li>
+        <li><a href="https://www.php-fig.org/psr/psr-6">PSR-6</a> cache and <a href="https://www.php-fig.org/psr/psr-16">PSR-16</a> simplified cache</li>
+        <li><a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> HTTP requests and responses</li>
+        <li><a href="https://www.php-fig.org/psr/psr-15/">PSR-15</a> HTTP middleware</li>
+    </ul>
+</li>
+</ul>
+</section>
+
+<section>
+<h2>PHP RFCs</h2>
+<ul>
+<li><a href="https://wiki.php.net/rfc">Listing of RFCs</a></li>
+<li>Some RFCs relevant to OOP:
+    <ul>
+        <li><a href="https://wiki.php.net/rfc/horizontalreuse">Traits</a></li>
+        <li><a href="https://wiki.php.net/rfc/covariant-returns-and-contravariant-parameters">Covariant Returns and Contravariant Parameters</a></li>
+        <li><a href="https://wiki.php.net/rfc/union_types_v2">Union</a> and <a href="https://wiki.php.net/rfc/pure-intersection-types">Intersection</a> Types</li>
+        <li><a href="https://wiki.php.net/rfc/enumerations">Enumerations</a></li>
+        <li><a href="https://wiki.php.net/rfc/readonly_properties_v2">Read-Only Properties</a></li>
+        <li><a href="https://wiki.php.net/rfc/nullsafe_operator">Null-Safe Operator</a></li>
+    </ul>
+</li>
+</ul>
 </section>
 
 <section id="resources">
