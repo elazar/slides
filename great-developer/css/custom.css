@@ -41,3 +41,5 @@ html.title div.slide-background.present { background-position: top; }
 #kids img { width: 850px; }
 #share-your-knowledge img { width: 850px; }
 #advancement img { max-height: 500px; }
+#woketopus ul { list-style-type: none; margin: 0; }
+#woketopus ul li blockquote { margin: 0; font-size: 0.6em; width: 95%; line-height: 1.2em; }
