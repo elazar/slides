@@ -1,0 +1,70 @@
+/* @import url(http://fonts.googleapis.com/css?family=Droid+Serif); */
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif'), local('DroidSerif'), url(droidserif_v6.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+.reveal a, .reveal a:hover { font-weight: bold; text-decoration: underline; }
+.reveal a { color: #4f5b93; }
+.reveal a:hover { color: #3f4976; }
+.reveal, .reveal h1, .reveal h2 { font-family: "Droid Serif", serif; text-transform: none; }
+.reveal blockquote { background-color: #eeeeee; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; }
+.reveal cite { display: block; text-align: right; font-weight: 600; }
+.reveal cite:before { content: "~ "; }
+.reveal img { margin: auto; display: block; border: 3px solid #000000; }
+.reveal img.no-border { border: 0; }
+.reveal li { margin-bottom: 0.35em; }
+
+.reveal div.twitter { position: absolute; bottom: 10px; left: 10px; font-size: 1em; z-index: 500; width: 100%; text-align: center; }
+.reveal .twitter a { color: #3f4976; margin-left: 1em; }
+.reveal .twitter svg { vertical-align: middle; width: 34px; color: #3f4976; }
+
+.reveal pre[class*=language-].line-numbers { padding-left: 1em; }
+.reveal pre code[class*=language-] { font-size: 0.5em; }
+
+#slide-title { padding: 0; }
+#slide-title h1 { color: #3f4976; font-size: 1.35em; font-weight: 600; padding: 0; margin: 30px 0; line-height: 1.5em; }
+#slide-title .byline { clear: both; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.05em; }
+html.title div.slide-background.present { background-position: top; }
+
+#there-will-be-slides img { height: 375px; }
+#composer img { border: 0; width: 25%; }
+#storytime img { margin-top: 100px; }
+#this-is-lafayette img { border: 0; width: 60%; }
+#inspect-the-request-1 pre { font-size: 0.9em; }
+#inspect-the-request-1 img { width: 50%; }
+#inspect-the-request-2 img { width: 50%; }
+#inspect-the-request-3 pre { font-size: 0.9em; }
+#inspect-the-response-2 img { width: 50%; }
+#parse-the-markup-1 pre { font-size: 0.9em; }
+#parse-the-markup-2 pre { font-size: 0.85em; }
+#use-the-source-luke-1 img { width: 200%; }
+#into-the-fire-and-frames-1 img { width: 200%; }
+#wheres-the-data img { width: 60%; }
+#text-fu { font-size: 0.9em; }
+#text-fu cite { margin-top: 0.5em; }
+#extract-the-markup img { width: 70%; }
+#learn-the-devtools img { width: 40%; }
+#handle-malformations-1 img { width: 60%; }
+#handle-malformations-2 img { width: 35%; }
+#parse-the-date { font-size: 1.1em; }
+#regular-expressions-2 li { font-size: 0.85em; }
+#regular-expressions-2 img { width: 50%; }
+#trim-the-address pre { font-size: 0.95em; }
+#we-did-it img { width: 40%; }
+#lafayette-traffic img { display: inline; width: 25%; }
+.mimic-the-request pre { font-size: 0.88em; }
+#extract-the-markup img { width: 35%; }
+#on-jira-briefly img { width: 80%; }
+#standards img { width: 45%; }
+#copy-as-curl img { width: 25%; }
+#using-responses pre { font-size: 0.95em; }
+#debug-requests-2 pre { font-size: 1.1em; }
+#repeat-requests-1 img { border: 0; width: 30%; }
+#css-selectors img { width: 80%; }
+#free-project-idea img { width: 45%; }
+#other-resources img { width: 25%; }
+#thats-all-folks img { border: 0; width: 60%; }

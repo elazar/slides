@@ -1,0 +1,8 @@
+{
+    "require": {
+        "symfony/panther": "^2.0",
+        "dbrekelmans/bdi": "^1.0",
+        "symfony/css-selector": "^6.0",
+        "guzzlehttp/guzzle": "^7.5"
+    }
+}

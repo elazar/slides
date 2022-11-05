@@ -1,0 +1,1113 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Automating the Web</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/simple.css">
+<link rel="stylesheet" href="css/prism.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+<div class="reveal">
+
+<div class="twitter">
+  <a href="https://twitter.com/elazar">@elazar</a>
+  <a href="https://phpc.social/@elazar">@elazar@phpc.social</a>
+  <a href="https://twitter.com/hashtag/longhornphp">#longhornphp</a>
+</div>
+
+<div class="slides">
+
+<section id="slide-title" class="center" data-state="title" data-background-color="#fff">
+<img src="img/logo.png" alt="Longhorn PHP Conference logo" class="no-border">
+<h1>Automating the Web</h1>
+<p class="byline"><a href="https://matthewturland.com">Matthew Turland</a></p>
+</section>
+
+<section id="hello">
+<h2>Hello!</h2>
+<ul>
+<li>My name is Matt</li>
+<li>It's nice to see you</li>
+<li>Thank you for coming</li>
+</ul>
+<p><img src="img/forrest-gump.gif" alt="Forrest Gump waving"></p>
+</section>
+
+<section id="tldr">
+<h2><abbr title="Too Long; Didn't Read">TL;DR</abbr></h2>
+<ul>
+<li>Web scraping (extracting data from web sites)</li>
+<li>Programmatic interaction with web sites</li>
+<li>Consuming web services / <abbr title="Application Programming Interface">API</abbr>s</li>
+<li><a href="https://codeception.com/docs/AcceptanceTests">Acceptance testing</a></li>
+</ul>
+<p><img src="img/forrest-running.gif" alt="Forrest Gump from the film by the same name running out of a gate and down a road"></p>
+</section>
+
+<section id="there-will-be-slides">
+<h2>There Will Be Slides</h2>
+<p><a href="https://matthewturland.com/presentations">matthewturland.com/presentations</a></p>
+<p><a href="https://joind.in/talk/5cf41" title="Automating the Web - Longhorn PHP Conference 2022 - Joind.in">joind.in/talk/5cf41</a></p>
+<p><img src="img/office-powerpoint.gif" alt="Michael Scott in The Office repeatedly saying 'PowerPoint.'"></p>
+</section>
+
+<section id="go-ahead-hashtag-it">
+<h2>Go Ahead, Hashtag It</h2>
+<ul>
+<li>Feel free to live-tweet/toot!</li>
+<li>Hashtag: <code>#longhornphp</code></li>
+<li>Feel free to @ me</li>
+<p><img src="img/deadpool.gif" alt="Deadpool instructing Negasonic Teenage Warhead to finish typing a tweet into her phone"></p>
+</ul>
+</section>
+
+<section id="the-book-was-better">
+<h2>The Book Was Better</h2>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/book-cover.jpg" alt="The book cover for 'Web Scraping with PHP, 2nd Edition'"></a></p>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/">phparch.com</a></p>
+</section>
+
+<section id="composer">
+<h2>Composer</h2>
+<p>Packages: <a href="https://packagist.org">find</a>, <a href="https://getcomposer.org/doc/03-cli.md#require-r">install</a>, and <a href="https://getcomposer.org/doc/01-basic-usage.md#autoloading">autoload</a> them</p>
+<script type="text/plain" class="language-shell">
+composer require PACKAGE_NAME_GOES_HERE
+</script>
+<p><a href="https://getcomposer.org"><img src="img/composer.png" alt="Composer logo"></a></p>
+</section>
+
+<section id="obligatory-disclaimer">
+<h2>Obligatory Disclaimer</h2>
+<ul>
+<li>Some uses of this content may have unclear or lacking legality</li>
+<li>This content is intended to be strictly educational, not prescriptive or legal advice</li>
+<li>If in doubt, consult a lawyer (i.e. not me)</li>
+</ul>
+<p><img src="img/jurassic-park-could-should.gif" alt="Dr. Ian Malcolm from the film Jurassic Park saying, 'Yeah, yeah, but your scientists were so preoccupied with whether or not they could that they didn't stop to think if they should.'"></p>
+</section>
+
+<section id="storytime">
+<h2>Storytime</h2>
+<p><img src="img/princess-bride-grandpa.gif" alt="Grandpa from the film 'The Princess Bride' beginning to read"></p>
+</section>
+
+<section id="this-is-lafayette">
+<h2>This is Lafayette</h2>
+<p><img src="img/lafayette.png" alt="A map of Louisiana with Lafayette Parish marked in red"></p>
+</section>
+
+<section id="this-is-lafayette-911">
+<h2>This is Lafayette 911</h2>
+<p><img src="img/lafayette911.png" alt="A screenshot of lafayette911.org"></p>
+<p><a href="http://lafayette911.org">lafayette911.org</a></p>
+</section>
+
+<section id="this-is-ray">
+<h2>This is Ray</h2>
+<p><img src="img/raymond-camden.jpg" alt="Raymond Camden"></p>
+<p><a href="https://raymondcamden.com">raymondcamden.com</a></p>
+</section>
+
+<section id="ray-created-a-viewer">
+<h2>Ray Created a Viewer</h2>
+<p><img src="img/911-viewer.png" alt="Screenshot of Ray's 911 viewer mapping incidents using Google Maps"></p>
+<p><a href="https://www.raymondcamden.com/2010/01/19/Proof-of-Concept-911-Viewer">Blog Post</a> circa 2010</p>
+</section>
+
+<section id="six-months-later">
+<h2>Six Months Later...</h2>
+<p><img src="img/simpsons-six-months-ago.gif" alt="From the Simpsons -- Homer: &quot;No way! When?&quot; Ned Flanders: &quot;Six months ago.&quot;"></p>
+</section>
+
+<section id="he-had-a-lot-of-data">
+<h2>... He Had a Lot of Data</h2>
+<p><img src="img/911-stats.png" alt="Visualizations of 911 statistics gathered by Ray"></p>
+<p><a href="https://www.raymondcamden.com/2010/09/03/Update-to-my-911-Viewer">Blog Post</a> circa 2010</p>
+</section>
+
+<section id="can-we-recreate-it">
+<h2>Can We Recreate It?</h2>
+<p><img src="img/darkwing-duck-lets-get-dangerous.gif" alt="Darkwing Duck saying 'Let's get dangerous.'"></p>
+</section>
+
+<section id="use-the-source-luke-1">
+<h2>Use the Source, Luke</h2>
+<p><img src="img/luke-skywalker-underestimate.gif" alt="Luke Skywalker in Return of the Jedi saying, 'I warn you not to underestimate my power.'"></p>
+<p>Chrome / Firefox: Right-click &gt; View Page Source</p>
+</section>
+
+<section id="use-the-source-luke-3">
+<h2>Use the Source, Luke</h2>
+<script type="text/plain" class="language-markup">
+<!-- http://lafayette911.org -->
+<html>
+<head>
+<title>LAFAYETTE911.ORG</title>
+<meta name="keywords" content="">
+</head>
+<frameset rows="100%" , *" border="0" frameborder="0">
+  <frame src="http://apps.lafayettela.gov/L911/default.aspx" name="LAFAYETTE911.ORG">
+</frameset>
+</html>
+</script>
+</section>
+
+<section id="into-the-fire-and-frames-1">
+<h2>Into the Fire &amp; Frames</h2>
+<p><img src="img/through-the-fire-and-flames.gif" alt="Guitar Hero gameplay of Through the Fire and Flames"></p>
+</section>
+
+<section id="into-the-fire-and-frames-2">
+<h2>Into the Fire &amp; Frames</h2>
+<p><img src="img/lafayette911-no-incidents.png" alt="A screenshot of lafayette911.org with no incidents listed"></p>
+</section>
+
+<section id="into-the-fire-and-frames-3">
+  <h2>Into the Fire &amp; Frames</h2>
+  <script type="text/plain" class="language-markup">
+<!-- http://apps.lafayettela.gov/L911/default.aspx -->
+<p style="text-align:center">TRAFFIC MAY BE A PROBLEM DUE TO THE INCIDENTS AT THESE LOCATIONS...</p>
+<div class="incidents-wrapper">
+    <div id="tIncidents"></div>
+</div>
+<p class="refresh-info">Data will refresh every 15 seconds.</p>
+</script>
+</section>
+
+<section id="wheres-the-data">
+<h2>Where's the Data?</h2>
+<p><img src="img/data-leaving.gif" alt="Data from Star Trek: The Next Generation walking offscreen"></p>
+</section>
+
+<section id="some-possible-sources">
+<h2>Some Possible Sources</h2>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest"><code>XmlHttpRequest</code></a> (XHR)</li>
+<li>JavaScript-initiated refresh
+  <ul>
+    <li>e.g. <code>assign()</code>, <code>reload()</code> or <code>replace()</code> methods of <a href="https://developer.mozilla.org/en-US/docs/Web/API/Location#instance_methods"><code>Location</code></a></li>
+  </ul>
+</li>
+<li>Markup-initiated refresh
+  <ul>
+    <li>e.g. <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#attr-http-equiv"><code>&lt;meta http-equiv="refresh"&gt;</code></a></li>
+  </ul>
+</li>
+</ul>
+</section>
+
+<section id="learn-the-devtools">
+<h2>Learn the DevTools</h2>
+<ul>
+<li><a href="https://developer.chrome.com/docs/devtools/overview/">Chrome</a>: View &gt; Developer &gt; Developer Tools</li>
+<li><a href="https://firefox-dev.tools/">Firefox</a>: Tools &gt; Browser Tools &gt; Web Developer Tools</li>
+</ul>
+<p><img src="img/gilmore-girls-luke-with-my-tools.gif" alt="Luke Danes from Gilmore Girls saying, 'With my tools.'"></p>
+</section>
+
+<section id="check-for-xhrs">
+<h2>Check for XHRs</h2>
+<ol>
+<li>Chrome / Firefox: DevTools &gt; Network tab</li>
+<li>Chrome: Fetch/XHR filter, Firefox: XHR filter</li>
+<li>Chrome / Firefox: click request in table</li>
+</ol>
+<p><img src="img/911-network.png" alt="Network tab in Firefox Developer Tools showing XHRs made by lafayette911.org"></p>
+</section>
+
+<section id="inspect-the-request-1">
+<h2>Inspect the Request</h2>
+<p><img src="img/911-requests.png" alt="Firefox Developer Tools showing XHRs made by lafayette911.org"></p>
+</section>
+
+<section id="inspect-the-request-2">
+<h2>Inspect the Request</h2>
+<pre class="language-http line-numbers"><code>
+POST /L911/Service2.svc/getTrafficIncidents HTTP/2
+Host: apps.lafayettela.gov
+
+...
+</code></pre>
+<p><img src="img/it-crowd-friend-request.gif" alt="Maurice Moss from the IT Crowd saying, 'I can't turn down a friend request from my mum.'"></p>
+</section>
+
+<section id="inspect-the-request-3">
+<h2>Inspect the Request</h2>
+<ul>
+<li><code>POST</code> = <strong>method</strong> or <strong>operation</strong>
+<li><code>/L911/Service2.svc/getTrafficIncidents</code> = <strong>Uniform Resource Identifier</strong> (<abbr>URI</abbr>)</li>
+<li><code>HTTP/2</code> = client <strong>protocol</strong> and <strong>version</strong></li>
+<li><code>Host</code> = <strong>header name</strong></li>
+<li><code>apps.lafayettela.gov</code> = <strong>header value</strong></li>
+<li><code>...</code> = request <strong>body</strong></li>
+</li>
+</ul>
+</section>
+
+<section id="inspect-the-response-1">
+<h2>Inspect the Response</h2>
+<p><img src="img/911-response.png" alt="Firefox Developer Tools showing an XHR response"></p>
+</section>
+
+<section id="inspect-the-response-2">
+<h2>Inspect the Response</h2>
+<script type="text/plain" class="language-http">
+HTTP/2 200 OK
+cache-control: private
+...
+
+{"d":"..."}
+</script>
+<p><img src="img/firefly-response.gif" alt="Malcolm Reynolds from Firefly attempting to speak and failing"></p>
+</section>
+
+<section id="inspect-the-response-3">
+<h2>Inspect the Response</h2>
+<ul>
+<li><code>HTTP/2</code> = server <strong>protocol</strong> and <strong>version</strong></li>
+<li><code>200</code> = <strong>status code</strong></li>
+<li><code>OK</code> = <strong>status description</strong></li>
+<li><code>cache-control</code> = <strong>header name</strong></li>
+<li><code>private</code> = <strong>header value</strong></li>
+<li><code>{"d":"..."}</code> = response <strong>body</strong></li>
+</ul>
+</section>
+
+<section id="learn-http">
+<h2>HTTP</h2>
+<ul>
+<li><a href="https://tools.ietf.org/html/rfc7230">RFC 7230: Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6265">RFC 6265: HTTP State Management Mechanism</a></li>
+<li>&quot;Learning HTTP/2: A Practical Guide for Beginners&quot; by Stephen Ludin and Javier Garza</li>
+<li>&quot;HTTP: The Definitive Guide&quot; by David Gourley and Brian Totty</li>
+<li><a href="http://benramsey.com/http-status-codes">Ben Ramsey's blog series on HTTP status codes</a></li>
+</ul>
+</section>
+
+<section id="mimic-the-request-1" class="mimic-the-request">
+<h2>Mimic the Request</h2>
+<script type="text/plain" class="language-php">
+$context = stream_context_create(
+  options: [
+    'http' => [
+      'method' => 'POST',
+    ],
+  ],
+);
+$response = file_get_contents(
+  filename: 'https://apps.lafayettela.gov/L911/Service2.svc/getTrafficIncidents',
+  context: $context,
+);
+// PHP Warning:  file_get_contents(...): Failed to open stream:
+// HTTP request failed! HTTP/1.1 411 Length Required
+</script>
+<p><a href="https://www.php.net/streams">Streams</a> / <a href="https://www.php.net/manual/en/ref.filesystem.php">Filesystem</a></p>
+</section>
+
+<section id="mimic-the-request-2" class="mimic-the-request">
+<h2>Mimic the Request</h2>
+<script type="text/plain" class="language-php">
+$context = stream_context_create(
+  options: [
+    'http' => [
+      'method' => 'POST',
+      'header' => 'Content-Length: 0', // Add this line
+    ],
+  ],
+);
+$response = file_get_contents(
+  filename: 'https://apps.lafayettela.gov/L911/Service2.svc/getTrafficIncidents',
+  context: $context,
+);
+echo $response; // {"d":"<center>...<\/center>"}
+</script>
+<p><a href="https://www.php.net/streams">Streams</a> / <a href="https://www.php.net/manual/en/ref.filesystem.php">Filesystem</a></p>
+</section>
+
+<section id="text-fu">
+<h2>Text Fu</h2>
+<blockquote>
+  Programmers manipulate text the same way woodworkers shape wood.
+  <cite><a href="https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/">&quot;The Pragmatic Programmer: Your Journey to Mastery, 20th Anniversary Edition&quot;</a> by David Thomas and Andrew Hunt</cite>
+</blockquote>
+<p><img src="img/neo-i-know-kung-fu.gif" alt="Neo from the film The Matrix saying, 'I know kung fu.'"></p>
+</section>
+
+<section id="extract-the-markup">
+<h2>Extract the Markup</h2>
+<script type="text/plain" class="language-php">
+$json = json_decode(json: $response);
+$html = $json->d; // "<center>...</center>"
+</script>
+<p><a href="https://www.php.net/json">JSON</a></p>
+<p><img src="img/simpsons-markup.gif" alt="Apu from The Simpsons saying, 'Look at the outrageous markup.'"></p>
+</section>
+
+<section id="inspect-the-markup">
+<h2>Inspect the Markup</h2>
+<script type="text/plain" class="language-php">
+<table border="0" bgcolor="white">
+  <tbody>
+      <tr bgcolor="blue">
+          <td><font color="white"><b>Located At</b></font></td>
+          <td><font color="white"><b>Due To</b></font></td>
+          <td><b><font color="white">Reported At</font></b></td>
+          <td><font color="white"><b>Assisting</b></font></td>
+      </tr>
+      <tr bgcolor="#FFFF99">
+          <td><b>&nbsp;<a href="http://maps.google.com/maps?q=404++BONIN+RD+L+LAFAYETTE+LA" target="_new">404 BONIN RD
+                      L</a>&nbsp;<br>&nbsp;LAFAYETTE,LA&nbsp;</b></td>
+          <td><b>Vehicle Accident</b></td>
+          <td><b>11/05/2022 - 09:22</b></td>
+          <td><b>P </b></td>
+      </tr>
+      <tr bgcolor="#99FF99">
+          <td><b>&nbsp;<a href="http://maps.google.com/maps?q=200++JEFFERSON+BL+L+LAFAYETTE+LA" target="_new">200
+                      JEFFERSON BL L</a>&nbsp;<br>&nbsp;LAFAYETTE,LA&nbsp;</b></td>
+          <td><b>Vehicle Accident w/ Injuries</b></td>
+          <td><b>11/05/2022 - 08:59</b></td>
+          <td><b>P F </b></td>
+      </tr>
+  </tbody>
+</table>
+</script>
+</section>
+
+<section id="handle-malformations-1">
+<h2>Handle Malformations</h2>
+<script type="text/plain" class="language-markup">
+  <!-- http://lafayette911.org -->
+  <frameset rows="100%" , *" border="0" frameborder="0">
+    <frame src="http://apps.lafayettela.gov/L911/default.aspx"
+      name="LAFAYETTE911.ORG">
+  </frameset>
+</script>
+<p><img src="img/fifth-element-broken-one.gif" alt="Ruby Rhod in the film The Fifth Element saying, 'I think mine is broken. Why I gotta get the broke one?'"></p>
+</section>
+
+<section id="handle-malformations-2">
+<h2>Handle Malformations</h2>
+<ol>
+<li>Install <a href="https://www.php.net/tidy">tidy extension</a></li>
+<li>Optionally, configure its <a href="http://api.html-tidy.org/#quick-reference">options</a></li>
+<li>Parse markup</li>
+<li>Verify that malformations don't cause data loss</li>
+</ol>
+<p><img src="img/scrubs-clean-up-crew.gif" alt="Glen Matthews (AKA Janitor) in the TV series Scrubs making a 'represent' gesture with the caption 'The Clean Up Crew'"></p>
+</section>
+
+<section id="handle-malformations-3">
+<h2>Handle Malformations</h2>
+<script type="text/plain" class="language-php">
+// Procedural
+$tidy = tidy_parse_string(string: $string, config: $config);
+$tidy = tidy_parse_file(filename: $filename, config: $config);
+$output = tidy_get_output(tidy: $tidy);
+  
+// Object-oriented
+$tidy = new tidy;
+$tidy->parseString(string: $string, config: $config);
+$tidy->parseFile(filename: $filename, config: $config);
+$output = (string) $tidy;
+</script>
+</section>
+
+<section id="handle-malformations-4">
+<h2>Handle Malformations</h2>
+<script type="text/plain" class="language-php">
+// $string = '... <frameset rows="100%" , *" ...';
+echo tidy_parse_string($string);
+</script>
+<script type="text/plain" class="language-markup">
+<html>
+<head>
+<title>LAFAYETTE911.ORG</title>
+<meta name="keywords" content="">
+</head>
+<frameset rows="100%" border="0" frameborder="0">
+<frame src="http://apps.lafayettela.gov/L911/default.aspx" name="LAFAYETTE911.ORG">
+</frameset>
+</html>
+</script>
+</section>
+
+<section id="parse-the-markup-1">
+<h2>Parse the Markup</h2>
+<script type="text/plain" class="language-php">
+// Suppress emission of markup parsing issues as PHP errors,
+// use libxml_get_errors() to see errors later if needed
+libxml_use_internal_errors(use_errors: true);
+
+// Parse the HTML
+$doc = new DOMDocument;
+$doc->loadHTML(source: $html);
+
+// Get an array of table rows
+$trs = iterator_to_array(
+  iterator: $doc->getElementsByTagName(
+    qualifiedName: 'tr',
+  )
+);
+</script>
+<p><a href="https://www.php.net/manual/en/book.dom.php">DOM</a> / <a href="https://www.php.net/libxml">libxml</a></p>
+</section>
+
+<section id="parse-the-markup-2">
+<h2>Parse the Markup</h2>
+<script type="text/plain" class="language-php">
+// Remove the header row
+array_shift(array: $trs);
+
+// Extract data from the remaining rows
+foreach ($trs as $tr) {
+  $td_iterator = $tr->getElementsByTagName(qualifiedName: 'td');
+  $td_nodes = iterator_to_array(iterator: $td_iterator);
+  $td_values = array_map(
+    callable: fn (DOMNode $td) => $td->nodeValue,
+    array: $td_nodes,
+  );
+  [$address, $type, $time] = $td_values;
+  // $address = " 249  GRAND AV L  LAFAYETTE,LA ";
+  // $type = "Vehicle Accident";
+  // $time = "10/10/2022 - 18:46";
+}
+</script>
+</section>
+
+<section id="parse-the-markup-3">
+<h2>Parse the Markup</h2>
+<p>For complex queries: <a href="https://schlitt.info/opensource/blog/0704_xpath.html">XPath</a> + <a href="https://www.php.net/manual/en/domxpath.query.php"><code>DOMXPath</code></a></p>
+<script type="text/plain" class="language-php">
+$doc = new DOMDocument;
+$doc->loadHTML(source: $html);
+
+$xpath = new DOMXPath(document: $doc);
+$results = $xpath->query(expression: '//tr/td');
+</script>
+</section>
+
+<section id="parse-the-markup-4">
+<h2>Parse the Markup</h2>
+<p>To use CSS selectors: <a href="https://packagist.org/packages/symfony/css-selector"><code>symfony/css-selector</code></a></p>
+<script type="text/plain" class="language-php">
+$xpath = new DOMXPath(document: $doc);
+
+$converter = new Symfony\Component\CssSelector\CssSelectorConverter;
+$expression = $converter->toXPath(cssExpr: 'tr > td');
+
+$results = $xpath->query(expression: $expression);
+</script>
+<p>MDN: <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors">Tutorial</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors">Reference</a></p>
+</section>
+
+<section id="css-selectors">
+<h2>CSS Selectors</h2>
+<a href="https://wizardzines.com/comics/selectors/">
+  <img src="img/css-selectors.png" alt="A comic strip by Julia Evans on CSS selectors">
+</a>
+</section>
+
+<section id="trim-the-address">
+<h2>Trim the Address</h2>
+<script type="text/plain" class="language-php">
+// $address = " 249  GRAND AV L  LAFAYETTE,LA ";
+
+var_dump(value: trim(string: $address));
+// string(35) " 249  GRAND AV L  LAFAYETTE,LA "
+
+$character = mb_substr(string: $address, start: 0, length: 1);
+var_dump(value: mb_ord(string: $character));
+// int(160)
+
+$characters = mb_chr(codepoint: 160);
+var_dump(value: trim(string: $address, characters: $characters));
+// string(31) "249  GRAND AV L  LAFAYETTE,LA"
+</script>
+<p><a href="https://www.php.net/manual/en/ref.strings.php">String</a> / <a href="https://www.php.net/manual/en/book.mbstring.php">Multibyte String</a></p>
+</section>
+
+<section id="parse-the-address">
+<h2>Parse the Address</h2>
+<script type="text/plain" class="language-php">
+// $address = "249  GRAND AV L  LAFAYETTE,LA";
+
+[$number, $street, $city, $state] = preg_split(
+  pattern: '/[' . mb_chr(160) . ',]+|\s{2,}/',
+  subject: $address,
+);
+
+// $number = "249";
+// $street = "GRAND AV L";
+// $city = "LAFAYETTE";
+// $state = "LA";
+</script>
+<p><a href="https://www.php.net/manual/en/book.pcre.php">PCRE</a></p>
+</section>
+
+<section id="regular-expressions-1">
+<h2>Regular Expressions</h2>
+<ul>
+<li><code>/</code> ... <code>/</code> - <a href="https://www.php.net/manual/en/regexp.reference.delimiters.php">expression delimiters</a></li>
+<li><code>[</code> ... <code>]</code> - <a href="https://www.php.net/manual/en/regexp.reference.character-classes.php">character class</a> or range</li>
+<li><code>+</code> - <a href="https://www.php.net/manual/en/regexp.reference.repetition.php">quantifier</a> for 1 or more instances</li>
+<li><code>|</code> - <a href="https://www.php.net/manual/en/regexp.reference.alternation.php">alternation</a></li>
+<li><code>\s</code> - <a href="https://www.php.net/manual/en/regexp.reference.escape.php">escape sequence</a> for whitespace characters</li>
+<li><code>{2,}</code> - <a href="https://www.php.net/manual/en/regexp.reference.repetition.php">quantifier</a> for 2 or more instances</li>
+</ul>
+<p><a href="https://www.php.net/manual/en/reference.pcre.pattern.syntax.php">Pattern Syntax</a> / <a href="https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php">Modifiers</a></p>
+</section>
+
+<section id="regular-expressions-2">
+<h2>Regular Expressions</h2>
+<ul>
+<li>&quot;Mastering Regular Expressions&quot; by Jeffrey E. F. Friedl</li>
+<li><a href="https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/">Regular Expressions: Now You Have Two Problems</a> by Jeff Atwood</li>
+<li><a href="https://tcgplayer.zoom.us/rec/play/rct9mtPn532kFYy2vVD0znTwhYXkBsBfIU0H-VYuL2i8PpyavWmTBqz3DdKnPbh5_BsjP9Q0hevekKya.xPl5gWHbwJZK3vHR?startTime=1616692123000&_x_zm_rtaid=wuN-JMwvTDe4VzYGApck8w.1666823797328.d3a047d3808e698e4057b7fde1c431ae&_x_zm_rhtaid=734">Regular expressions!</a> by <a href="https://twitter.com/ericwastl">Eric Wastl</a></li>
+</ul>
+<p><a href="https://xkcd.com/208/"><img src="img/xkcd-regular-expressions.png" alt="xkcd comic strip entitled 'Regular Expressions"></a></p>
+</section>
+
+<section id="parse-the-date">
+<h2>Parse the Date</h2>
+<script type="text/plain" class="language-php">
+// $time = "10/10/2022 - 18:46";
+
+$datetime = DateTime::createFromFormat(
+  format: 'm/d/Y - H:i',
+  datetime: $time,
+  timezone: new DateTimeZone(timezone: 'America/Chicago'),
+);
+$time = $datetime->format(format: DateTime::ISO8601);
+
+// $time = "2022-10-10T18:46:00-0500";
+</script>
+<p><a href="https://www.php.net/manual/en/book.datetime.php">Date and Time</a></p>
+</section>
+
+<section id="thank-this-guy">
+<h2>Thank This Guy</h2>
+<p><img src="img/derick-rethans.jpg" alt="Derick Rethans"></p>
+<p><a href="https://derickrethans.nl/">Derick Rethans</a></p>
+</section>
+
+<section id="we-did-it">
+<h2>We Did It!</h2>
+<script type="text/plain" class="language-php">
+$number = "249";
+$street = "GRAND AV L";
+$city = "LAFAYETTE";
+$state = "LA";
+$type = "Vehicle Accident";
+$time = "2022-10-10T18:46:00-0500";
+</script>
+<p><img src="img/borat-great-success.gif" alt="Borat saying 'Great Success'"></p>
+</section>
+
+<section id="now-what">
+<h2>Now What?</h2>
+<ul>
+<li>Store data in JSON files or a database</li>
+<li>Put it behind a web server or API</li>
+<li>Add a Google Maps frontend</li>
+<li>Profit!</li>
+</ul>
+<p><img src="img/south-park-phase-2.webp" alt="An underpants gnome from South Park asking, 'Hey, what's phase two?!'"></p>
+</section>
+
+<section id="lafayette-traffic">
+<h2>Lafayette Traffic</h2>
+<p>
+  <img src="img/lafayette-traffic-map.jpg" alt="Google Maps showing Lafayette, LA with traffic incidents marked">
+  <img src="img/lafayette-traffic-incident.jpg" alt="Google Maps showing Lafayette, LA with a traffic incident overlay">
+  <img src="img/lafayette-traffic-camera.jpg" alt="Lafayette Traffic showing a live city traffic camera feed">
+</p>
+<p>
+  <a href="https://play.google.com/store/apps/details?id=us.la.lft.traffic">Google Play</a>
+  /
+  GitHub <a href="https://github.com/elazar/lfttraffic-android">Android</a>,
+  <a href="https://github.com/elazar/lfttraffic-data">Data</a>
+</p>
+</section>
+
+<section id="so-what">
+<h2>So What?</h2>
+<p><img src="img/house-and.gif" alt="Gregory House from the TV series House, MD shrugging with the caption 'and?'"></p>
+</section>
+
+<section id="on-jira-briefly">
+<h2>On JIRA, Briefly</h2>
+<p><img src="img/jira.png" alt="Screenshot of a project board in JIRA"></p>
+</section>
+
+<section id="standards">
+<h2>Standards</h2>
+<ul>
+<li><a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> - <a href="https://packagist.org/packages/psr/http-message">psr/http-message</a></li>
+<li><a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> - <a href="https://packagist.org/packages/psr/http-factory">psr/http-factory</a></li>
+<li><a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> - <a href="https://packagist.org/packages/psr/http-client">psr/http-client</a></li>
+<li>More <abbr title="PHP Standard Recommendation">PSR</abbr>s at <a href="https://www.php-fig.org/">php-fig.org</a></li>
+</ul>
+<p><a href="https://xkcd.com/927/"><img src="img/xkcd-standards.png" alt="The strip of the XKCD comic entitled 'Standards'"></a></p>
+</section>
+
+<section id="curl">
+<h2>cURL</h2>
+<ul>
+<li><a href="https://curl.se/">CLI client utility and library</a> for HTTP/HTTPS</li>
+<li>Related: <a href="https://www.php.net/curl">PHP cURL extension</a></li>
+<li>CLI client utility is useful for debugging and recreating requests in PHP</li>
+</ul>
+<p><img src="img/curling.gif" alt="A man participating the sport of curling"></p>
+</section>
+
+<section id="copy-as-curl">
+<h2>Copy as cURL</h2>
+<ul>
+<li>Chrome: DevTools &gt; Network tab &gt; right-click request &gt; Copy &gt; Copy as cURL</li>
+<li>Firefox: DevTools &gt; Network tab &gt; right-click request &gt; Copy Value &gt; Copy as cURL</li>
+</ul>
+<p><img src="img/chris-pratt-curl.gif" alt="Chris Pratt feigning a bicep curl with a beer"></p>
+</section>
+
+<section id="recreate-requests-1">
+<h2>Recreate Requests</h2>
+<ol>
+<li>Install <a href="https://packagist.org/packages/frizz925/curl-parser"><code>frizz925/curl-parser</code></a></li>
+<li>Provide copied cURL command to parser
+<script type="text/plain" class="language-php">
+$curl = "curl ...";
+$parsed = CurlParser\Parser::parse(curl: $curl);
+// $parsed implements Psr\Http\Message\RequestInterface
+</script>
+</li>
+</ol>
+</section>
+
+<section id="recreate-requests-2">
+<h2>Recreate Requests</h2>
+<p>Extract request data</p>
+<script type="text/plain" class="language-php">
+echo $parsed->getUri();
+// 'https://apps.lafayettela.gov/L911/Service2.svc/getTrafficIncidents'
+echo get_class(object: $parsed->getUri());
+// 'GuzzleHttp\Psr7\Uri' (implements Psr\Http\Message\UriInterface)
+echo $parsed->getUri()->getHost();
+// 'apps.lafayettela.gov'
+echo $parsed->getMethod();
+// 'POST'
+echo $parsed->getBody();
+// ''
+var_export($parsed->getHeaders());
+// array ( 'User-Agent' => array ( 0 => '...', ... ),
+</script>
+</section>
+
+<section id="recreate-requests-3">
+<h2>Recreate Requests</h2>  
+<p>Get request object</p>
+<script type="text/plain" class="language-php">
+var_export($parsed->toRequest());
+// GuzzleHttp\Psr7\Request::__set_state(array( 'method' => 'POST', ... ))
+</script>
+</section>
+
+<section id="send-a-request">
+<h2>Send a Request</h2>
+<ol>
+<li>Install <a href="https://packagist.org/packages/guzzlehttp/guzzle"><code>guzzlehttp/guzzle</code></a></li>
+<li>Create the client</li>
+<li><a href="https://docs.guzzlephp.org/en/stable/request-options.html">Configure options</a> and <a href="https://docs.guzzlephp.org/en/stable/quickstart.html#sending-requests">send the request</a>
+<script type="text/plain" class="language-php">
+$request = GuzzleHttp\Psr7\Request::__set_state(
+  properties: ['method' => 'POST', /* ... */ ]
+);
+// or:
+$request = new GuzzleHttp\Psr7\Request( /* ... */ );
+
+$client = new GuzzleHttp\Client(config: [ /* ... */ ]);
+$response = $client->send(request: $request, options: [ /* ... */ ]);
+</script>
+</li>
+</ol>
+</section>
+
+<section id="using-responses">
+<h2>Using Responses</h2>
+<script type="text/plain" class="language-php">
+var_export(get_class(object: $response));
+// 'GuzzleHttp\\Psr7\\Response'
+
+var_export($response->getStatusCode());
+// 200
+
+var_export($response->getReasonPhrase());
+// 'OK'
+
+var_export($response->getHeaders());
+// array ( 'Cache-Control' => array ( 0 => 'private', ), ... )
+
+var_export($response->getBody()->getContents());
+// '<!DOCTYPE html><html lang="en"> ... </html>'
+</script>
+</section>
+
+<section id="debug-requests-1" class="loading">
+<h2>Debug Requests</h2>
+<ol>
+<li>Install <a href="https://packagist.org/packages/alexkart/curl-builder"><code>alexkart/curl-builder</code></a></li>
+<li><a href="https://curl.se/dlwiz/">Download cURL</a></li>
+</ol>
+<p><img src="img/hair-curl.gif" alt="A girl blowing a hair curl out of her face"></p>
+</section>
+
+<section id="debug-requests-2">
+<h2>Debug Requests</h2>
+<p>Convert request to server request</p>
+<script type="text/plain" class="language-php">
+// $request = GuzzleHttp\Psr7\Request::__set_state(
+//   array( 'method' => 'POST', ... )
+// );
+
+$serverRequest = new GuzzleHttp\Psr7\ServerRequest(
+  method: $request->getMethod(),
+  uri: $request->getUri(),
+  headers: $request->getHeaders(),
+  body: $request->getBody(),
+);
+</script>
+</section>
+
+<section id="debug-requests-3">
+<h2>Debug Requests</h2>
+<p>Convert server request to cURL command</p>
+<script type="text/plain" class="language-php">
+$command = new Alexkart\CurlBuilder\Command;
+$command->setRequest(request: $serverRequest);
+echo $command->build();
+</script>
+<script type="text/plain" class="language-plain">
+curl -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:106.0) Gecko/20100101 Firefox/106.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br' -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json; charset=utf-8' -H 'Content-Length: 0' -H 'Origin: https://apps.lafayettela.gov' -H 'Connection: keep-alive' -H 'Referer: https://apps.lafayettela.gov/L911/default.aspx' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: same-origin' -H 'TE: trailers' https://apps.lafayettela.gov/L911/Service2.svc/getTrafficIncidents
+</script>
+</section>
+
+<section id="debug-requests-4">
+<h2>Debug Requests</h2>
+<p>Tweak cURL command as needed</p>
+<ul>
+<li>Add the <a href="https://curl.se/docs/manpage.html#-v"><code>-v</code> flag</a> to get more verbose output</li>
+<li>If the request uses the <code>POST</code> method and has no body, add <a href="https://curl.se/docs/manpage.html#-X"><code>-X</code> flag</a> with <code>POST</code> as its argument</li>
+</ul>
+<script type="text/plain" class="language-plain">
+  curl -v -X POST ...
+</script>
+</section>
+
+<section id="debug-requests-5">
+<h2>Debug Requests</h2>
+<p>Run the cURL command</p>
+<script type="text/plain" class="language-plain">
+$ curl -v -X POST ...
+
+*   Trying 12.166.209.48:443...
+* Connected to apps.lafayettela.gov (12.166.209.48) port 443 (#0)
+...
+> POST /L911/Service2.svc/getTrafficIncidents HTTP/2
+> Host: apps.lafayettela.gov
+...
+< HTTP/2 200
+< cache-control: private
+...
+{"d":"<center>...<\/center>"}
+</script>
+</section>
+
+<section id="repeat-requests-1">
+<h2>Repeat Requests</h2>
+<ul>
+<li>Install <a href="https://packagist.org/packages/deviantintegral/har"><code>deviantintegral/har</code></a></li>
+<li>Conflicts with <a href="https://packagist.org/packages/frizz925/curl-parser"><code>frizz925/curl-parser</code></a> due to<br>disparities in <a href="https://packagist.org/packages/guzzlehttp/psr7"><code>guzzlehttp/psr7</code></a> versions</li>
+</ul>
+<p><img src="img/pvz-repeater.gif" alt="A repeater from the game Plants v. Zombies"></p>
+</section>
+
+<section id="repeat-requests-2">
+<h2>Repeat Requests</h2>
+<ul>
+<li>Chrome: DevTools &gt; Network tab &gt; right-click in request pane &gt; Save all as <abbr title="HTTP ARchive">HAR</abbr> with content</li>
+<li>Firefox: DevTools &gt; Network tab &gt; right-click in request pane &gt; Save All as <abbr title="HTTP ARchive">HAR</abbr></li>
+<li><a href="https://toolbox.googleapps.com/apps/har_analyzer/">HAR Analyzer</a></li>
+</ul>
+</section>
+
+<section id="repeat-requests-3">
+<h2>Repeat Requests</h2>
+<script type="text/plain" class="language-php">
+$repository = new Deviantintegral\Har\Repository\HarFileRepository(
+  repositoryPath: __DIR__
+);
+$har = $repository->load(id: 'apps.lafayettela.gov.har');
+$entries = $har->getLog()->getEntries();
+foreach ($entries as $entry) {
+  $request = new Deviantintegral\Har\Adapter\Psr7\Request(
+    request: $entry->getRequest()
+  );
+  // $request implements Psr\Http\Message\RequestInterface
+}
+</script>
+</section>
+
+<section id="bring-out-big-guns">
+<h2>Bring Out the Big Guns</h2>
+<p><img src="img/fifth-element-gun.gif" alt="Korben Dallas in the film The Fifth Element pointing a gun and laughing"></p>
+</section>
+
+<section id="automate-the-browser-1">
+<h2>Automate the Browser</h2>
+<ul>
+<li>Install <a href="https://packagist.org/packages/symfony/panther"><code>symfony/panther</code></a></li>
+<li>Install <a href="https://packagist.org/packages/dbrekelmans/bdi"><code>dbrekelmans/bdi</code></a></li>
+<li>Install <a href="https://github.com/symfony/panther#installing-chromedriver-and-geckodriver">browser driver(s)</a>
+<script type="text/plain" class="language-shell">
+vendor/bin/bdi detect drivers
+</script>
+</li>
+</ul>
+</section>
+
+<section id="automate-the-browser-2">
+<h2>Automate the Browser</h2>
+<script type="text/plain" class="language-php">
+$client = Symfony\Component\Panther\Client::createChromeClient();
+$client->request(
+  method: 'GET',
+  uri: 'https://apps.lafayettela.gov/L911/default.aspx'
+);
+$crawler = $client->waitForVisibility(locator: '#tIncidents');
+$trs = $crawler
+    ->filterXPath(xpath: "//tr[@bgcolor!='blue']")
+    ->each(fn ($tr) => $tr
+      ->children(selector: 'td')
+      ->each(closure: fn ($td) => $td->text())
+    );
+</script>
+<p><a href="https://symfony.com/doc/current/components/dom_crawler.html"><code>symfony/dom-crawler</code></a></p>
+</section>
+
+<section id="automate-the-browser-3">
+<h2>Automate the Browser</h2>
+<script type="text/plain" class="language-php">
+$trs = [
+  [
+    ' 166 N LOOP ST L LAFAYETTE,LA ',
+    'Vehicle Accident',
+    '11/03/2022 - 16:12',
+    'P',
+  ],
+  // ...
+];
+</script>
+</section>
+
+<section id="this-is-fine">
+<h2>This is Fine</h2>
+<ul>
+<li><abbr title="Web Application Firewall">WAF</abbr> = <a href="https://www.cloudflare.com/learning/ddos/glossary/web-application-firewall-waf/">Web Application Firewall</a></li>
+<li>May detect and block automated clients</li>
+<li>Related blog posts: <a href="https://matthewturland.com/2021/05/14/automating-personal-finance-monitoring-part-1/">Part 1</a>, <a href="https://matthewturland.com/2021/05/30/automating-personal-finance-monitoring-part-2/">Part 2</a></li>
+</ul>
+<p><img src="img/this-is-fine.gif" alt="Meme from Adult Swim of a cartoon dog sitting in a house on fire saying, 'This is fine.'"></p>
+</section>
+
+<section id="webdriver-flag-1">
+<h2>WebDriver Flag</h2>
+<ul>
+<li><a href="https://w3c.github.io/webdriver/#interface">Required by WebDriver implementations</a></li>
+<li>Reveals control by automated means</li>
+<li><a href="https://stackoverflow.com/questions/33225947/can-a-website-detect-when-you-are-using-selenium-with-chromedriver/52108199#52108199">How to remove it</a> (h/t <abbr title="Stack Overflow">SO</abbr>)</li>
+</ul>
+<p><img src="img/big-bang-theory-fun-with-flags.gif" alt="Dr. Sheldon Cooper from Big Bang Theory introducing his program Fun with Flags"></p>
+</section>
+
+<section id="webdriver-flag-2">
+<h2>WebDriver Flag</h2>
+<script type="text/plain" class="language-javascript">
+/* composer.json */
+{
+    "scripts": {
+        "post-install-cmd": "./scripts/post-install-cmd.sh"
+    }
+}
+</script>
+<script type="text/plain" class="language-shell">
+# ./scripts/post-install-cmd.sh
+#!/bin/bash
+./vendor/bin/bdi driver:chromedriver drivers
+php -r '$path = "./drivers/chromedriver"; file_put_contents($path,
+  str_replace("cdc_", "dog_", file_get_contents($path)));'
+</script>
+</section>
+
+<section id="blink-flag">
+<h2>Blink Flag</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Blink_(browser_engine)">Blink</a> = rendering engine in Chrome browsers</li>
+<li><a href="https://stackoverflow.com/questions/53039551/selenium-webdriver-modifying-navigator-webdriver-flag-to-prevent-selenium-detec/60403652#60403652">How to disable the flag</a> (h/t <abbr title="Stack Overflow">SO</abbr>)</li>
+<li><a href="https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/renderer/platform/runtime_enabled_features.json5?q=runtime_enabled_features.json5&ss=chromium">Index of Blink runtime features</a></li>
+</ul>
+<script type="text/plain" class="language-php">
+$client = Symfony\Component\Panther\Client::createChromeClient(
+  null,
+  ['--disable-blink-features=AutomationControlled'],
+);
+</script>
+</section>
+
+<section id="other-webdriver-flag-1">
+<h2>Other WebDriver Flag</h2>
+<ul>
+<li><a href="https://w3c.github.io/webdriver/#interface">Required by WebDriver implementations</a></li>
+<li>Reveals control by automated means</li>
+<li><a href="https://stackoverflow.com/questions/60615769/chromedriver-window-navigator-webdriver-flag-is-true-with-chrome-v80/60647331#60647331">Not especially helpful mention of it</a> (thanks <abbr title="Stack Overflow">SO</abbr>)</li>
+</ul>
+<p><img src="img/thanks-obama.gif" alt="Former US president Barack Obama failing to dunk a large cookie into a glass of milk before saying, 'Thanks Obama.'"></p>
+</section>
+
+<section id="other-webdriver-flag-2">
+<h2>Other WebDriver Flag</h2>
+<script type="text/plain" class="language-php">
+// $client = Symfony\Component\Panther\Client::createChromeClient(
+//   /* ... */
+// );
+
+$client->start();
+$script = <<<EOS
+  Object.defineProperty(
+    navigator,
+    "webdriver",
+    { get: () => undefined }
+  );
+EOS;
+$client->executeScript(script: $script);
+</script>
+</section>
+
+<section id="headless-mode">
+<h2>Headless Mode</h2>
+<ul>
+<li><a href="https://stackoverflow.com/questions/45798842/timeout-error-occurred-when-run-a-script-on-headless-chrome-browser-by-using-sel/61327251#61327251">How it's enabled</a> (h/t <abbr title="Stack Overflow">SO</abbr>)</li>
+<li><a href="https://piprogramming.org/articles/How-to-make-Selenium-undetectable-and-stealth--7-Ways-to-hide-your-Bot-Automation-from-Detection-0000000017.html">Really helpful related article</a></li>
+</ul>
+<script type="text/plain" class="language-php">
+// Headless mode is enabled by default in symfony/panther.
+// To turn it off for debugging purposes:
+$_SERVER['PANTHER_NO_HEADLESS'] = 'true';
+
+// $client = Symfony\Component\Panther\Client::createChromeClient(
+//   /* ... */
+// );
+</script>
+</section>
+
+<section id="quick-demo">
+<h2>Quick Demo</h2>
+<script type="text/plain" class="language-php">
+$_SERVER['PANTHER_NO_HEADLESS'] = 'true';
+$client = Symfony\Component\Panther\Client::createChromeClient(null, [
+  '--window-size=1792,1120',
+]);
+$client->request('GET', 'https://www.google.com/');
+$searchInputLocator = 'input[title="Search"]';
+$crawler = $client->waitFor($searchInputLocator);
+$crawler->filter($searchInputLocator)->sendKeys("Longhorn PHP\n");
+$searchLinksLocator = '#search a';
+$crawler = $client->waitFor($searchLinksLocator);
+$crawler->filter($searchLinksLocator)->eq(0)->click();
+$client->executeScript('document.body.innerHTML = "<img src=\"https://staticsmartlife.mondo.rs/Thumbnail/60141/gif/Rik-Estli\">";');
+sleep(600);
+</script>
+</section>
+
+<section id="debugging-tips">
+<h2>Debugging Tips</h2>
+<ul>
+<li>Use a logger, like <a href="https://packagist.org/packages/monolog/monolog"><code>monolog/monolog</code></a></li>
+<li>Use <a href="https://www.php.net/sleep"><code>sleep()</code></a> to block execution</li>
+</ul>
+<script type="text/plain" class="language-php">
+// $client = Symfony\Component\Panther\Client::createChromeClient(
+//   /* ... */
+// );
+
+$logger->error('Expected element not found', [
+  'source' => $client->getPageSource(),
+]);
+
+$client->takeScreenshot('path/to/screenshot.png');
+</script>
+</section>
+
+<section id="free-project-idea">
+<h2>Free Project Idea</h2>
+<ul>
+<li><a href="https://psysh.org/">PsySH</a></li>
+<li>Add <a href="https://github.com/bobthecow/psysh/wiki/Integrations">integration</a> with <code>symfony/panther</code></li>
+<li>e.g. custom commands to interactively fetch pages, filter and interact with elements, etc.</li>
+</ul>
+<p><img src="img/fry-shut-up-and-take-my-money.gif" alt="Fry from the TV series Futurama saying, 'Shut up and take my money!'"></p>
+</section>
+
+<section id="other-resources">
+<h2>Other Resources</h2>
+<ul>
+<li><a href="https://github.com/symfony/panther#environment-variables">Related useful Panther settings</a></li>
+<li><a href="https://github.com/symfony/panther"><code>symfony/panther</code> source code</a></li>
+<li><abbr title="Chrome DevTools Protocol">CDP</abbr> = Chrome DevTools Protocol</li>
+<li><a href="https://github.com/php-webdriver/php-webdriver"><code>php-webdriver/webdriver</code> source code</a></li>
+<li><a href="https://github.com/ultrafunkamsterdam/undetected-chromedriver"><code>undetected-chromedriver</code> source code</a></li>
+</ul>
+<p><img src="img/smiling-leo.gif" alt="Leonardo DiCaprio in a tuxedo smiling and raising a glass toward the viewer"></p>
+</section>
+
+<section id="thats-all-folks">
+<h2>That's All, Folks</h2>
+<ul>
+<li><a href="https://joind.in/talk/5cf41">joind.in/talk/5cf41</a> - Please leave feedback!</li>
+<li><a href="https://matthewturland.com">matthewturland.com</a></li>
+<li><a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+</ul>
+<p><img src="img/looney-tunes-thats-all-folks.gif" alt="Outro for Looney Tunes with Porky Pig saying, 'That's all, folks.'"></p>
+</section>
+
+</div>
+
+</div>
+
+<script src="js/reveal.js"></script>
+<script src="js/prism.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+  center: false,
+  hash: true,
+  transition: "none",
+
+  // Learn about plugins: https://revealjs.com/plugins/
+  plugins: [ ]
+});
+Reveal.configure({
+  keyboard: {
+      39: "next"
+  }
+});
+</script>
+
+</body>
+</html>
