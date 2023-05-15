@@ -1,0 +1,808 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Regular Expressions Made Eas(y|ier)</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/simple.css">
+<link rel="stylesheet" href="css/prism.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+<div class="reveal">
+
+<div class="twitter">
+  <a href="https://phpc.social/@elazar">@elazar@phpc.social</a>
+  <a href="https://phpc.social/tags/tek2023">#tek2023</a>
+</div>
+
+<div class="slides">
+
+<section id="slide-title" class="center" data-state="title" data-background-color="#fff">
+<img src="img/logo.png" alt="php[tek] Conference logo" class="no-border">
+<h1>Regular Expressions Made Eas(y|ier)</h1>
+<p class="byline"><a href="https://matthewturland.com">Matthew Turland</a></p>
+</section>
+
+<section id="hello">
+<h2>Hello!</h2>
+<ul>
+<li>My name is Matt</li>
+<li>It's nice to see you</li>
+<li>Thank you for coming</li>
+</ul>
+<p><img src="img/forrest-gump.gif" alt="Forrest Gump waving"></p>
+</section>
+
+<section id="tldr">
+<h2><abbr title="Too Long; Didn't Read">TL;DR</abbr></h2>
+<ul>
+<li>Verifying that a string matches a pattern</li>
+<li>Extracting pattern matches from a string</li>
+<li>Replacing pattern matches in a string</li>
+<li>Splitting strings by pattern matches</li>
+</ul>
+<p><a href="https://xkcd.com/208/"><img src="img/xkcd-regular-expressions.png" alt="xkcd comic strip entitled 'Regular Expressions" style="width: 400px;"></a></p>
+</section>
+
+<section id="there-will-be-slides">
+<h2>There Will Be Slides</h2>
+<p><a href="https://matthewturland.com/presentations">matthewturland.com/presentations</a></p>
+<p><a href="https://joind.in/talk/26619" title="Regular Expressions Made Eas(y|ier) - php[tek] 2023 - Joind.in">joind.in/talk/26619</a></p>
+<p><img src="img/office-powerpoint.gif" alt="Michael Scott in The Office repeatedly saying 'PowerPoint.'"></p>
+</section>
+
+<section id="go-ahead-hashtag-it">
+<h2>Go Ahead, Hashtag It</h2>
+<ul>
+<li>Feel free to live-tweet/toot!</li>
+<li>Hashtag: <code>#tek2023</code></li>
+<li>Feel free to @ me</li>
+<p><img src="img/deadpool.gif" alt="Deadpool instructing Negasonic Teenage Warhead to finish typing a tweet into her phone"></p>
+</ul>
+</section>
+
+<section id="on-a-related-note">
+<h2>On a Related Note</h2>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/book-cover.jpg" alt="The book cover for 'Web Scraping with PHP, 2nd Edition'"></a></p>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/">phparch.com</a></p>
+</section>
+
+<section id="regular-expressions">
+<h2>Regular Expressions?</h2>
+<blockquote>&quot;A <strong>regular expression</strong>... is a sequence of characters that specifies a match pattern in text.&quot; <cite><a href="https://en.wikipedia.org/wiki/Regular_expression">Wikipedia</a></cite></blockquote>
+</section>
+
+<section id="in-php">
+<h2>In PHP?</h2>
+<ul>
+    <li>The <a href="https://www.php.net/manual/en/book.pcre.php">Regular Expressions (Perl-Compatible)</a> extension (AKA PCRE, <code>preg</code>) is generally the one you want. In particular, check out its <a href="https://www.php.net/manual/en/reference.pcre.pattern.syntax.php">Pattern Syntax</a> manual section.</li>
+    <li>The POSIX regular expression extension (AKA <code>ereg</code>) was deprecated in PHP 5.3 and removed in PHP 7.</li>
+</ul>
+</section>
+
+<section id="match-verification">
+<h2>Match Verification</h2>
+<ul>
+    <li><a href="https://www.php.net/preg_match"><code>preg_match()</code></a> finds the first match.</li>
+    <li><a href="https://www.php.net/preg_match_all"><code>preg_match_all()</code></a> finds all matches.</li>
+    <li>Both take a <code>$pattern</code>, <code>$subject</code>, and a <code>$matches</code> array passed by reference to store found matches.</li>
+    <li>Both return the number of matches found, i.e. 0 or 1 for <a href="https://www.php.net/preg_match"><code>preg_match()</code></a>, 0+ for <a href="https://www.php.net/preg_match_all"><code>preg_match_all()</code></a>.</li>
+    <li>For arrays, check out <a href="https://www.php.net/preg_grep"><code>preg_grep()</code></a>.</li>
+</ul>
+</section>
+
+<section id="substring-match">
+<h2>Substring Match</h2>
+<pre><code class="lang-php">
+$present = (strpos($string, 'foo') !== false);
+
+$present = (preg_match('/foo/', $string) === 1);
+</code></pre>
+<ul>
+    <li>This is an intentionally contrived example.</li>
+    <li>Use <a href="https://www.php.net/manual/en/ref.strings.php">string functions</a> (e.g. <code>strpos</code>) for static substrings, <a href="https://www.php.net/manual/en/book.ctype.php">ctype functions</a> for common simple patterns.</li>
+    <li>In <code>/foo/</code>, <code>/</code> is the <strong>pattern delimiter</strong>. More on that later.</li>
+</ul>
+</section>
+
+<section id="starting-anchor">
+<h2>Starting Anchor</h2>
+<pre><code class="lang-php">
+$present = (strpos($string, 'foo') === 0);
+// or in PHP 8
+$present = str_starts_with($string, 'foo');
+
+$present = (preg_match('/^foo/', $string) === 1);
+</code></pre>
+<ul>
+    <li>A caret (<code>^</code>) before a pattern denotes the start of <code>$string</code>.</li>
+    <li>Note: any non-literal character in a pattern is called a <strong>metacharacter</strong>.</li>
+</ul>
+</section>
+
+<section id="ending-anchor">
+<h2>Ending Anchor</h2>
+<pre><code class="lang-php">
+$present = (substr($string, -1 * strlen('foo')) === 'foo');
+// or in PHP 8
+$present = str_ends_with($string, 'foo');
+
+$present = (preg_match('/foo$/', $string) === 1);
+</code></pre>
+<ul>
+    <li>A dollar sign (<code>$</code>) after a pattern denotes the end of <code>$string</code>.</li>
+</ul>
+</section>
+
+<section id="both-anchors">
+<h2>Both Anchors</h2>
+<pre><code class="lang-php">
+$present = ($string === 'foo');
+
+$present = (preg_match('/^foo$/', $string) === 1);
+</code></pre>
+<ul>
+    <li>Using <code>^</code> and <code>$</code> together means the pattern must match the entirety of <code>$string</code>.</li>
+</ul>
+</section>
+
+<section id="alternation">
+<h2>Alternation</h2>
+<pre><code class="lang-php">
+$present = (strpos($string, 'foo') !== false
+    || strpos($string, 'bar') !== false
+    || strpos($string, 'baz') !== false);
+
+$present = (preg_match('/foo|bar|baz/', $string) === 1);
+</code></pre>
+<ul>
+    <li>A pipe (<code>|</code>) can be used to delimit multiple possible patterns to match.</li>
+</ul>
+</section>
+
+<section id="alternation-and-anchors">
+<h2>Alternation + Anchors</h2>
+<pre><code class="lang-php">
+$result = preg_match('/^foo|bar/', 'abar');  // 1
+
+$result = preg_match('/^foo|^bar/', 'abar'); // 0
+</code></pre>
+<ul>
+    <li>Anchors must be applied to each alternation.</li>
+</ul>
+</section>
+
+<section id="quantifiers-0-1">
+<h2>Quantifiers: 0-1</h2>
+<pre><code class="lang-php">
+$present = (preg_match('/a{0,1}', $string) === 1);
+
+$present = (preg_match('/a?', $string) === 1);
+</code></pre>
+</section>
+
+<section id="quantifiers-0-plus">
+<h2>Quantifiers: 0+</h2>
+<pre><code class="lang-php">
+$present = (preg_match('/a{0,}', $string) === 1);
+
+$present = (preg_match('/a*', $string) === 1);
+</code></pre>
+</section>
+
+<section id="quantifiers-1-plus">
+<h2>Quantifiers: 1+</h2>
+<pre><code class="lang-php">
+$present = (preg_match('/a{1,}', $string) === 1);
+
+$present = (preg_match('/a+', $string) === 1);
+</code></pre>
+</section>
+
+<section id="quantifiers-n">
+<h2>Quantifiers: <em>n</em></h2>
+<pre><code class="lang-php">
+$present = (preg_match('/a{2}', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-counterexample">
+<h2>Subpatterns: Counterexample</h2>
+<pre><code class="lang-php">
+// a followed by 1+ instances of b
+$present = (preg_match('/ab+/', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-quantifiers-1-plus">
+<h2>Subpatterns: Quantifiers 1+</h2>
+<pre><code class="lang-php">
+// 1+ instances of ab (ab, abab, ababab, etc.)
+$present = (preg_match('/(ab)+/', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-quantifiers-0-1">
+<h2>Subpatterns: Quantifiers 0-1</h2>
+<pre><code class="lang-php">
+// foo or foobar
+$present = (preg_match('/foo(bar)?/', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-alternation">
+<h2>Subpatterns: Alternation</h2>
+<pre><code class="lang-php">
+// ab or ac
+$present = (preg_match('/a(b|c)/', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-alternation-plus-quantifiers">
+<h2>Subpatterns:<br />Alternation + Quantifiers</h2>
+<pre><code class="lang-php">
+// ab, ac, abb, abc, acb, acc, etc.
+$present = (preg_match('/a(b|c)+/', $string) === 1);
+</code></pre>
+</section>
+
+<section id="subpatterns-named-1">
+<h2>Subpatterns: Named</h2>
+<pre><code class="lang-php">
+$present = preg_match(
+    '/^(?P&lt;area&gt;[0-9]{3})'
+        . '-(?P&lt;prefix&gt;[0-9]{3})'
+        . '-(?P&lt;line&gt;[0-9]{4})$/',
+    '123-456-7890',
+    $match
+);
+print_r($match);
+</code></pre>
+</section>
+
+<section id="subpatterns-named-2">
+<h2>Subpatterns: Named</h2>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 123-456-7890
+    [area] =&gt; 123
+    [1] =&gt; 123
+    [prefix] =&gt; 456
+    [2] =&gt; 456
+    [line] =&gt; 7890
+    [3] =&gt; 7890
+)
+</code></pre>
+</section>
+
+<section id="captured-matches-1">
+<h2>Captured Matches</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(bar)?(baz)?/',
+    'foo', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foo
+)
+</code></pre>
+</section>
+
+<section id="matches-2">
+<h2>Captured Matches</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(bar)?(baz)?/',
+    'foobar', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobar
+    [1] =&gt; bar
+)
+</code></pre>
+</section>
+
+<section id="matches-3">
+<h2>Captured Matches</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(bar)?(baz)?/',
+    'foobarbaz', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobarbaz
+    [1] =&gt; bar
+    [2] =&gt; baz
+)
+</code></pre>
+</section>
+
+<section id="matches-4">
+<h2>Captured Matches</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(bar)?(baz)?/',
+    'foobaz', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobarbaz
+    [1] =&gt;
+    [2] =&gt; baz
+)
+</code></pre>
+</section>
+
+<section id="nested-subpatterns">
+<h2>Nested Subpatterns</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(ba(r|z))?/',
+    'foobar', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobar
+    [1] =&gt; bar
+    [2] =&gt; r
+)
+</code></pre>
+</section>
+
+<section id="noncaptured-subpatterns-1">
+<h2>Non-Captured Subpatterns</h2>
+<pre><code class="lang-php">
+if (preg_match('/foo(?:bar)?(baz)?/',
+    'foobarbaz', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobarbaz
+    [1] =&gt; baz
+)
+</code></pre>
+</section>
+
+<section id="noncaptured-subpatterns-2">
+<h2>Non-Captured Subpatterns</h2>
+<ul>
+    <li>Captured subpatterns are limited to 99.</li>
+    <li>Total subpatterns are limited to 200.</li>
+    <li>Use <code>(?:</code> to denote the start of non-captured subpatterns.</li>
+</ul>
+</section>
+
+<section id="matching-ranges">
+<h2>Matching Ranges</h2>
+<p>Three ways to match a single character from a range of possible characters:</p>
+<ul>
+    <li>Period (<code>.</code>) metacharacter</li>
+    <li>Escape sequences</li>
+    <li>Character ranges</li>
+</ul>
+</section>
+
+<section id="period-metacharacter">
+<h2>Period Metacharacter</h2>
+<pre><code class="lang-php">
+if (preg_match('/.+/', 'foobarbaz', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foobarbaz
+)
+</code></pre>
+<p><code>.</code> matches any character except a line feed (<code>&quot;\n&quot;</code>).</p>
+</section>
+
+<section id="escape-sequences-1">
+<h2>Escape Sequences</h2>
+<table>
+    <tr>
+        <th>Sequence</th>
+        <th>Description</th>
+        <th>Inverse</th>
+    </tr>
+    <tr>
+        <td><code>\d</code></td>
+        <td>Digit, 0 through 9.</td>
+        <td><code>\D</code></td>
+    </tr>
+    <tr>
+        <td><code>\h</code></td>
+        <td>Horizontal whitespace, e.g. <code>&quot; &quot;</code>, <code>&quot;\t&quot;</code></td>
+        <td><code>\H</code></td>
+    </tr>
+    <tr>
+        <td><code>\v</code></td>
+        <td>Vertical whitespace, e.g. <code>&quot;\r&quot;</code>, <code>&quot;\n&quot;</code></td>
+        <td><code>\V</code></td>
+    </tr>
+    <tr>
+        <td><code>\s</code></td>
+        <td>Any whitespace, i.e. any from <code>\h</code> or <code>\v</code></td>
+        <td><code>\S</code></td>
+    </tr>
+    <tr>
+        <td><code>\w</code></td>
+        <td>&quot;Word character&quot;, i.e. any letter, digit, or underscore</td>
+        <td><code>\W</code></td>
+    </tr>
+</table>
+</section>
+
+<section id="escape-sequences-2">
+<h2>Escape Sequences</h2>
+<pre><code class="lang-php">
+if (preg_match('/\d+/', '0123456789', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 0123456789
+)
+</code></pre>
+</section>
+
+<section id="character-ranges-1">
+<h2>Character Ranges</h2>
+<ul>
+    <li>Demarcated by square brackets (i.e. <code>[</code> and <code>]</code>)</li>
+    <li>Can include individual characters, ranges of characters, or escape sequences</li>
+    <li>Ranges (e.g. <code>a-z</code>) are respective to <a href="https://www.asciitable.com/">ASCII</a></li>
+    <li>Case-sensitive by default</li>
+</ul>
+</section>
+
+<section id="character-ranges-2">
+<h2>Character Ranges</h2>
+<pre><code class="lang-php">
+// [0-9] is equivalent to \d
+if (preg_match('/[0-9]+/', '0123456789', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 0123456789
+)
+</code></pre>
+</section>
+
+<section id="character-ranges-3">
+<h2>Character Ranges</h2>
+<pre><code class="lang-php">
+// [a-zA-Z0-9_] is equivalent to \w
+if (preg_match('/[a-zA-Z0-9_]+/', 'FOObar_123', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; FOObar_123
+)
+</code></pre>
+</section>
+
+<section id="character-ranges-4">
+<h2>Character Ranges</h2>
+<pre><code class="lang-php">
+// Matches hex strings
+if (preg_match('/[0-9a-fA-F]+/',
+    '7c0319169c4aba498d441ca91c6c4f1d', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 7c0319169c4aba498d441ca91c6c4f1d
+)
+</code></pre>
+</section>
+
+<section id="character-ranges-5">
+<h2>Character Ranges</h2>
+<pre><code class="lang-php">
+// Out-of-order ASCII range
+if (preg_match('/[F-A]+/', 'ABCDEF', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Warning: preg_match(): Compilation failed: range out of order in character
+class at offset 3
+</code></pre>
+</section>
+
+<section id="negating-character-ranges">
+<h2>Negating Character Ranges</h2>
+<pre><code class="lang-php">
+if (preg_match('/[^a]+/', 'abc', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; bc
+)
+</code></pre>
+<p><code>^</code> <strong>inside a character range</strong> negates it.</p>
+</section>
+
+<section id="character-ranges-edge-cases">
+<h2>Character Ranges:<br />Edge Cases</h2>
+<pre><code class="lang-php">
+// Matching ]
+preg_match('/[\\]]/', ']', $match);
+
+// Matching ^
+preg_match('/[\\^]/', '^', $match); // or
+preg_match('/[a^]/', '^', $match);
+</code></pre>
+</section>
+
+<section id="modifiers">
+<h2>Modifiers</h2>
+<ul>
+    <li>Remember how <a href="#substring-match">we said earlier</a> that <code>/</code> was the <a href="https://www.php.net/manual/en/regexp.reference.delimiters.php">pattern delimiter</a>?</li>
+<li>It separates the pattern from <a href="https://www.php.net/manual/en/reference.pcre.pattern.modifiers.php">modifiers</a> that change how some aspects of patterns work.</li>
+<li>The delimiter doesn't have to be <code>/</code> &mdash; it can be any character that isn't alphanumeric, a backslash, or whitespace.</li>
+<li>Use a different delimiter to make escaping characters easier, e.g. in patterns containing <code>/</code>.</li>
+</ul>
+</section>
+
+<section id="modifiers-case-insensitivity">
+<h2>Modifiers: Case-Insensitivity</h2>
+<pre><code class="lang-php">
+if (preg_match('/[a-z]+/i', 'ABCDEF', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; ABCDEF
+)
+</code></pre>
+<p><code>/i</code> makes any letters match both upper/lowercase.</p>
+</section>
+
+<section id="modifiers-anchors">
+<h2>Modifiers: Anchors</h2>
+<pre><code class="lang-php">
+if (preg_match('/^bar/m', "foo\nbar", $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; bar
+)
+</code></pre>
+<p><code>/m</code> makes <code>^</code> and <code>$</code> match line (versus string) starts/ends.</p>
+</section>
+
+<section id="modifiers-dot-all">
+<h2>Modifiers: Dot-All</h2>
+<pre><code class="lang-php">
+if (preg_match('/.+/s', "foo\nbar", $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; foo
+bar
+)
+</code></pre>
+<p><code>/s</code> makes <code>.</code> match <code>\n</code>.</p>
+</section>
+
+<section id="modifiers-analyze">
+<h2>Modifiers: Analyze</h2>
+<pre><code class="lang-php">
+for ($i = 0; $i &lt; 10_000; $i++) {
+    if (preg_match('/[0-9a-f]+/S', md5($i), $match) === 1) {
+        print_r($match);
+    }
+}
+</code></pre>
+<p><code>/S</code> analyzes a <span title="Must be a non-anchored pattern that does not have a single fixed starting character">pattern</span> for better performance.<br />
+<a href="https://www.zend.com/blog/guide-to-php-73">No effect in PHP 7.3+</a> due to PCRE2 migration.</p>
+</section>
+
+<section id="modifiers-ungreedy-1">
+<h2>Modifiers: Ungreedy</h2>
+<pre><code class="lang-php">
+if (preg_match('/p.*/', 'php', $match) === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; php
+)
+</code></pre>
+</section>
+
+<section id="modifiers-ungreedy-2">
+<h2>Modifiers: Ungreedy</h2>
+<pre><code class="lang-php">
+if (preg_match('/p.*/U', 'php') === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; p
+)
+</code></pre>
+</section>
+
+<section id="modifiers-ungreedy-3">
+<h2>Modifiers: Ungreedy</h2>
+<pre><code class="lang-php">
+if (preg_match('/p.*?/', 'php') === 1) {
+    print_r($match);
+}
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; p
+)
+</code></pre>
+<p>This works in patterns that use <code>/U</code>.</p>
+</section>
+
+<section id="backreferences">
+<h2>Backreferences</h2>
+<pre><code class="lang-php">
+$result = preg_replace(
+    '/([0-9]{3})-([0-9]{3})-([0-9]{4})/',
+    '($1) $2-$3',
+    '123-456-7890'
+);
+echo $result;
+</code></pre>
+<pre><code class="lang-plain">
+(123) 456-7890
+</code></pre>
+<p>See <a href="https://www.php.net/preg_replace"><code>preg_replace()</code></a> documentation.</p>
+</section>
+
+<section id="splitting-strings">
+<h2>Splitting Strings</h2>
+<pre><code class="lang-php">
+$result = preg_split('/\s*,\s*/', '3,4   , 5 , 6');
+print_r($result);
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 3
+    [1] =&gt; 4
+    [2] =&gt; 5
+    [3] =&gt; 6
+)
+</code></pre>
+</section>
+
+<section id="filtering-strings">
+<h2>Filtering Strings</h2>
+<pre><code class="lang-php">
+$result = preg_grep('/^[0-9]+$/', ['1', 'a', '1a', '2', 'b3']);
+print_r($result);
+</code></pre>
+<pre><code class="lang-plain">
+Array
+(
+    [0] =&gt; 1
+    [3] =&gt; 2
+)
+</code></pre>
+</section>
+
+<section id="best-practices">
+<h2>Best Practices</h2>
+<ul>
+<li><a href="https://github.com/phergie/phergie-irc-parser/blob/6c601a5f83d51651642cf9d3c631c4d11be8c602/src/Parser.php#L199-L281">Split large patterns into smaller ones</a> where feasible.</li>
+<li>Use <a href="#subpatterns-named-1">named subpatterns</a> to make patterns more self-documenting.</li>
+<li>Use tools like <a href="https://regex101.com">regex101.com</a> for editing and ad-hoc testing of patterns.</li>
+<li>Use automated tests to verify that patterns match only what they should.</li>
+</ul>
+</section>
+
+<section id="other-resources">
+<h2>Other Resources</h2>
+<ul>
+<li><a href="https://www.php.net/manual/en/book.pcre.php">PHP Manual PCRE section</a></li>
+<li><a href="https://www.oreilly.com/library/view/mastering-regular-expressions/0596528124/">&quot;Mastering Regular Expressions, 3rd ed.&quot;</a><br />a book by Jeffrey E. F. Friedl</li>
+<li><a href="https://tcgplayer.zoom.us/rec/play/-yT0FMhws5cLKyWWZNFzmTF9LQjpTwCsw5rZJjsW3WVG9D9ZJOA72maWfe2W-r6zTK8Ykeqg_pZiEFTb.oUOOfBUL8mqZVT2d?canPlayFromShare=true&amp;from=share_recording_detail&amp;startTime=1616692123000&amp;componentName=rec-play&amp;originRequestUrl=https%3A%2F%2Ftcgplayer.zoom.us%2Frec%2Fshare%2FVMBwYsFoibeHaAVt22UHMCQqmV2DF21fomzAaQVm3-JaZyhdF5lO7W5kIhjl3F1h.cFap6123siZImi1N%3FstartTime%3D1616692123000"><code>/\bRegular\s+expressions\!+/i</code></a><br />a presentation by Eric Wastl</li>
+<li><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/">&quot;Web Scraping with PHP, 2nd ed.&quot;</a><br />a book by Matthew Turland<br />Chapter 15: PCRE Extension</li>
+</ul>
+</section>
+
+<section id="further-reading">
+<h2>Further Reading</h2>
+<ul>
+<li><a href="https://betterprogramming.pub/animating-regular-expressions-with-python-and-graphviz-e0df447b827a">Animating Regular Expressions With Python and Graphviz</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Automata_theory">Automata theory</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Regular_language">Kleene's theorem</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Lexical_analysis">Lexical analysis</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Parsing#Parser">Parsing</a></li>
+</ul>
+</section>
+
+<section id="thats-all-folks">
+<h2>That's All, Folks</h2>
+<ul>
+<li><a href="https://joind.in/talk/26619" title="Regular Expressions Made Eas(y|ier) - php[tek] 2023 - Joind.in">joind.in/talk/26619</a> - Please leave feedback!</li>
+<li><a href="https://matthewturland.com">matthewturland.com</a></li>
+<li><a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+</ul>
+<p><img src="img/looney-tunes-thats-all-folks.gif" alt="Outro for Looney Tunes with Porky Pig saying, 'That's all, folks.'"></p>
+</section>
+
+</div>
+
+</div>
+
+<script src="js/reveal.js"></script>
+<script src="js/prism.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+  center: false,
+  hash: true,
+  transition: "none",
+
+  // Learn about plugins: https://revealjs.com/plugins/
+  plugins: [ ]
+});
+Reveal.configure({
+  keyboard: {
+      39: "next"
+  }
+});
+</script>
+
+</body>
+</html>

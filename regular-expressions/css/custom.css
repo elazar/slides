@@ -1,0 +1,42 @@
+/* @import url(http://fonts.googleapis.com/css?family=Droid+Serif); */
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif'), local('DroidSerif'), url(droidserif_v6.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+:root {
+  --r-heading1-size: 3.77em;
+  --r-heading2-size: 1.75em;
+}
+
+.reveal a, .reveal a:hover { font-weight: bold; text-decoration: underline; }
+.reveal a { color: #041685; }
+.reveal a:hover { color: #041685; }
+.reveal, .reveal h1, .reveal h2 { font-family: "Droid Serif", serif; text-transform: none; }
+.reveal blockquote { background-color: #eeeeee; border: 1px solid #000000; font-size: 1em; font-style: normal; padding: 0.25em 0.5em; text-align: left; }
+.reveal cite { display: block; text-align: right; font-weight: 600; }
+.reveal cite:before { content: "~ "; }
+.reveal img { margin: auto; display: block; border: 3px solid #000000; }
+.reveal img.no-border { border: 0; }
+.reveal li { margin-bottom: 0.35em; }
+.reveal abbr[title], .reveal span[title] { text-decoration: underline; text-decoration-style: dashed; cursor: pointer; }
+
+.reveal div.twitter { position: absolute; bottom: 10px; left: 10px; font-size: 1em; z-index: 500; width: 100%; text-align: center; }
+.reveal .twitter a { color: #041685; margin-left: 1em; }
+.reveal .twitter svg { vertical-align: middle; width: 34px; color: #041685; }
+
+.reveal pre[class*=language-].line-numbers { padding-left: 1em; }
+.reveal pre code[class*=language-] { font-size: 0.55em; }
+
+#slide-title { padding: 0; }
+#slide-title h1 { color: #041685; font-size: 1.35em; font-weight: 600; padding: 0; margin: 30px 0; line-height: 1.5em; }
+#slide-title .byline { clear: both; display: block; font-size: 1em; font-weight: bold; letter-spacing: 0.05em; }
+html.title div.slide-background.present { background-position: top; }
+
+#there-will-be-slides img { height: 375px; }
+#escape-sequences-1 table { font-size: 30px; }
+#other-resources img { width: 25%; }
+#thats-all-folks img { border: 0; width: 60%; }
