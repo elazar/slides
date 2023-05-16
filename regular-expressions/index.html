@@ -180,34 +180,34 @@ $result = preg_match('/^foo|^bar/', 'abar'); // 0
 <section id="quantifiers-0-1">
 <h2>Quantifiers: 0-1</h2>
 <pre><code class="lang-php">
-$present = (preg_match('/a{0,1}', $string) === 1);
+$present = (preg_match('/a{0,1}/', $string) === 1);
 
-$present = (preg_match('/a?', $string) === 1);
+$present = (preg_match('/a?/', $string) === 1);
 </code></pre>
 </section>
 
 <section id="quantifiers-0-plus">
 <h2>Quantifiers: 0+</h2>
 <pre><code class="lang-php">
-$present = (preg_match('/a{0,}', $string) === 1);
+$present = (preg_match('/a{0,}/', $string) === 1);
 
-$present = (preg_match('/a*', $string) === 1);
+$present = (preg_match('/a*/', $string) === 1);
 </code></pre>
 </section>
 
 <section id="quantifiers-1-plus">
 <h2>Quantifiers: 1+</h2>
 <pre><code class="lang-php">
-$present = (preg_match('/a{1,}', $string) === 1);
+$present = (preg_match('/a{1,}/', $string) === 1);
 
-$present = (preg_match('/a+', $string) === 1);
+$present = (preg_match('/a+/', $string) === 1);
 </code></pre>
 </section>
 
 <section id="quantifiers-n">
 <h2>Quantifiers: <em>n</em></h2>
 <pre><code class="lang-php">
-$present = (preg_match('/a{2}', $string) === 1);
+$present = (preg_match('/a{2}/', $string) === 1);
 </code></pre>
 </section>
 
