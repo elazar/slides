@@ -690,6 +690,12 @@ Array
 <p>This works in patterns that use <code>/U</code>.</p>
 </section>
 
+<section id="modifiers-ungreedy-4">
+<h2>Modifiers: Extended</h2>
+<blockquote style="font-size: 0.7em;">&quot;If this modifier is set, whitespace data characters in the pattern are totally ignored except when escaped or inside a character class, and characters between an unescaped # outside a character class and the next newline character, inclusive, are also ignored. This is equivalent to Perl's /x modifier, and makes it possible to include commentary inside complicated patterns. Note, however, that this applies only to data characters. Whitespace characters may never appear within special character sequences in a pattern, for example within the sequence (?( which introduces a conditional subpattern.&quot;</blockquote>
+<p>More trouble than it's worth <abbr title="In My Opinion">IMO</abbr>. <abbr title="Your Mileage May Vary">YMMV</abbr>.</p>
+</section>
+
 <section id="backreferences">
 <h2>Backreferences</h2>
 <pre><code class="lang-php">
