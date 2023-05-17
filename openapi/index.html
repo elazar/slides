@@ -213,6 +213,7 @@ vendor/bin/php-openapi validate spec.json
 <li>Postman has <a href="https://www.npmjs.com/package/@paloaltonetworks/openapi-to-postmanv2">a library</a> to convert from OpenAPI to a Postman collection.</li>
 <li>Keep Postman-specific elements (e.g. <a href="https://www.postman.com/automated-testing/">automated tests</a>) in separate files and integrate them into the generated Postman collection at build time.</li>
 <li>This build stage can also be used to work around bugs like <a href="https://github.com/postmanlabs/openapi-to-postman/issues/382">this one</a> where possible.</li>
+<li>Side note: I've also had a relatively positive experience <a href="https://github.com/postmanlabs/postman-app-support/issues/10213">reporting bugs in Postman itself</a>.</li>
 </ul>
 </section>
 
@@ -247,7 +248,7 @@ vendor/bin/php-openapi validate spec.json
 
 <section id="automated-test-generation-1">
 <h2>Automated Test Generation</h2>
-<blockquote>&quot;Schemathesis is a specification-centric API testing tool for OpenAPI... applications. It reads the application schema and generates test cases... The application under test could be written in any language; the only thing you need is a valid API schema...&quot;<cite><a href="https://schemathesis.readthedocs.io/en/stable/">Schemathesis</a></cite></blockquote>
+<blockquote>&quot;<a href="https://schemathesis.readthedocs.io/en/stable/">Schemathesis</a> is a specification-centric API testing tool for OpenAPI... applications. It reads the application schema and generates test cases... The application under test could be written in any language; the only thing you need is a valid API schema...&quot;</blockquote>
 </section>
 
 <section id="automated-test-generation-2">
@@ -260,7 +261,7 @@ st run https://example.schemathesis.io/openapi.json
 
 <section id="automated-test-generation-3">
 <h2>Automated Test Generation</h2>
-<blockquote>&quot;Portman leverages your static OpenAPI specs, with all its defined API request/response properties, to power your Postman collection and test suite.&quot;<cite><a href="https://blog.apideck.com/announcing-portman?s=09">Portman CLI 1.0 - Better API testing</a></cite></blockquote>
+<blockquote>&quot;<a href="https://blog.apideck.com/announcing-portman?s=09">Portman</a> leverages your static OpenAPI specs, with all its defined API request/response properties, to power your Postman collection and test suite.&quot;</blockquote>
 </section>
 
 <section id="automated-test-generation-4">
