@@ -1,0 +1,405 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>OpenAPI: More Than Documentation</title>
+<link rel="stylesheet" href="css/reset.css">
+<link rel="stylesheet" href="css/reveal.css">
+<link rel="stylesheet" href="css/simple.css">
+<link rel="stylesheet" href="css/prism.css">
+<link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+<div class="reveal">
+
+<div class="twitter">
+  <a href="https://phpc.social/@elazar">@elazar@phpc.social</a>
+  <a href="https://phpc.social/tags/tek2023">#tek2023</a>
+</div>
+
+<div class="slides">
+
+<section id="slide-title" class="center" data-state="title" data-background-color="#fff">
+<img src="img/logo.png" alt="php[tek] Conference logo" class="no-border">
+<h1>OpenAPI: More Than Documentation</h1>
+<p class="byline"><a href="https://matthewturland.com">Matthew Turland</a></p>
+</section>
+
+<section id="hello">
+<h2>Hello!</h2>
+<ul>
+<li>My name is Matt</li>
+<li>It's nice to see you</li>
+<li>Thank you for coming</li>
+</ul>
+<p><img src="img/forrest-gump.gif" alt="Forrest Gump waving"></p>
+</section>
+
+<section id="there-will-be-slides">
+<h2>There Will Be Slides</h2>
+<p><a href="https://matthewturland.com/presentations">matthewturland.com/presentations</a></p>
+<p><a href="https://joind.in/talk/94051" title="OpenAPI: More Than Documentation - php[tek] 2023 - Joind.in">joind.in/talk/94051</a></p>
+<p><img src="img/office-powerpoint.gif" alt="Michael Scott in The Office repeatedly saying 'PowerPoint.'"></p>
+</section>
+
+<section id="go-ahead-hashtag-it">
+<h2>Go Ahead, Hashtag It</h2>
+<ul>
+<li>Feel free to live-tweet/toot!</li>
+<li>Hashtag: <code>#tek2023</code></li>
+<li>Feel free to @ me</li>
+<p><img src="img/deadpool.gif" alt="Deadpool instructing Negasonic Teenage Warhead to finish typing a tweet into her phone"></p>
+</ul>
+</section>
+
+<section id="on-an-unrelated-note">
+<h2>On a Unrelated Note</h2>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/"><img src="img/book-cover.jpg" alt="The book cover for 'Web Scraping with PHP, 2nd Edition'"></a></p>
+<p><a href="https://www.phparch.com/books/web-scraping-with-php-2nd-edition/">phparch.com</a></p>
+</section>
+
+<section id="setting-expectations">
+<h2>Setting Expectations</h2>
+<ul>
+<li>Goal: learn about OpenAPI and related possibilities</li>
+<li>Part (opinionated) prescriptive, part speculative</li>
+</ul>
+<p><img src="img/thedude.jpg" alt="From the film The Big Lebowski, The Dude saying, 'Yeah, well, that's just like, your opinion, man.'"></p>
+</section>
+
+<section id="openapi">
+<h2>OpenAPI</h2>
+<blockquote>&quot;<strong>OpenAPI</strong>... previously known as... Swagger... is a specification for a machine-readable interface definition language for describing, producing, consuming and visualizing web services.&quot; <cite><a href="https://en.wikipedia.org/wiki/OpenAPI_Specification">Wikipedia</a></cite></blockquote>
+</section>
+
+<section id="history-of-openapi">
+<h2>History of OpenAPI</h2>
+<ul>
+<li>2010 - Wordnik begins development of Swagger</li>
+<li>2015 - SmartBear Software acquires Swagger and creates the OpenAPI Initiative</li>
+<li>2016 - Swagger is renamed to the OpenAPI Specification (OAS) and moved to GitHub</li>
+<li>2017 - OpenAPI Initiative releases OpenAPI 3.0.0</li>
+<li>2021 - OpenAPI Initiative releases OpenAPI 3.1.0 with <a href="https://json-schema.org/">JSON Schema</a> vocabularies alignment and new elements for describing webhooks</li>
+</ul>
+</section>
+
+<section id="openapi-specifications">
+<h2>OpenAPI Specifications</h2>
+<ul>
+<li>Specifications are formatted as YAML or JSON.</li>
+<li>They include information on:
+    <ul>
+        <li>server environments</li>
+        <li>security schemes</li>
+        <li>endpoints</li>
+        <li>supported endpoint operations</li>
+        <li>endpoint request parameters and payloads</li>
+        <li>endpoint responses codes and payloads</li>
+    </ul>
+</ul>
+</section>
+
+<section id="writing-a-specification-1">
+<h2>Writing a Specification</h2>
+<ul>
+<li>Specs can get large quickly and become unwieldy in a text editor or IDE.</li>
+<li>For nontrivial changes, use an OpenAPI spec editor.</li>
+</ul>
+</section>
+
+<section id="writing-a-specification-2">
+<h2>Writing a Specification</h2>
+<figure>
+<a href="img/stoplight.png"><img src="img/stoplight.png" alt="Stoplight OpenAPI spec editor"></a>
+<figcaption><a href="https://stoplight.io/">Stoplight</a> OpenAPI spec editor (commercial)</figcaption>
+</figure>
+</section>
+
+<section id="writing-a-specification-3">
+<h2>Writing a Specification</h2>
+<figure>
+<a href="img/openapi-gui.png"><img src="img/openapi-gui.png" alt="OpenAPI-GUI OpenAPI spec editor"></a>
+<figcaption><a href="https://mermade.github.io/openapi-gui/">OpenAPI-GUI</a> OpenAPI spec editor (open source)</figcaption>
+</figure>
+</section>
+
+<section id="avoiding-writing-a-specification">
+<h2>(Avoiding) Writing a Specification</h2>
+<p><a href="https://apisyouwonthate.com/blog/creating-openapi-from-http-traffic">Creating OpenAPI from HTTP Traffic</a></p>
+<blockquote><a href="https://www.akitasoftware.com/">Akita</a> is an observability tool, which can sniff HTTP traffic, and build models of your data.</blockquote>
+<p>Stores traffic data in <abbr title="HTTP Archive">HAR</abbr> files, which it can then convert to an OpenAPI spec.</p>
+</section>
+
+<section id="validating-a-specification-1">
+<h2>Validating a Specification</h2>
+<ul>
+<li>Use validators in text editors/IDEs, version control repository hooks, <abbr title="Continuous Integration">CI</abbr>/<abbr title="Continuous Deployment">CD</abbr> builds, etc.</li>
+<li>Keep validator configuration in version control.</li>
+</ul>
+</section>
+
+<section id="validating-a-specification-2">
+<h2>Validating a Specification</h2>
+<p><a href="https://github.com/stoplightio/spectral">Spectral</a></p>
+<pre><code class="lang-bash">
+npm install @stoplight/spectral-cli
+
+echo 'extends: ["spectral:oas"]' &gt; .spectral.yaml
+
+spectral lint spec.json
+</code></pre>
+</section>
+
+<section id="validating-a-specification-3">
+<h2>Validating a Specification</h2>
+<p><a href="https://packagist.org/packages/cebe/php-openapi">cebe/php-openapi</a></p>
+<pre><code class="lang-bash">
+composer require cebe/php-openapi
+
+vendor/bin/php-openapi validate spec.json
+</code></pre>
+</section>
+
+<section id="versioning-a-specification-1">
+<h2>Versioning a Specification</h2>
+<p>Treat the spec as a shippable asset, meaning...</p>
+<ul>
+<li>Keep the spec in its own version control repository (e.g. git).</li>
+<li>Use pull requests to review spec changes.</li>
+<li>Update the <code>info.version</code> spec attribute as the version changes.</li>
+<li>Maintain a version control tag for each version.</li>
+<li>Use <a href="https://semver.org/">semantic versioning</a>.</li>
+</ul>
+</section>
+
+<section id="versioning-a-specification-2">
+<h2>Versioning a Specification</h2>
+<figure>
+<img src="img/stoplight-version.png" alt="Stoplight OpenAPI code editor highlighting the info.version attribute">
+<figcaption><a href="https://stoplight.io/">Stoplight</a> OpenAPI code editor highlighting the <code>info.version</code> attribute</figcaption>
+</figure>
+</section>
+
+<section id="api-documentation-1">
+<h2>API Documentation</h2>
+<figure>
+<a href="img/swaggerui.png"><img src="img/swaggerui.png" alt="Swagger UI Petstore Example"></a>
+<figcaption><a href="https://github.com/swagger-api/swagger-ui">Swagger UI</a> <a href="https://petstore.swagger.io/">Petstore Example</a></figcaption>
+</figure>
+</section>
+
+<section id="api-documentation-2">
+<h2>API Documentation</h2>
+<figure>
+<a href="img/redoc.png"><img src="img/redoc.png" alt="ReDoc Petstore Example"></a>
+<figcaption><a href="https://github.com/Redocly/redoc">ReDoc</a> <a href="https://redocly.github.io/redoc/">Petstore Example</a></figcaption>
+</figure>
+</section>
+
+<section id="api-documentation-3">
+<h2>API Documentation</h2>
+<figure>
+<a href="img/postman.png"><img src="img/postman.png" alt="Postman"></a>
+<figcaption><a href="https://www.postman.com/">Postman</a></figcaption>
+</figure>
+</section>
+
+<section id="api-documentation-4">
+<h2>API Documentation</h2>
+<ul>
+<li>Postman has <a href="https://www.npmjs.com/package/@paloaltonetworks/openapi-to-postmanv2">a library</a> to convert from OpenAPI to a Postman collection.</li>
+<li>Keep Postman-specific elements (e.g. <a href="https://www.postman.com/automated-testing/">automated tests</a>) in separate files and integrate them into the generated Postman collection at build time.</li>
+<li>This build stage can also be used to work around bugs like <a href="https://github.com/postmanlabs/openapi-to-postman/issues/382">this one</a> where possible.</li>
+</ul>
+</section>
+
+<section id="prototypes-1">
+<h2>Prototypes</h2>
+<blockquote>PostgREST is a standalone web server that turns your PostgreSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations. <cite><a href="https://blog.frankel.ch/poor-man-api/">&quot;A poor man's API&quot;<br />by Nicolas Fränkel</a></cite></blockquote>
+</section>
+
+<section id="prototypes-2">
+<h2>Prototypes</h2>
+<blockquote>PostgREST automatically serves a full OpenAPI description on the root path. This provides a list of all endpoints (tables, foreign tables, views, functions), along with supported HTTP verbs and example payloads. <cite><a href="https://postgrest.org/en/stable/references/api/openapi.html?highlight=openapi">PostgREST documentation</a></cite></blockquote>
+</section>
+
+<section id="mock-servers">
+<h2>Mock Servers</h2>
+<p>Integrate frontends with an API before it's built.</p>
+<ul>
+<li><a href="https://stoplight.io/open-source/prism">Prism</a> - open source standalone HTTP mock server</li>
+<li><a href="https://github.com/ybelenko/openapi-data-mocker-server-middleware"><code>ybelenko/openapi-data-mocker-server-middleware</code></a> - open source <a href="https://www.php-fig.org/psr/psr-15/">PSR-15 middleware</a> to generate data from OpenAPI spec</li>
+<li><a href="https://dev.to/ismailkamil/how-to-mock-an-api-in-one-minute-eip">How to Mock an API in One Minute</a> using <a href="https://www.apidog.com/">ApiDog</a> (commercial)</li>
+</ul>
+</section>
+
+<section id="request-response-validation">
+<h2>Request/Response Validation</h2>
+<ul>
+<li><a href="https://packagist.org/packages/league/openapi-psr7-validator"><code>league/openapi-psr7-validator</code></a> - validator for OpenAPI 3.0 implemented as <a href="https://www.php-fig.org/psr/psr-15/">PSR-15 middleware</a></li>
+<li><a href="https://packagist.org/packages/opis/json-schema"><code>opis/json-schema</code></a> - validator for OpenAPI 3.1 implemented as a library</li>
+<li><a href="https://packagist.org/packages/hkarlstrom/openapi-validation-middleware"><code>hkarlstrom/openapi-validation-middleware</code></a> - <a href="https://www.php-fig.org/psr/psr-15/">PSR-15 middleware</a> that uses <a href="https://packagist.org/packages/opis/json-schema"><code>opis/json-schema</code></a></li>
+</ul>
+</section>
+
+<section id="automated-test-generation-1">
+<h2>Automated Test Generation</h2>
+<blockquote>&quot;Schemathesis is a specification-centric API testing tool for OpenAPI... applications. It reads the application schema and generates test cases... The application under test could be written in any language; the only thing you need is a valid API schema...&quot;<cite><a href="https://schemathesis.readthedocs.io/en/stable/">Schemathesis</a></cite></blockquote>
+</section>
+
+<section id="automated-test-generation-2">
+<h2>Automated Test Generation</h2>
+<pre><code class="lang-php">
+st run https://example.schemathesis.io/openapi.json
+</code></pre>
+<p>Supports Docker if you prefer to avoid<br /><a href="https://xkcd.com/1987/">Python environments</a></p>
+</section>
+
+<section id="automated-test-generation-3">
+<h2>Automated Test Generation</h2>
+<blockquote>&quot;Portman leverages your static OpenAPI specs, with all its defined API request/response properties, to power your Postman collection and test suite.&quot;<cite><a href="https://blog.apideck.com/announcing-portman?s=09">Portman CLI 1.0 - Better API testing</a></cite></blockquote>
+</section>
+
+<section id="automated-test-generation-4">
+<h2>Automated Test Generation</h2>
+<pre><code class="lang-php">
+npm add --save-dev @apideck/portman@latest
+portman \
+    -u https://specs.apideck.com/crm.yml \
+    -c portman-config.crm.json \
+    -o crm.postman.json
+</code></pre>
+</section>
+
+<section id="test-data-generation">
+<h2>Test Data Generation</h2>
+<p><a href="https://packagist.org/packages/canvural/php-openapi-faker"><code>canvural/php-openapi-faker</code></a></p>
+<pre><code class="lang-php">
+use Vural\OpenAPIFaker\OpenAPIFaker;
+
+$faker = OpenAPIFaker::createFromJson($yourSchemaAsJson);
+// or
+$faker = OpenAPIFaker::createFromYaml($yourSchemaAsYaml);
+
+$fakeData = $faker-&gt;mockResponse('/todos', 'GET');
+</code></pre>
+<p>Uses <a href="https://packagist.org/packages/fakerphp/faker"><code>fakerphp/faker</code></a> to generate fake data for OpenAPI requests / responses.</p>
+</section>
+
+<section id="automated-contract-testing-1">
+<h2>Automated Contract Testing</h2>
+<p><a href="https://github.com/hotmeteor/spectator"><code>hotmeteor/spectator</code></a></p>
+<p>Checks for API implementation drift from spec in Laravel test suites.</p>
+<pre><code class="lang-bash">
+composer require hotmeteor/spectator --dev
+
+php artisan vendor:publish \
+    --provider="Spectator\SpectatorServiceProvider"
+</code></pre>
+</section>
+
+<section id="automated-contract-testing-2">
+<h2>Automated Contract Testing</h2>
+<pre><code class="lang-php">
+class ExampleTest extends TestCase {
+    public function testBasicExample() {
+        \Spectator\Spectator::using('Api.v1.json');
+        $response = $this-&gt;postJson('/user', ['name' =&gt; 'Sally']);
+        $response
+            -&gt;assertValidRequest()
+            -&gt;assertValidResponse(201);
+    }
+}
+</code></pre>
+</section>
+
+<section id="infrastructure-configuration">
+<h2>Infrastructure Configuration</h2>
+<ul>
+<li>Routing configuration, e.g. using an API Gateway like AWS API Gateway, Kong, etc.</li>
+<li>Monitoring for un/expected endpoint responses, e.g. in AWS CloudWatch</li>
+</ul>
+</section>
+
+<section id="client-libraries">
+<h2>Client Libraries</h2>
+<p><a href="https://jane.readthedocs.io/en/latest/documentation/OpenAPI.html">Jane</a></p>
+<pre><code class="lang-bash">
+composer require --dev jane-php/open-api-3
+composer require jane-php/open-api-runtime
+php vendor/bin/jane-openapi generate
+</code></pre>
+<pre><code class="lang-php">
+$apiClient = Vendor\Library\Generated\Client::create();
+$foos = $apiClient-&gt;listFoo();
+</code></pre>
+</section>
+
+<section id="change-detection">
+<h2>Change Detection</h2>
+<p><a href="https://www.useoptic.com/docs">Optic</a> (commercial)</p>
+<ul>
+<li>Automatic breaking change detection and consistent naming conventions standards</li>
+<li>API statistics such as changes over time and breaking changes introduced</li>
+</ul>
+</section>
+
+<section id="ci-cd-pipelines">
+<h2><abbr title="Continuous Integration">CI</abbr>/<abbr title="Continuous Deployment">CD</abbr> Pipelines</h2>
+<ul>
+<li><a href="#validating-a-specification-1">Validate the specification</a></li>
+<li>Run automated <a href="#automated-test-generation-1">generated tests</a> and/or <a href="#automated-contract-testing-1">contract tests</a></li>
+<li>Deploy new spec <a href="#versioning-a-specification-1">version</a>, <a href="#api-documentation-1">API documentation</a>, and <a href="#change-detection">change history</a></li>
+<li>Deploy changes to <a href="#infrastructure-configuration">infrastructure configuration</a></li>
+<li>Regenerate and deploy <a href="#client-libraries">client library packages</a></li>
+</ul>
+</section>
+
+<section id="other-resources">
+<h2>Other Resources</h2>
+<ul>
+<li><a href="https://openapi.tools">openapi.tools</a></li>
+<li><a href="https://slides.com/matttrask/designing-your-api-first">Design First APIs with OpenAPI</a>, a presentation by Matt Trask</li>
+</ul>
+</section>
+
+<section id="thats-all-folks">
+<h2>That's All, Folks</h2>
+<ul>
+<li><a href="https://joind.in/talk/94051" title="OpenAPI: More Than Documentation - php[tek] 2023 - Joind.in">joind.in/talk/94051</a> - Please leave feedback!</li>
+<li><a href="https://matthewturland.com">matthewturland.com</a></li>
+<li><a href="mailto:me@matthewturland.com">me@matthewturland.com</a></li>
+</ul>
+<p><img src="img/looney-tunes-thats-all-folks.gif" alt="Outro for Looney Tunes with Porky Pig saying, 'That's all, folks.'"></p>
+</section>
+
+</div>
+
+</div>
+
+<script src="js/reveal.js"></script>
+<script src="js/prism.js"></script>
+<script>
+// More info about initialization & config:
+// - https://revealjs.com/initialization/
+// - https://revealjs.com/config/
+Reveal.initialize({
+  center: false,
+  hash: true,
+  transition: "none",
+
+  // Learn about plugins: https://revealjs.com/plugins/
+  plugins: [ ]
+});
+Reveal.configure({
+  keyboard: {
+      39: "next"
+  }
+});
+</script>
+
+</body>
+</html>
